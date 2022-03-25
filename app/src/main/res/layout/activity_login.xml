@@ -8,13 +8,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_puang"
+            android:layout_width="70dp"
+            android:layout_height="110dp"
+            android:src="@drawable/ic_puang"
+            app:layout_constraintBottom_toTopOf="@id/iv_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageView
             android:id="@+id/iv_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:src="@mipmap/ic_launcher_round"
+            android:layout_width="170dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_logo"
+            android:layout_marginBottom="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/guideline"/>

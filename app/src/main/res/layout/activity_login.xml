@@ -11,20 +11,23 @@
         <ImageView
             android:id="@+id/iv_puang"
             android:layout_width="70dp"
+            android:layout_marginEnd="50dp"
             android:layout_height="110dp"
+            android:layout_marginBottom="30dp"
             android:src="@drawable/ic_puang"
-            app:layout_constraintBottom_toTopOf="@id/iv_logo"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            app:layout_constraintStart_toEndOf="@id/iv_logo"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageView
             android:id="@+id/iv_logo"
-            android:layout_width="170dp"
+            android:layout_width="0dp"
             android:layout_height="60dp"
+            android:layout_marginStart="50dp"
             android:src="@drawable/ic_logo"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="40dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_puang"
             app:layout_constraintBottom_toTopOf="@id/guideline"/>
 
         <androidx.constraintlayout.widget.Guideline

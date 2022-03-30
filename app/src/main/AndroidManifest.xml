@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.causecretary">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="false"
         android:fullBackupContent="false"
@@ -12,11 +15,17 @@
         android:theme="@style/Theme.CauSecretary">
         <activity
             android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize|keyboard"
             android:exported="true">
         </activity>
         <activity
             android:name=".ui.Splash"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize|keyboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,6 +34,9 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize|keyboard"
             android:exported="true"></activity>
     </application>
 

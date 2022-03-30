@@ -32,11 +32,189 @@
             android:id="@+id/ib_close"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:onClick="@{clickListener}"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_close"
             android:scaleType="centerInside"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/color_ebebeb"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"/>
+
+        <ScrollView
+            android:id="@+id/sv_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이메일"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:textColor="@color/color_888888"
+                    android:includeFontPadding="false"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:hint="이메일 입력"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textColorHint="@color/color_ebebeb"
+                    app:layout_constraintEnd_toStartOf="@id/btn_auth_email"
+                    app:layout_constraintTop_toBottomOf="@id/tv_email"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <!-- TODO 여기 인증번호 제한시간 넣어야하잖아-->
+                <Button
+                    android:id="@+id/btn_auth_email"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:text="인증번호발송"
+                    android:textSize="10dp"
+                    android:onClick="@{clickListener}"
+                    android:textColor="@color/color_888888"
+                    android:includeFontPadding="false"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/btn_round_white_selector"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_email"/>
+
+                <TextView
+                    android:id="@+id/tv_auth_number"
+                    android:text="인증번호"
+                    android:textSize="12dp"
+                    android:textColor="@color/color_888888"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_email"/>
+
+                <EditText
+                    android:id="@+id/et_auth_number"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toStartOf="@id/btn_auth"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_auth_number"/>
+                <Button
+                    android:id="@+id/btn_auth"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="인증확인"
+                    android:textSize="12dp"
+                    android:onClick="@{clickListener}"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/color_888888"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_auth_number"
+                    android:background="@drawable/btn_round_white_selector"/>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이름"
+                    android:textColor="@color/color_888888"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_auth_number" />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name"/>
+
+                <TextView
+                    android:id="@+id/tv_std_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="학번"
+                    android:textSize="12dp"
+                    android:textColor="@color/color_888888"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_name"/>
+                <EditText
+                    android:id="@+id/et_std_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_std_id"/>
+
+                <TextView
+                    android:id="@+id/tv_dept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="학과"
+                    android:textSize="12dp"
+                    android:textColor="@color/color_888888"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_std_id"/>
+
+                <TextView
+                    android:id="@+id/tv_dept_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/bg_round_line_blue"
+                    app:layout_constraintTop_toBottomOf="@id/tv_dept"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

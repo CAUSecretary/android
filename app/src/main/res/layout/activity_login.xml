@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -38,7 +40,7 @@
             app:layout_constraintGuide_percent="0.35"/>
 
         <EditText
-            android:id="@+id/et_login"
+            android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginStart="20dp"
@@ -72,7 +74,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_round_blue_selector"
             android:inputType="textPassword"
-            app:layout_constraintTop_toBottomOf="@id/et_login"/>
+            app:layout_constraintTop_toBottomOf="@id/et_email"/>
 
         <CheckBox
             android:id="@+id/cb_auto_login"
@@ -80,6 +82,7 @@
             android:layout_height="25dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:onClick="@{clickListener}"
             android:button="@android:color/transparent"
             android:background="@drawable/checkbox_selector"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="자동 로그인"
+            android:onClick="@{clickListener}"
             android:textColor="@color/color_888888"
             android:fontFamily="@font/kr_regular"
             android:includeFontPadding="false"
@@ -105,6 +109,7 @@
             android:layout_marginTop="23dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:onClick="@{clickListener}"
             android:background="@drawable/btn_round_blue_selector"
             android:text="로그인"
             android:fontFamily="@font/kr_bold"
@@ -118,6 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="회원가입"
+            android:onClick="@{clickListener}"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/kr_regular"
             android:includeFontPadding="false"
@@ -132,6 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="비밀번호찾기"
+            android:onClick="@{clickListener}"
             app:layout_constraintEnd_toEndOf="parent"
             android:textSize="12dp"
             android:textColor="@color/color_888888"
@@ -157,6 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="아이디찾기"
+            android:onClick="@{clickListener}"
             app:layout_constraintEnd_toStartOf="@id/view"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.4"/>
+        <ImageView
+            android:id="@+id/iv_puang"
+            android:layout_width="90dp"
+            android:layout_height="140dp"
+            android:src="@drawable/ic_puang"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline"/>
+
+        <TextView
+            android:id="@+id/tv_welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입이\n완료되었습니다."
+            android:textSize="20dp"
+            android:fontFamily="@font/kr_bold"
+            android:textColor="@color/color_282828"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline"/>
+
+        <TextView
+            android:id="@+id/tv_welcome_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:fontFamily="@font/kr_regular"
+            android:textColor="@color/color_888888"
+            android:includeFontPadding="false"
+            android:text="모든 회원가입 절차가 완료되었습니다.\n로그인 후 이벤트를 등록해보세요."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_welcome"/>
+        <Button
+            android:id="@+id/btn_go_login"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="처음으로"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:fontFamily="@font/kr_bold"
+            android:includeFontPadding="false"
+            android:background="@drawable/btn_blue_selector"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CauSecretary">
         <activity
+            android:name=".ui.register.Welcome"
+            android:exported="false" />
+        <activity
             android:name=".ui.register.Register"
             android:exported="false" />
         <activity

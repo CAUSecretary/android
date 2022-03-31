@@ -13,6 +13,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
         <!-- Customize your theme here. -->
+
+        <item name="colorControlActivated">@color/basic_color</item>
+        <item name="colorControlNormal">@color/color_ebebeb</item>
+        <item name="android:textCursorDrawable">@color/black</item>
     </style>
 
     <!--<style name="SplashWhiteTheme" parent="Theme.AppCompat">

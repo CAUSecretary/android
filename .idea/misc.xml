@@ -15,13 +15,17 @@
         <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/layout/activity_main.xml" value="0.3416666666666667" />
         <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/layout/permission_dialog.xml" value="0.12314814814814815" />
+        <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/drawable/bg_edit_focus_selector.xml" value="0.354" />
         <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/drawable/bg_round_blue.xml" value="0.183" />
         <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/drawable/bg_round_line_blue.xml" value="0.183" />
         <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/drawable/btn_blue_enable_selector.xml" value="0.183" />
         <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/drawable/btn_round_white_selector.xml" value="0.137" />
+        <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/drawable/edt_under_normal.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/drawable/edt_under_selected.xml" value="0.1325" />
+        <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/drawable/edt_underline_selector.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/layout/activity_auth_phone.xml" value="0.17916666666666667" />
         <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/layout/activity_login.xml" value="0.3375" />
-        <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/layout/activity_register.xml" value="0.22" />
         <entry key="..\:/AndroidStudioProjects/android/app/src/main/res/layout/activity_welcome.xml" value="0.3375" />
         <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/drawable/bg_round_blue_selector.xml" value="0.2045" />
         <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/drawable/bg_round_deep_blue.xml" value="0.2045" />

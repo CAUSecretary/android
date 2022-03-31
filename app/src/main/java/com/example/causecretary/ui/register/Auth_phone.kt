@@ -29,7 +29,7 @@ class Auth_phone : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         when(view?.id){
-            R.id.btn_login -> {
+            R.id.btn_auth_phone -> {
                 Intent(this@Auth_phone,Register::class.java).run {
                     startActivity(this)
                 }

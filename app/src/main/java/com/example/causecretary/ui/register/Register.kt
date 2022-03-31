@@ -7,6 +7,7 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRegisterBinding
+import com.example.causecretary.ui.LoginActivity
 
 class Register : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityRegisterBinding
@@ -28,16 +29,22 @@ class Register : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         when(view?.id){
+            R.id.btn_auth_email -> {
+                //TODO
+            }
             R.id.btn_auth -> {
-
+                //TODO
             }
             R.id.btn_register -> {
-                Intent(this,Welcome::class.java).run {
+                Intent(this@Register,Welcome::class.java).run {
                     startActivity(this)
                 }
             }
             R.id.ib_close -> {
-
+                Intent(this@Register,LoginActivity::class.java).run {
+                    startActivity(this)
+                }
+                finishAffinity()
             }
 
         }

@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityAuthPhoneBinding
 
-class Auth_phone : AppCompatActivity(), View.OnClickListener {
+class AuthPhoneActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityAuthPhoneBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class Auth_phone : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-        binding.clickListener = this@Auth_phone
+        binding.clickListener = this@AuthPhoneActivity
     }
 
     private fun initData() {
@@ -30,7 +30,7 @@ class Auth_phone : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.btn_auth_phone -> {
-                Intent(this@Auth_phone,Register::class.java).run {
+                Intent(this@AuthPhoneActivity,RegisterActivity::class.java).run {
                     startActivity(this)
                 }
             }

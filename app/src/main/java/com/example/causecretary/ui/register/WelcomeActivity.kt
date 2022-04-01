@@ -9,7 +9,7 @@ import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityWelcomeBinding
 import com.example.causecretary.ui.LoginActivity
 
-class Welcome : AppCompatActivity(), View.OnClickListener {
+class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityWelcomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class Welcome : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-        binding.clickListener = this@Welcome
+        binding.clickListener = this@WelcomeActivity
     }
 
     private fun initData() {
@@ -30,7 +30,7 @@ class Welcome : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.btn_go_login -> {
-                Intent(this@Welcome,LoginActivity::class.java).run {
+                Intent(this@WelcomeActivity,LoginActivity::class.java).run {
                     startActivity(this)
                 }
                 finishAffinity()

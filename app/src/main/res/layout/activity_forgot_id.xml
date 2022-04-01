@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.example.causecretary.ui.utils.UiUtils"/>
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageButton
+            android:id="@+id/ib_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
+            android:onClick="@{clickListener}"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25"/>
+
+        <TextView
+            android:id="@+id/tv_forgot_id_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textSize="24dp"
+            android:textColor="@color/color_282828"
+            android:fontFamily="@font/kr_thin"
+            android:includeFontPadding="false"
+            android:text="@{UiUtils.getSpannableStringBuilder(@string/forgot_id_title, @string/forgot_id, @color/color_282828, true)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline"/>
+
+        <TextView
+            android:id="@+id/tv_forgot_id_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/kr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/color_888888"
+            android:textSize="14dp"
+            android:text="아이디와 이름/휴대폰 번호가 일치하는 아이디를 찾기\n위해 본인명의의 휴대폰으로 본인 인증을 진행 해주세요."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline"/>
+
+        <Button
+            android:id="@+id/btn_auth"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="본인인증"
+            android:textSize="16dp"
+            android:onClick="@{clickListener}"
+            android:fontFamily="@font/kr_bold"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_blue_selector"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

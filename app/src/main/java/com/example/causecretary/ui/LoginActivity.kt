@@ -15,7 +15,8 @@ import androidx.databinding.DataBindingUtil
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityLoginBinding
-import com.example.causecretary.ui.register.Auth_phone
+import com.example.causecretary.ui.forgot.ForgotIdActivity
+import com.example.causecretary.ui.register.AuthPhoneActivity
 import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -49,7 +50,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.tv_register -> {
-                Intent(this@LoginActivity,Auth_phone::class.java).run {
+                Intent(this@LoginActivity,AuthPhoneActivity::class.java).run {
                     startActivity(this)
                 }
             }
@@ -60,7 +61,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this,"login",Toast.LENGTH_SHORT).show()
             }
             R.id.tv_forgot_id -> {
-                Toast.makeText(this,"forgot_id",Toast.LENGTH_SHORT).show()
+                Intent(this@LoginActivity,ForgotIdActivity::class.java).run {
+                    startActivity(this)
+                }
             }
             R.id.tv_forgot_pwd -> {
                 Toast.makeText(this,"forgot_pwd",Toast.LENGTH_SHORT).show()

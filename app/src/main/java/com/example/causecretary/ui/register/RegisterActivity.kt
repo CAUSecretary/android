@@ -12,7 +12,7 @@ import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRegisterBinding
 import com.example.causecretary.ui.LoginActivity
 
-class Register : AppCompatActivity(), View.OnClickListener {
+class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class Register : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-        binding.clickListener=this@Register
+        binding.clickListener=this@RegisterActivity
     }
 
     private fun initData() {
@@ -39,12 +39,12 @@ class Register : AppCompatActivity(), View.OnClickListener {
                 //TODO
             }
             R.id.btn_register -> {
-                Intent(this@Register,Welcome::class.java).run {
+                Intent(this@RegisterActivity,WelcomeActivity::class.java).run {
                     startActivity(this)
                 }
             }
             R.id.ib_close -> {
-                Intent(this@Register,LoginActivity::class.java).run {
+                Intent(this@RegisterActivity,LoginActivity::class.java).run {
                     startActivity(this)
                 }
                 finishAffinity()

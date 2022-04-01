@@ -15,13 +15,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CauSecretary">
         <activity
-            android:name=".ui.register.Welcome"
+            android:name=".ui.forgot.ForgotIdActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.register.Register"
+            android:name=".ui.forgot.ForgotPwdActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.register.Auth_phone"
+            android:name=".ui.forgot.ForgotIdActivty"
+            android:exported="false" />
+        <activity
+            android:name=".ui.register.WelcomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.register.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.register.AuthPhoneActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
@@ -30,7 +39,7 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.Splash"
+            android:name=".ui.SplashActivity"
             android:configChanges="orientation|screenSize|keyboard"
             android:exported="true"
             android:hardwareAccelerated="true"

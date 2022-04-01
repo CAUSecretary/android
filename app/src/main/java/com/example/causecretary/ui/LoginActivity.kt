@@ -95,4 +95,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         System.runFinalization()
         exitProcess(0)
     }
+
+    override fun onResume() {
+        super.onResume()
+        binding.apply {
+            etEmail.text=null
+            etPwd.text=null
+        }
+    }
 }

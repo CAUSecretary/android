@@ -16,6 +16,7 @@ import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityLoginBinding
 import com.example.causecretary.ui.forgot.ForgotIdActivity
+import com.example.causecretary.ui.forgot.ForgotPwdActivity
 import com.example.causecretary.ui.register.AuthPhoneActivity
 import kotlin.system.exitProcess
 
@@ -66,7 +67,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.tv_forgot_pwd -> {
-                Toast.makeText(this,"forgot_pwd",Toast.LENGTH_SHORT).show()
+                Intent(this@LoginActivity,ForgotPwdActivity::class.java).run {
+                    startActivity(this)
+                }
             }
         }
     }

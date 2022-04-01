@@ -2,4 +2,6 @@
     <string name="app_name">CauSecretary</string>
     <string name="forgot_id_title">회원님의 명의로\n가입한 아이디를 찾습니다.</string>
     <string name="forgot_id">아이디</string>
+    <string name="forgot_pwd_title">이메일로 임시 비밀번호\n를 발송해 드립니다.</string>
+    <string name="forgot_pwd">임시 비밀번호</string>
 </resources>

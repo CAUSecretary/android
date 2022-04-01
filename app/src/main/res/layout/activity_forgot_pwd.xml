@@ -1,9 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.forgot.ForgotPwdActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.example.causecretary.ui.utils.UiUtils"/>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/ib_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="@{clickListener}"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25"/>
+        <TextView
+            android:id="@+id/tv_forgot_pwd_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{UiUtils.getSpannableStringBuilder(@string/forgot_pwd_title, @string/forgot_pwd, @color/color_282828, true)}"
+            android:textColor="@color/color_282828"
+            android:textSize="24dp"
+            android:fontFamily="@font/kr_thin"
+            android:includeFontPadding="false"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline"/>
+
+        <TextView
+            android:id="@+id/tv_forgot_pwd_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:textSize="14dp"
+            android:fontFamily="@font/kr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/color_888888"
+            android:text="가입시 입력했던 이메일로 임시번호가 발송 됩니다.\n임시 비밀번호는 로그인 후 회원정보 수정에서 변경해 주세요."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline"/>
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:drawableLeft="@drawable/ic_mail"
+            android:drawablePadding="10dp"
+            android:fontFamily="@font/kr_regular"
+            android:hint="이메일을 입력해주세요"
+            android:includeFontPadding="false"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="15dp"
+            android:textColor="@color/color_282828"
+            android:textColorHint="@color/color_ebebeb"
+            android:background="@drawable/bg_round_blue_selector"
+            app:layout_constraintTop_toBottomOf="@id/tv_forgot_pwd_detail"/>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="발송"
+            android:fontFamily="@font/kr_bold"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:onClick="@{clickListener}"
+            android:background="@drawable/btn_round_blue_selector"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

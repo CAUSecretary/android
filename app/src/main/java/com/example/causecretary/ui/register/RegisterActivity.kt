@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRegisterBinding
 import com.example.causecretary.ui.LoginActivity
+import com.example.causecretary.ui.utils.UiUtils
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityRegisterBinding
@@ -48,6 +49,15 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     startActivity(this)
                 }
                 finishAffinity()
+            }
+            R.id.cl_dept -> {
+                UiUtils.showSnackBar(binding.root,"아직 구현안함")
+            }
+            R.id.cl_club -> {
+                UiUtils.showSnackBar(binding.root,"아직 구현안함")
+            }
+            R.id.btn_club_auth -> {
+                UiUtils.showSnackBar(binding.root,"아직 구현안함")
             }
 
         }

@@ -20,7 +20,14 @@
         <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/drawable/btn_round_blue_selector.xml" value="0.2045" />
         <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/layout/activity_auth_phone.xml" value="0.33" />
         <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/layout/activity_login.xml" value="0.22" />
+        <entry key="app/src/main/res/drawable/bg_bottom_round_blue.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/bg_bottom_round_deep_blue.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/bg_round_blue.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/bg_round_blue_selector.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/bg_round_deep_blue.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/bg_round_white.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/btn_blue_selector.xml" value="0.2225" />
+        <entry key="app/src/main/res/drawable/btn_bottom_round_blue_selector.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/btn_round_blue_selector.xml" value="0.2225" />
         <entry key="app/src/main/res/drawable/btn_round_white_selector.xml" value="0.2225" />
         <entry key="app/src/main/res/drawable/ic_group_6.xml" value="0.193" />
@@ -32,6 +39,7 @@
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.34751536051432297" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.43619458018166224" />
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.24635416666666668" />
+        <entry key="app/src/main/res/layout/permission_dialog.xml" value="0.3605107625325522" />
       </map>
     </option>
   </component>

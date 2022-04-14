@@ -235,7 +235,6 @@
                 android:includeFontPadding="false"
                 android:text="확인"
                 android:onClick="@{() -> permissionDialog.onConfirm()}"
-                android:onClick="@{clickListener}"
                 android:textColor="@color/white"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent" />

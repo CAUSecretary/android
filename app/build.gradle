@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+
 android {
     compileSdk 31
 
@@ -50,6 +51,9 @@ dependencies {
 
     // 현재위치
     implementation "com.google.android.gms:play-services-location:16.0.0"
+
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.14.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -48,6 +48,9 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.9"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
 
+    // 현재위치
+    implementation "com.google.android.gms:play-services-location:16.0.0"
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

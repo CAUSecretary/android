@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "726694460028",
+    "project_id": "causecretary",
+    "storage_bucket": "causecretary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726694460028:android:2e91701f438d0d00f627f9",
+        "android_client_info": {
+          "package_name": "com.example.causecretary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726694460028-633amc7tcer1vndmusiv22kls9fm9nb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4XPFdP6mLJqfY7OQd5QdKc71F4J7LpR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726694460028-633amc7tcer1vndmusiv22kls9fm9nb5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

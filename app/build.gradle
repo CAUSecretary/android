@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -47,6 +48,28 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
     implementation "com.google.code.gson:gson:2.8.9"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
+
+    // 현재위치
+    implementation "com.google.android.gms:play-services-location:16.0.0"
+
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.14.0'
+
+    //firebase
+    implementation 'com.google.gms:google-services:4.3.10'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:30.0.0')
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics'
+
+    // Declare the dependencies for any other desired Firebase products
+    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

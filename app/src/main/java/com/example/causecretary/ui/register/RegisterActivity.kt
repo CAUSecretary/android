@@ -13,7 +13,7 @@ import com.example.causecretary.databinding.ActivityRegisterBinding
 import com.example.causecretary.ui.LoginActivity
 import com.example.causecretary.ui.utils.GmailSender
 import com.example.causecretary.ui.utils.UiUtils
-import javax.mail.Session
+
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityRegisterBinding

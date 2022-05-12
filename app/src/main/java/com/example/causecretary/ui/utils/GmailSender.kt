@@ -4,10 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
-import javax.mail.Authenticator
-import javax.mail.Message
-import javax.mail.Session
-import javax.mail.Transport
+import javax.mail.*
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
@@ -16,8 +13,14 @@ class GmailSender: Authenticator() {
     val fromEmail = "kimdooooreeee@gmail.com"
     val password = "minjilove1206^^"
 
+    // 보내는 사람 계정 확인
+    override fun getPasswordAuthentication(): PasswordAuthentication {
+        return PasswordAuthentication(fromEmail, password)
+    }
+
     // 메일 보내기
     fun sendEmail(toEmail: String) {
+        Logger.e("doori","go send")
         CoroutineScope(Dispatchers.IO).launch {
             val props = Properties()
             props.setProperty("mail.transport.protocol", "smtp")
@@ -37,10 +40,12 @@ class GmailSender: Authenticator() {
             message.sender = InternetAddress(fromEmail)                                 // 보내는 사람 설정
             message.addRecipient(Message.RecipientType.TO, InternetAddress(toEmail))    // 받는 사람 설정
             message.subject = "이메일 제목"                                              // 이메일 제목
-            message.setText("이메일 내용")                                               // 이메일 내용
+            message.setText("이메일 내용")
+            Logger.e("doori","message create")// 이메일 내용
 
             // 전송
             Transport.send(message)
+            Logger.e("doori","end send")
         }
     }
 }

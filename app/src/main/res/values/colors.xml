@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FFFF0000</color>
+
 
 
     <!-- 프로젝트에서 쓸 색 -->
@@ -18,4 +20,6 @@
     <color name="color_d7d7d7">#FFd7d7d7</color>
     <color name="bg_color">#FFF8F8F8</color>
     <color name="text_color">#FF282828</color>
+    <color name="color_6a10a1">#FF6A10A1</color>
+    <color name="color_039400">#FF039400</color>
 </resources>

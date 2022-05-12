@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="start">
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/kr_regular"
+        android:includeFontPadding="false"
+        android:text="로그인"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_noti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/kr_regular"
+        android:includeFontPadding="false"
+        android:text="공지사항"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_login"/>
+
+    <TextView
+        android:id="@+id/tv_hotline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/kr_regular"
+        android:includeFontPadding="false"
+        android:text="고객센터"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_noti"/>
+
+
+    <TextView
+        android:id="@+id/tv_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/kr_regular"
+        android:includeFontPadding="false"
+        android:text="설정"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hotline"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

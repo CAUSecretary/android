@@ -59,7 +59,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this,"auto_login",Toast.LENGTH_SHORT).show()
             }
             R.id.btn_login -> {
-                Toast.makeText(this,"login",Toast.LENGTH_SHORT).show()
+                Intent(this@LoginActivity,MainActivity::class.java).run {
+                    startActivity(this)
+                }
             }
             R.id.tv_forgot_id -> {
                 Intent(this@LoginActivity,ForgotIdActivity::class.java).run {

@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRegisterBinding
 import com.example.causecretary.ui.LoginActivity
+import com.example.causecretary.ui.utils.GmailSender
 import com.example.causecretary.ui.utils.UiUtils
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
@@ -34,7 +35,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.btn_auth_email -> {
-                //TODO
+                val gmailSender = GmailSender()
+                gmailSender.sendEmail("dooooreeee@naver.com")
+                UiUtils.showSnackBar(binding.root,"메일보냄")
             }
             R.id.btn_auth -> {
                 //TODO

@@ -26,6 +26,8 @@ class SplashActivity : AppCompatActivity() {
     companion object {
         const val REQUEST_CAMERA_PERMISSION = 7777
         const val REQUEST_FINE_LOCATION_PERMISSION = 9999
+        const val REQUEST_GALLERY_PERMISSION = 5555
+
     }
 
     lateinit var binding: ActivitySplashBinding
@@ -42,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
         //최초 앱 실행 시 permission창이 뜨고 permission체크했으면 다음부터는 그냥 넘어가도록
         PrefManager(this@SplashActivity).apply {
             if (isPermissionConfirm()) {
-                checkPermission(REQUEST_FINE_LOCATION_PERMISSION)
+                checkPermission(REQUEST_GALLERY_PERMISSION)
             } else {
                 DataBindingUtil.inflate<PermissionDialogBinding>(LayoutInflater.from(this@SplashActivity), R.layout.permission_dialog, null, false).apply {
                     this.permissionDialog = UiUtils.showCustomDialog(
@@ -71,17 +73,25 @@ class SplashActivity : AppCompatActivity() {
 
 
     /**
-     * 카메라 권한
+     *  권한
      **/
     private fun checkPermission(requestCode: Int) {
-        if(requestCode==REQUEST_FINE_LOCATION_PERMISSION){
+        if (requestCode==REQUEST_GALLERY_PERMISSION){
+            if (ContextCompat.checkSelfPermission(this@SplashActivity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_GALLERY_PERMISSION)
+            } else {
+                checkPermission(REQUEST_FINE_LOCATION_PERMISSION)
+            }
+        }
+        else if(requestCode==REQUEST_FINE_LOCATION_PERMISSION){
             if (ContextCompat.checkSelfPermission(this@SplashActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_FINE_LOCATION_PERMISSION)
             } else {
                 checkPermission(REQUEST_CAMERA_PERMISSION)
             }
 
-        }else if(requestCode== REQUEST_CAMERA_PERMISSION){
+        }
+        else if(requestCode== REQUEST_CAMERA_PERMISSION){
             if (ContextCompat.checkSelfPermission(this@SplashActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
                 requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
             } else {
@@ -122,6 +132,17 @@ class SplashActivity : AppCompatActivity() {
                 } else {
                     Logger.e("doori", "not granted")
                     goLoginpage()
+                    //requestVersionOk()
+                }
+            }
+            REQUEST_GALLERY_PERMISSION ->{
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Logger.e("doori", "granted")
+                    checkPermission(REQUEST_FINE_LOCATION_PERMISSION)
+                    //requestVersionOk()
+                } else {
+                    Logger.e("doori", "not granted")
+                    checkPermission(REQUEST_FINE_LOCATION_PERMISSION)
                     //requestVersionOk()
                 }
             }

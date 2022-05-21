@@ -1,5 +1,7 @@
 package com.example.causecretary.ui.api
 
+import com.example.causecretary.ui.data.RegisterResponse
+import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.data.dto.UsersItem
 import retrofit2.Call
 import retrofit2.http.Body
@@ -8,7 +10,7 @@ import retrofit2.http.POST
 
 class ApiService {
     companion object{
-        val DOMAIN = "여기는 우리 서버 도메인"
+        val DOMAIN = "http://192.168.138.85:9000/"
     }
 }
 
@@ -18,6 +20,7 @@ interface RetrofitApi{
     @GET("posts/1")
     fun getUsers(): Call<UsersItem>
 
-    @POST("posts")
-    fun postUsers(@Body user: UsersItem): Call<UsersItem>
+    @POST("users/register")
+    fun postUsers(@Body body: RegisterRequestData): Call<RegisterResponse>
+
 }

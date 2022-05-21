@@ -26,12 +26,18 @@ import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRegisterBinding
 import com.example.causecretary.ui.LoginActivity
+import com.example.causecretary.ui.api.ApiService
+import com.example.causecretary.ui.api.ApiService.Companion.DOMAIN
+import com.example.causecretary.ui.api.RetrofitApi
+import com.example.causecretary.ui.data.RegisterResponse
+import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.utils.GmailSender
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.ui.utils.UiUtils
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.lang.Boolean.FALSE
 import java.text.SimpleDateFormat
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
@@ -128,9 +134,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.btn_register -> {
-                Intent(this@RegisterActivity,WelcomeActivity::class.java).run {
+                register()
+                /*Intent(this@RegisterActivity,WelcomeActivity::class.java).run {
                     startActivity(this)
-                }
+                }*/
             }
             R.id.ib_close -> {
                 Intent(this@RegisterActivity,LoginActivity::class.java).run {
@@ -208,5 +215,30 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private fun stringToBitmap(base64: String?):Bitmap{
         val encodeByte = Base64.decode(base64,Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.size)
+    }
+
+    private fun register(){
+        val registerRequestData=RegisterRequestData("12","asd","aa","aa","aa","a","a","a","a","a")
+
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        registerService.postUsers(registerRequestData).enqueue(object :Callback<RegisterResponse>{
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                Logger.e("doori",response.toString())
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Logger.e("doori",t.toString())
+            }
+
+        })
     }
 }

@@ -15,9 +15,19 @@ import androidx.databinding.DataBindingUtil
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityLoginBinding
+import com.example.causecretary.ui.api.ApiService
+import com.example.causecretary.ui.api.RetrofitApi
+import com.example.causecretary.ui.data.RegisterResponse
+import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.forgot.ForgotIdActivity
 import com.example.causecretary.ui.forgot.ForgotPwdActivity
 import com.example.causecretary.ui.register.AuthPhoneActivity
+import com.example.causecretary.ui.utils.Logger
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -59,6 +69,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this,"auto_login",Toast.LENGTH_SHORT).show()
             }
             R.id.btn_login -> {
+                login()
                 Intent(this@LoginActivity,MainActivity::class.java).run {
                     startActivity(this)
                 }
@@ -107,5 +118,29 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             etEmail.text=null
             etPwd.text=null
         }
+    }
+
+    fun login(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ApiService.DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        registerService.login("doooreee@naver.com","aa").enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                val registerResponse = response.body() as RegisterResponse
+                Logger.e("doori",response.toString())
+                Logger.e("doori",registerResponse?.toString())
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Logger.e("doori",t.toString())
+            }
+
+        })
     }
 }

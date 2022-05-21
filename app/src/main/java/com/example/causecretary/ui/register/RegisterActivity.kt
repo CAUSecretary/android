@@ -146,6 +146,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 finishAffinity()
             }
             R.id.cl_dept -> {
+
                 UiUtils.showSnackBar(binding.root,"아직 구현안함")
             }
             R.id.cl_club -> {
@@ -218,7 +219,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun register(){
-        val registerRequestData=RegisterRequestData("12","asd","aa","aa","aa","a","a","a","a","a")
+        val registerRequestData=RegisterRequestData("1211","asd","aa","doooreee@naver.com","aa","a","a","a","a","a")
 
 
         val retrofit = Retrofit.Builder()
@@ -232,7 +233,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
+                val registerResponse = response.body() as RegisterResponse
                 Logger.e("doori",response.toString())
+                Logger.e("doori",registerResponse.toString())
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {

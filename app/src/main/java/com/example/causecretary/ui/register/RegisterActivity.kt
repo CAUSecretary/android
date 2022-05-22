@@ -255,6 +255,13 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             com.naver.maps.map.R.layout.support_simple_spinner_dropdown_item,univList)
         binding.spUniv.adapter=univAdapter
 
+        val initdept = listOf("소속학과를 선택하세요.")
+        val deptAdapter = ArrayAdapter(this, com.naver.maps.map.R.layout.support_simple_spinner_dropdown_item,initdept)
+        binding.spDept.adapter =deptAdapter
+
+        val clubList = listOf("소속을 선택해주세요.","학생회","동아리","기타")
+        val clubAdapter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,clubList)
+        binding.spClub.adapter=clubAdapter
 
 
         binding.spUniv.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener,
@@ -262,6 +269,47 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Logger.e("doori","onItemSelected")
                 Logger.e("doori",view.toString())
+                /*if(binding.spUniv.getItemAtPosition(position).equals("소프트웨어대학")){
+                    val list =resources.getStringArray(R.array.engineer_dept)
+                    var adapter = ArrayAdapter(this@RegisterActivity, com.naver.maps.map.R.layout.support_simple_spinner_dropdown_item,list)
+                    binding.spDept.adapter =adapter
+                }*/
+                when(binding.spUniv.getItemAtPosition(position)){
+                    "인문대학"->{
+                        setDeptSpinner(R.array.human_dept)
+                    }
+                    "사회과학대학"->{
+                        setDeptSpinner(R.array.social_dept)
+                    }
+                    "사범대학"->{
+                        setDeptSpinner(R.array.edu_dept)
+                    }
+                    "경영경제대학"->{
+                        setDeptSpinner(R.array.manage_dept)
+                    }
+                    "자연과학대학"->{
+                        setDeptSpinner(R.array.natural_dept)
+                    }
+                    "공과대학"->{
+                        setDeptSpinner(R.array.engineer_dept)
+                    }
+                    "창의ICT공과대학"->{
+                        setDeptSpinner(R.array.ict_dept)
+                    }
+                    "소프트웨어대학"->{
+                        setDeptSpinner(R.array.soft_dept)
+                    }
+                    "생명공학대학"->{
+                        setDeptSpinner(R.array.biotech_dept)
+                    }
+                    "예술대학"->{
+                        setDeptSpinner(R.array.art_dept)
+                    }
+                    "체육대학"->{
+                        setDeptSpinner(R.array.phy_dept)
+                    }
+                }
+
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -273,5 +321,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         }
+    }
+
+    fun setDeptSpinner(deptName: Int) {
+        val deptList = resources.getStringArray(deptName)
+        var adapter = ArrayAdapter(this@RegisterActivity, com.naver.maps.map.R.layout.support_simple_spinner_dropdown_item,deptList)
+        binding.spDept.adapter =adapter
     }
 }

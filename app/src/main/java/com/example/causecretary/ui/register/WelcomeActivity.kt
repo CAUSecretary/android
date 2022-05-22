@@ -37,4 +37,12 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Intent(this@WelcomeActivity,LoginActivity::class.java).run {
+            startActivity(this)
+        }
+        finishAffinity()
+    }
 }

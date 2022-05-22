@@ -193,6 +193,68 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <TextView
+                    android:id="@+id/tv_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/color_888888"
+                    android:textSize="12dp"
+                    android:layout_marginTop="30dp"
+                    android:text="비밀번호"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_email"/>
+                <TextView
+                    android:id="@+id/tv_pwd_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/color_ebebeb"
+                    android:layout_marginStart="10dp"
+                    android:text="8자 이상"
+                    app:layout_constraintTop_toBottomOf="@id/cl_email"
+                    app:layout_constraintStart_toEndOf="@id/tv_password"/>
+                <TextView
+                    android:id="@+id/tv_pwd_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="30dp"
+                    android:text="숫자포함"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="12dp"
+                    android:textColor="@color/color_ebebeb"
+                    app:layout_constraintTop_toBottomOf="@id/cl_email"
+                    app:layout_constraintStart_toEndOf="@id/tv_pwd_length"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ti_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    app:passwordToggleEnabled="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_password">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_pwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/color_282828"
+                        android:fontFamily="@font/kr_regular"
+                        android:includeFontPadding="false"
+                        android:inputType="textPassword"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -206,7 +268,7 @@
                     android:textColor="@color/color_888888"
                     android:textSize="12dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_email" />
+                    app:layout_constraintTop_toBottomOf="@id/ti_pwd" />
 
                 <EditText
                     android:id="@+id/et_name"

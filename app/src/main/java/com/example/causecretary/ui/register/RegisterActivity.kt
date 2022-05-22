@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
 import android.view.View
@@ -39,6 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.util.regex.Pattern
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var galleryResult: ActivityResultLauncher<Intent>
@@ -88,6 +91,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
         //spinner
         setSpinner()
+
+        //textwatcher
+        textWatcher()
 
         galleryResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
@@ -142,7 +148,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                         tvAuthNumber.visibility = GONE
                         tvAuthEmail.visibility = GONE
                         btnAuth.visibility = GONE
-                        btnAuthEmail.setTextColor(Color.GREEN)
+                        btnAuthEmail.setTextColor(getColor(R.color.color_039400))
                         btnAuthEmail.text = "인증완료"
                         btnAuthEmail.isEnabled = false
                         etEmail.isEnabled = false
@@ -439,5 +445,37 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             initdept
         )
         binding.spDept.adapter = deptAdapter
+    }
+
+    fun textWatcher(){
+        val pwPattern = "^(?=.*[a-z])(?=.*\\d)[a-zA-Z\\d]*$" // 영문, 숫자 8 ~ 20자 패턴
+
+        binding.etPwd.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+               // TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //TODO("Not yet implemented")
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val pwd= binding.etPwd.text.toString()
+                Logger.e("doori",pwd)
+                Logger.e("doori",Pattern.matches(pwPattern,pwd).toString())
+                if(Pattern.matches(pwPattern,pwd)){
+                    binding.tvPwdNum.setTextColor(getColor(R.color.color_039400))
+                }else{
+                    binding.tvPwdNum.setTextColor(getColor(R.color.color_ebebeb))
+                }
+
+                if (pwd.length>=8){
+                    binding.tvPwdLength.setTextColor(getColor(R.color.color_039400))
+                }else{
+                    binding.tvPwdLength.setTextColor(getColor(R.color.color_ebebeb))
+                }
+            }
+
+        })
     }
 }

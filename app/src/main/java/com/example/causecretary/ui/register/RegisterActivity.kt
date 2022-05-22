@@ -20,13 +20,14 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRegisterBinding
 import com.example.causecretary.ui.LoginActivity
-import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.ApiService.Companion.DOMAIN
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.RegisterResponse
@@ -73,6 +74,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initView() {
         binding.clickListener=this@RegisterActivity
+
+        //spinner
+        setSpinner()
 
         galleryResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ activityResult ->
             if(activityResult.resultCode== RESULT_OK){
@@ -134,7 +138,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.btn_register -> {
-                register()
+                //register()
                 /*Intent(this@RegisterActivity,WelcomeActivity::class.java).run {
                     startActivity(this)
                 }*/
@@ -145,11 +149,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 finishAffinity()
             }
-            R.id.cl_dept -> {
+            R.id.sp_dept -> {
 
                 UiUtils.showSnackBar(binding.root,"아직 구현안함")
             }
-            R.id.cl_club -> {
+            R.id.sp_club -> {
                 UiUtils.showSnackBar(binding.root,"아직 구현안함")
             }
             R.id.btn_club_auth -> {
@@ -243,5 +247,31 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         })
+    }
+
+    private fun setSpinner(){
+        val univList = resources.getStringArray(R.array.cau_univ)
+        val univAdapter = ArrayAdapter(this,
+            com.naver.maps.map.R.layout.support_simple_spinner_dropdown_item,univList)
+        binding.spUniv.adapter=univAdapter
+
+
+
+        binding.spUniv.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener,
+            AdapterView.OnItemClickListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Logger.e("doori","onItemSelected")
+                Logger.e("doori",view.toString())
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                //TODO("Not yet implemented")
+            }
+
+            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                //Logger.e("doori","onItemClick")
+            }
+
+        }
     }
 }

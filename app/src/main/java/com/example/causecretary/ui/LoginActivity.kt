@@ -120,7 +120,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun login(){
+    private fun login(){
         val retrofit = Retrofit.Builder()
             .baseUrl(ApiService.DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())

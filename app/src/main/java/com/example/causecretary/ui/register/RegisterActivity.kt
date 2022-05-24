@@ -80,7 +80,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
-        registerRequestData=RegisterRequestData("","","","","","","","","","")
+        registerRequestData=RegisterRequestData(0,"","","","","","","","","")
 
         initData()
         initView()
@@ -165,13 +165,20 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.btn_register -> {
-                //register()
+                registerRequestData.password=binding.etPwd.text.toString()
                 Logger.e("doori",registerRequestData.toString())
+
+                register()
                 Intent(this@RegisterActivity, WelcomeActivity::class.java).run {
                     startActivity(this)
                 }
             }
             R.id.ib_close -> {
+
+                /**
+                 * test용
+                 */
+                test()
                 Intent(this@RegisterActivity, LoginActivity::class.java).run {
                     startActivity(this)
                 }
@@ -251,20 +258,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun register() {
-        val registerRequestData = RegisterRequestData(
-            "1211",
-            "asd",
-            "aa",
-            "doooreee@naver.com",
-            "aa",
-            "a",
-            "a",
-            "a",
-            "a",
-            "a"
-        )
-
-
         val retrofit = Retrofit.Builder()
             .baseUrl(DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
@@ -287,6 +280,32 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
         })
     }
+
+    private fun test() {
+        val test = RegisterRequestData(23,"sdf","","aksda@nsadsd.com","1lasdy89ah","asd","asd","asd","asd","asd")
+        val retrofit = Retrofit.Builder()
+            .baseUrl(DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        registerService.postUsers(test).enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                val registerResponse = response.body() as RegisterResponse
+                Logger.e("doori", response.toString())
+                Logger.e("doori", registerResponse.toString())
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Logger.e("doori", t.toString())
+            }
+
+        })
+    }
+
 
     private fun setSpinner() {
         val univList = resources.getStringArray(R.array.cau_univ)
@@ -426,7 +445,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 nameCheck = true
                 stuIdCheck = true
                 registerRequestData.name = etName.text.toString()
-                registerRequestData.userIdx=etStdId.text.toString()
+                registerRequestData.userIdx=etStdId.text.toString().toInt()
             } else {
                 nameCheck = false
                 stuIdCheck = false
@@ -477,5 +496,12 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         })
+    }
+
+    override fun onBackPressed() {
+        Intent(this@RegisterActivity, LoginActivity::class.java).run {
+            startActivity(this)
+        }
+        finishAffinity()
     }
 }

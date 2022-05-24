@@ -127,7 +127,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             .build()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        registerService.login("doooreee@naver.com","aa").enqueue(object : Callback<RegisterResponse> {
+        registerService.login("doooreee@naver.com","ddhj88666").enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>

@@ -80,8 +80,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
-        registerRequestData=RegisterRequestData(0,"","","","","","","","","")
-
         initData()
         initView()
     }
@@ -118,7 +116,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initData() {
-        //TODO("Not yet implemented")
+        registerRequestData=RegisterRequestData(0,"","","","","","","","","")
+
+        Logger.e("doori",intent.getStringExtra("phoneNumber").toString())
+        registerRequestData.phone = intent.getStringExtra("phoneNumber").toString()
     }
 
     override fun onClick(view: View?) {

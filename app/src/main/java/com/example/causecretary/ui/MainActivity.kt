@@ -3,16 +3,16 @@ package com.example.causecretary.ui
 import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
@@ -24,6 +24,7 @@ import com.example.causecretary.databinding.ActivityMainBinding
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.utils.Logger
+import com.example.causecretary.naviAr.ArActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapView
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
     lateinit var binding: ActivityMainBinding
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
+    var multipartPathOverlay = MultipartPathOverlay()
     lateinit var routingService: RetrofitApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +109,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                         btnEtc.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = false
+
+                        Logger.d("Navi", "ArBtn click")
+                        Intent(this@MainActivity, ArActivity::class.java).run {
+                            startActivity(this)
+                        }
                     }
                 }
             }
@@ -168,7 +175,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
             }
             R.id.btn_search->{
                 hideKeyboard()
-                var endNode = R.id.et_search.toString()
+                var endNode = findViewById<EditText>(R.id.et_search).text.toString()
                 var curLat:Double
                 var curLon:Double
                 if (ActivityCompat.checkSelfPermission(
@@ -190,10 +197,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                 }
 
                 Logger.d("Navi", "curLon: $curLon curLat: $curLat")
+                Logger.d("Navi", "endNode: $endNode")
 
 
-
-                routingService.searchRoute(endNode,curLat.toString(),curLon.toString()).enqueue(object: Callback<String> {
+                routingService.searchRoute_weigh(endNode,curLat.toString(),curLon.toString()).enqueue(object: Callback<String> {
                     override fun onFailure(call: Call<String>, t: Throwable) {
                         //실패할 경우
                         Log.d("DEBUG", t.message.toString())
@@ -215,10 +222,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                         parseJSON(searchResult)
                     }
                 })
-
-
-
             }
+
             R.id.cl_sv->{
                 hideKeyboard()
             }
@@ -249,7 +254,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
         }
 
         var pathOverlay = PathOverlay()
-        var multipartPathOverlay = MultipartPathOverlay()
+        multipartPathOverlay.map = null
         var paths : MutableList<MutableList<LatLng>> = ArrayList()
 //        val seqList: MutableList<MutableList<LatLng>> = ArrayList() // alternatively: = mutableListOf()
 //        seqList.add(mutableListOf<Int>(1, 2, 3))

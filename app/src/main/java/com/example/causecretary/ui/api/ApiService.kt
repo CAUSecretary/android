@@ -24,11 +24,19 @@ interface RetrofitApi{
     fun login(@Field ("email")email:String, @Field("password") password: String): Call<RegisterResponse>
 
     @FormUrlEncoded
-    @POST("/search/")
-    fun searchRoute(
+    @POST("/search/weigh")
+    fun searchRoute_weigh(
         @Field("endPoint") endPoint:String,
-        @Field("curLat") curLat:String,
-        @Field("curLon") curLon:String
+        @Field("startLat") curLat:String,
+        @Field("startLon") curLon:String
+    ) : Call<String>
+
+    @FormUrlEncoded
+    @POST("/search/distance")
+    fun searchRoute_distance(
+        @Field("endPoint") endPoint:String,
+        @Field("startLat") curLat:String,
+        @Field("startLon") curLon:String
     ) : Call<String>
 
 }

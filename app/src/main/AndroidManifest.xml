@@ -21,6 +21,9 @@
         android:theme="@style/Theme.CauSecretary"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.admin.AdminMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.register.AuthPhone2Activity"
             android:exported="false" />
 

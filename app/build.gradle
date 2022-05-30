@@ -59,7 +59,9 @@ dependencies {
     implementation 'com.google.gms:google-services:4.3.10'
 
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:30.0.0')
+    //implementation platform('com.google.firebase:firebase-bom:30.0.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.2')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // When using the BoM, you don't specify versions in Firebase library dependencies
 

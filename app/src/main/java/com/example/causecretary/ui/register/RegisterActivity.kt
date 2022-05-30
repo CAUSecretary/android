@@ -101,6 +101,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         //textwatcher
         textWatcher()
 
+        admintest()
+
         galleryResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
                 if (activityResult.resultCode == RESULT_OK) {
@@ -225,7 +227,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                  * test용
                  */
                 //test()
-                admintest()
+
                 Intent(this@RegisterActivity, LoginActivity::class.java).run {
                     startActivity(this)
                 }
@@ -252,9 +254,16 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 call: Call<AdminResponse>,
                 response: Response<AdminResponse>
             ) {
-               // val adminResponse = response.body() as AdminResponse
+                val adminResponse = response.body() as AdminResponse
                 Logger.e("doori", response.toString())
-               // Logger.e("doori", registerResponse.toString())
+                Logger.e("doori", adminResponse.result.uncertified.toString())
+                val uncertified = adminResponse.result.uncertified
+                uncertified.forEach {
+                    val bitmap = stringToBitmap(it.certifyImg)
+                    Logger.e("doori", "bitmap = ${bitmap.toString()}")
+                    binding.ivTest.setImageBitmap(bitmap)
+                }
+
             }
 
             override fun onFailure(call: Call<AdminResponse>, t: Throwable) {

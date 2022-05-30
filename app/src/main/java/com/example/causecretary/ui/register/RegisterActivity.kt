@@ -31,7 +31,9 @@ import com.example.causecretary.databinding.ActivityRegisterBinding
 import com.example.causecretary.ui.LoginActivity
 import com.example.causecretary.ui.api.ApiService.Companion.DOMAIN
 import com.example.causecretary.ui.api.RetrofitApi
+import com.example.causecretary.ui.data.AdminResponse
 import com.example.causecretary.ui.data.RegisterResponse
+import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.utils.GmailSender
 import com.example.causecretary.ui.utils.Logger
@@ -222,7 +224,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 /**
                  * test용
                  */
-                test()
+                //test()
+                admintest()
                 Intent(this@RegisterActivity, LoginActivity::class.java).run {
                     startActivity(this)
                 }
@@ -233,6 +236,32 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         }
+    }
+
+    private fun admintest() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val admin = AdminRequestData("k1@cau.ac.kr","1")
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        registerService.adminlogin(admin).enqueue(object : Callback<AdminResponse> {
+            override fun onResponse(
+                call: Call<AdminResponse>,
+                response: Response<AdminResponse>
+            ) {
+               // val adminResponse = response.body() as AdminResponse
+                Logger.e("doori", response.toString())
+               // Logger.e("doori", registerResponse.toString())
+            }
+
+            override fun onFailure(call: Call<AdminResponse>, t: Throwable) {
+                Logger.e("doori", t.toString())
+            }
+
+        })
     }
 
     fun hideKeyboard() {

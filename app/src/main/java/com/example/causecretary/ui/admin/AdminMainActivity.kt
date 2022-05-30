@@ -1,3 +1,4 @@
+/*
 package com.example.causecretary.ui.admin
 
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +9,6 @@ import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityAdminMainBinding
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
-import com.example.causecretary.ui.data.AdminResponse
 import com.example.causecretary.ui.utils.Logger
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,4 +62,4 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
 
         })
     }
-}
+}*/

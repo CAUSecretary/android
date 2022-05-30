@@ -73,7 +73,7 @@
                     android:layout_marginEnd="10dp"
                     android:drawableTop="@drawable/ic_search"
                     android:paddingTop="5dp"
-                    android:text="검색"
+                    android:text="길찾기"
                     android:onClick="@{clickListener}"
                     android:textColor="@color/white"
                     android:fontFamily="@font/kr_regular"

@@ -25,6 +25,8 @@ import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.naviAr.ArActivity
+import com.example.causecretary.ui.event.EventRegisterActivity
+import com.example.causecretary.ui.utils.UiUtils
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapView
@@ -32,6 +34,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.MultipartPathOverlay
 import com.naver.maps.map.overlay.PathOverlay
+import kotlinx.android.synthetic.main.main_navi.view.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,7 +43,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallback {
+class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallback {
     lateinit var binding: ActivityMainBinding
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
@@ -49,7 +52,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         mapView = findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)
@@ -62,9 +65,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
     override fun onMapReady(@NonNull naverMap: NaverMap) {
         // 카메라 초기 위치 설정
         // 카메라 초기 위치 설정
-        Logger.d("Navi","onMapReady start")
+        Logger.d("Navi", "onMapReady start")
         this.naverMap = naverMap
-        val initialPosition = LatLng(37.50335,126.9574114)
+        val initialPosition = LatLng(37.50335, 126.9574114)
         val cameraUpdate = CameraUpdate.scrollTo(initialPosition)
         naverMap.moveCamera(cameraUpdate)
 
@@ -82,7 +85,36 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
     }
 
     private fun initView() {
-        binding.clickListener=this@MainActivity
+        binding.clickListener = this@MainActivity
+
+        drawable()
+    }
+
+    private fun drawable() {
+        binding.dlMain.apply {
+            tv_login.setOnClickListener {
+                Intent(this@MainActivity, LoginActivity::class.java).run {
+                    startActivity(this)
+                }
+            }
+            tv_event.setOnClickListener {
+                Intent(this@MainActivity,EventRegisterActivity::class.java).run {
+                    startActivity(this)
+                }
+            }
+            tv_hotline.setOnClickListener {
+                UiUtils.showSnackBar(binding.root, "hotline")
+            }
+            tv_like.setOnClickListener {
+                UiUtils.showSnackBar(binding.root, "like")
+            }
+            tv_setting.setOnClickListener {
+                UiUtils.showSnackBar(binding.root, "setting")
+            }
+            tv_noti.setOnClickListener {
+                UiUtils.showSnackBar(binding.root, "notice")
+            }
+        }
     }
 
     private fun initData() {
@@ -90,20 +122,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
     }
 
 
-
     override fun onClick(view: View?) {
         //TODO("Not yet implemented")
-        when(view?.id){
+        when (view?.id) {
             R.id.iv_menu -> {
                 hideKeyboard()
                 binding.dlMain.openDrawer(GravityCompat.START)
             }
-            R.id.btn_soon->{
+            R.id.btn_soon -> {
                 hideKeyboard()
                 binding.apply {
-                    if(btnSoon.isSelected){
-                        btnSoon.isSelected=false
-                    }else {
+                    if (btnSoon.isSelected) {
+                        btnSoon.isSelected = false
+                    } else {
                         btnSoon.isSelected = true
                         btnClub.isSelected = false
                         btnEtc.isSelected = false
@@ -117,12 +148,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                     }
                 }
             }
-            R.id.btn_club->{
+            R.id.btn_club -> {
                 hideKeyboard()
                 binding.apply {
-                    if(btnClub.isSelected){
-                        btnClub.isSelected=false
-                    }else {
+                    if (btnClub.isSelected) {
+                        btnClub.isSelected = false
+                    } else {
                         btnSoon.isSelected = false
                         btnClub.isSelected = true
                         btnEtc.isSelected = false
@@ -131,12 +162,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                     }
                 }
             }
-            R.id.btn_etc->{
+            R.id.btn_etc -> {
                 hideKeyboard()
                 binding.apply {
-                    if(btnEtc.isSelected){
-                        btnEtc.isSelected=false
-                    }else {
+                    if (btnEtc.isSelected) {
+                        btnEtc.isSelected = false
+                    } else {
                         btnSoon.isSelected = false
                         btnClub.isSelected = false
                         btnEtc.isSelected = true
@@ -145,12 +176,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                     }
                 }
             }
-            R.id.btn_struct->{
+            R.id.btn_struct -> {
                 hideKeyboard()
                 binding.apply {
-                    if(btnStruct.isSelected){
-                        btnStruct.isSelected=false
-                    }else {
+                    if (btnStruct.isSelected) {
+                        btnStruct.isSelected = false
+                    } else {
                         btnSoon.isSelected = false
                         btnClub.isSelected = false
                         btnEtc.isSelected = false
@@ -159,12 +190,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                     }
                 }
             }
-            R.id.btn_stu->{
+            R.id.btn_stu -> {
                 hideKeyboard()
                 binding.apply {
-                    if(btnStu.isSelected){
-                        btnStu.isSelected=false
-                    }else {
+                    if (btnStu.isSelected) {
+                        btnStu.isSelected = false
+                    } else {
                         btnSoon.isSelected = false
                         btnClub.isSelected = false
                         btnEtc.isSelected = false
@@ -173,11 +204,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                     }
                 }
             }
-            R.id.btn_search->{
+            R.id.btn_search -> {
                 hideKeyboard()
                 var endNode = findViewById<EditText>(R.id.et_search).text.toString()
-                var curLat:Double
-                var curLon:Double
+                var curLat: Double
+                var curLon: Double
                 if (ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_FINE_LOCATION
@@ -189,7 +220,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     return
-                }else{
+                } else {
                     val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
                     val curLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                     curLon = curLocation?.longitude!!
@@ -200,48 +231,50 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
                 Logger.d("Navi", "endNode: $endNode")
 
 
-                routingService.searchRoute_weigh(endNode,curLat.toString(),curLon.toString()).enqueue(object: Callback<String> {
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-                        //실패할 경우
-                        Log.d("DEBUG", t.message.toString())
-                        var dialog = AlertDialog.Builder(this@MainActivity)
-                        dialog.setTitle("에러")
-                        dialog.setMessage("통신에 실패했습니다.")
-                        dialog.show()
-                    }
+                routingService.searchRoute_weigh(endNode, curLat.toString(), curLon.toString())
+                    .enqueue(object : Callback<String> {
+                        override fun onFailure(call: Call<String>, t: Throwable) {
+                            //실패할 경우
+                            Log.d("DEBUG", t.message.toString())
+                            var dialog = AlertDialog.Builder(this@MainActivity)
+                            dialog.setTitle("에러")
+                            dialog.setMessage("통신에 실패했습니다.")
+                            dialog.show()
+                        }
 
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                        //정상응답이 올경우
-                        var result:String
-                        result = response.body().toString()
-                        println(result)
+                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                            //정상응답이 올경우
+                            var result: String
+                            result = response.body().toString()
+                            println(result)
 
-                        var searchResult: JSONObject
-                        searchResult = JSONObject(result)
+                            var searchResult: JSONObject
+                            searchResult = JSONObject(result)
 
-                        parseJSON(searchResult)
-                    }
-                })
+                            parseJSON(searchResult)
+                        }
+                    })
             }
 
-            R.id.cl_sv->{
+            R.id.cl_sv -> {
                 hideKeyboard()
             }
         }
     }
 
     fun hideKeyboard() {
-        Toast.makeText(this,"눌럿나",Toast.LENGTH_SHORT).show()
-        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken,0)
+        Toast.makeText(this, "눌럿나", Toast.LENGTH_SHORT).show()
+        val imm: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 
-    fun parseJSON(json: JSONObject){
+    fun parseJSON(json: JSONObject) {
         var nodes = json.getJSONArray("nodes")
         var edges = json.getJSONArray("edges")
 
 
-        for(i in 0 until nodes.length()){
+        for (i in 0 until nodes.length()) {
             val node = nodes.getJSONObject(i)
             val id = node.getString("id")
             val lat = node.getDouble("lat")
@@ -255,11 +288,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
 
         var pathOverlay = PathOverlay()
         multipartPathOverlay.map = null
-        var paths : MutableList<MutableList<LatLng>> = ArrayList()
+        var paths: MutableList<MutableList<LatLng>> = ArrayList()
 //        val seqList: MutableList<MutableList<LatLng>> = ArrayList() // alternatively: = mutableListOf()
 //        seqList.add(mutableListOf<Int>(1, 2, 3))
 
-        for(i in 0 until edges.length()){
+        for (i in 0 until edges.length()) {
             val edge = edges.getJSONObject(i)
             val path = edge.getString("path")
             val start = edge.getInt("start")
@@ -268,12 +301,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
             val weigh = edge.getInt("weigh")
             val distance = edge.getInt("distance")
 
-            val path_coords_list = (path.substring(1,path.lastIndex)).split("|")
+            val path_coords_list = (path.substring(1, path.lastIndex)).split("|")
             Log.d(ContentValues.TAG, "path($i): $start => $end : $path_coords_list")
 
-            var path_container : MutableList<LatLng> = mutableListOf(LatLng(0.1,0.1))
-            for(path_coords in path_coords_list){
-                val coords =path_coords.split(" ")
+            var path_container: MutableList<LatLng> = mutableListOf(LatLng(0.1, 0.1))
+            for (path_coords in path_coords_list) {
+                val coords = path_coords.split(" ")
                 val coord_lon = coords[0].toDouble()
                 val coord_lat = coords[1].toDouble()
                 //구한 경로를 하나씩 path_container에 추가해줌
@@ -283,14 +316,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,OnMapReadyCallbac
             paths.add(path_container)
         }
 
-        for (p in paths){
+        for (p in paths) {
             println(p.toString())
         }
 
         multipartPathOverlay.coordParts = paths
         multipartPathOverlay.colorParts = listOf(
             MultipartPathOverlay.ColorPart(
-                Color.GREEN, Color.WHITE, Color.DKGRAY, Color.LTGRAY)
+                Color.GREEN, Color.WHITE, Color.DKGRAY, Color.LTGRAY
+            )
         )
         //더미원소 드랍후 path.coords에 path들을 넣어줌.
 //        pathOverlay.coords = path_container

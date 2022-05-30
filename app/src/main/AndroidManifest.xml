@@ -25,6 +25,9 @@
         android:theme="@style/Theme.CauSecretary"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".EventRegisterActivity"
             android:exported="false" />
         <activity

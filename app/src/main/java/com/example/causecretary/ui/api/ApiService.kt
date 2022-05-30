@@ -11,6 +11,7 @@ import retrofit2.http.*
 class ApiService {
     companion object{
         val DOMAIN = "http://192.168.138.85:9000/"
+        val NAVIDOMAIN = "http://192.168.219.106:8080/"
     }
 }
 
@@ -28,8 +29,26 @@ interface RetrofitApi{
     @POST("auth/login")
     fun login(@Field ("email")email:String, @Field("password") password: String): Call<RegisterResponse>
 
+  
     @GET("users/register")
     fun getImageList(): Call<AdminResponse>
+
+    @FormUrlEncoded
+    @POST("/search/weigh")
+    fun searchRoute_weigh(
+        @Field("endPoint") endPoint:String,
+        @Field("startLat") curLat:String,
+        @Field("startLon") curLon:String
+    ) : Call<String>
+
+    @FormUrlEncoded
+    @POST("/search/distance")
+    fun searchRoute_distance(
+        @Field("endPoint") endPoint:String,
+        @Field("startLat") curLat:String,
+        @Field("startLon") curLon:String
+    ) : Call<String>
+
 
 
 }

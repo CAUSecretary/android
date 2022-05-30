@@ -3,47 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/drawable/asd.xml" value="0.1145" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/drawable/bg_round_blue.xml" value="0.1145" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/drawable/bg_round_blue_selector.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/drawable/bg_round_deep_blue.xml" value="0.1145" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/drawable/btn_round_blue_selector.xml" value="0.1145" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/drawable/checkbox_selector.xml" value="0.1955" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/drawable/ic_mail.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/font/kr_bold.xml" value="0.11203703703703703" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/layout/activity_login.xml" value="0.33" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/layout/activity_main.xml" value="0.3416666666666667" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/layout/activity_splash.xml" value="0.25" />
-        <entry key="..\:/AndroidStudioProjects/CauSecretary2/app/src/main/res/layout/permission_dialog.xml" value="0.12314814814814815" />
-        <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/drawable/bg_round_blue_selector.xml" value="0.2045" />
-        <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/drawable/bg_round_deep_blue.xml" value="0.2045" />
-        <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/drawable/btn_round_blue_selector.xml" value="0.2045" />
-        <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/layout/activity_auth_phone.xml" value="0.33" />
-        <entry key="..\:/Users/CSE6P35/Desktop/android/app/src/main/res/layout/activity_login.xml" value="0.22" />
-        <entry key="app/src/main/res/drawable/bg_bottom_round_blue.xml" value="0.193" />
-        <entry key="app/src/main/res/drawable/bg_bottom_round_deep_blue.xml" value="0.193" />
-        <entry key="app/src/main/res/drawable/bg_round_blue.xml" value="0.193" />
-        <entry key="app/src/main/res/drawable/bg_round_blue_selector.xml" value="0.193" />
-        <entry key="app/src/main/res/drawable/bg_round_deep_blue.xml" value="0.193" />
-        <entry key="app/src/main/res/drawable/bg_round_white.xml" value="0.193" />
-        <entry key="app/src/main/res/drawable/btn_blue_selector.xml" value="0.2225" />
-        <entry key="app/src/main/res/drawable/btn_bottom_round_blue_selector.xml" value="0.193" />
-        <entry key="app/src/main/res/drawable/btn_round_blue_selector.xml" value="0.2225" />
-        <entry key="app/src/main/res/drawable/btn_round_white_selector.xml" value="0.2225" />
-        <entry key="app/src/main/res/drawable/ic_group_6.xml" value="0.193" />
-        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.193" />
-        <entry key="app/src/main/res/layout/activity_auth_phone.xml" value="0.5308751424153646" />
-        <entry key="app/src/main/res/layout/activity_forgot_id.xml" value="0.28366013071895424" />
-        <entry key="app/src/main/res/layout/activity_forgot_pwd.xml" value="0.24739583333333334" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2868972778320313" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.34751536051432297" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.43619458018166224" />
-        <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.24635416666666668" />
-        <entry key="app/src/main/res/layout/permission_dialog.xml" value="0.3605107625325522" />
+        <entry key="..\:/Users/skaja/AndroidStudioProjects/cauSecretary/app/src/main/res/layout/activity_main.xml" value="0.264" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

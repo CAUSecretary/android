@@ -9,14 +9,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- Sceneform requires OpenGL ES 3.0 or later. -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Sceneform requires OpenGL ES 3.0 or later. -->
     <uses-feature
         android:glEsVersion="0x00030000"
-        android:required="true" />
-
-    <!-- Indicates that app requires ARCore ("AR Required"). Ensures the app is visible only in the Google Play Store on devices that support ARCore. For "AR Optional" apps remove this line. -->
+        android:required="true" /> <!-- Indicates that app requires ARCore ("AR Required"). Ensures the app is visible only in the Google Play Store on devices that support ARCore. For "AR Optional" apps remove this line. -->
     <uses-feature android:name="android.hardware.camera.ar" />
 
     <application
@@ -28,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CauSecretary"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".EventRegisterActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.admin.AdminMainActivity"
             android:exported="false" />
@@ -54,13 +53,12 @@
         <activity
             android:name=".ui.register.AuthPhoneActivity"
             android:exported="false" />
-
         <activity
             android:name=".naviAr.ArActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:screenOrientation="locked"/>
+            android:screenOrientation="locked"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ui.LoginActivity"
             android:configChanges="orientation|screenSize|keyboard"
@@ -84,9 +82,10 @@
             android:configChanges="orientation|screenSize|keyboard"
             android:exported="true"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
-        <!-- Indicates whether "Google Play Services for AR" (ARCore) is "required" or "optional". -->
-        <meta-data android:name="com.google.ar.core" android:value="required" />
+            android:screenOrientation="portrait" /> <!-- Indicates whether "Google Play Services for AR" (ARCore) is "required" or "optional". -->
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="required" />
     </application>
 
 </manifest>

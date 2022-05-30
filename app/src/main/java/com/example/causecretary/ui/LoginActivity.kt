@@ -22,6 +22,7 @@ import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.forgot.ForgotIdActivity
 import com.example.causecretary.ui.forgot.ForgotPwdActivity
 import com.example.causecretary.ui.register.AuthPhoneActivity
+import com.example.causecretary.ui.register.RegisterActivity
 import com.example.causecretary.ui.utils.Logger
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,9 +62,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.tv_register -> {
-                Intent(this@LoginActivity,AuthPhoneActivity::class.java).run {
+               /* Intent(this@LoginActivity,AuthPhoneActivity::class.java).run {
+                    startActivity(this)
+                }*/
+                Intent(this@LoginActivity,RegisterActivity::class.java).run {
                     startActivity(this)
                 }
+
             }
             R.id.cb_auto_login,R.id.tv_auto_login -> {
                 Toast.makeText(this,"auto_login",Toast.LENGTH_SHORT).show()
@@ -127,7 +132,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             .build()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        registerService.login("doooreee@naver.com","aa").enqueue(object : Callback<RegisterResponse> {
+        registerService.login("doooreee@naver.com","ddhj88666").enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>

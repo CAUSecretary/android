@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import retrofit2.http.Field
 
 data class RegisterRequestData(
-    @SerializedName("userIdx") var userIdx: String,
+    @SerializedName("userIdx") var userIdx: Int,
     @SerializedName("name") var name: String,
     @SerializedName("phone")var phone: String,
     @SerializedName("email") var email: String,

@@ -36,6 +36,11 @@ import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.utils.GmailSender
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.ui.utils.UiUtils
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okio.BufferedSink
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
@@ -48,6 +53,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityRegisterBinding
 
     lateinit var registerRequestData :RegisterRequestData
+    var bitmapMultipartBody: MultipartBody.Part? = null
 
     var emailCheck: Boolean = false
     var nameCheck: Boolean = false
@@ -80,8 +86,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
-        registerRequestData=RegisterRequestData("","","","","","","","","","")
-
         initData()
         initView()
     }
@@ -100,12 +104,19 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 if (activityResult.resultCode == RESULT_OK) {
                     activityResult.data?.data.let {
                         val bitmap: Bitmap? = loadBitmap(it)
+                      //  val bitmapRequestBody = bitmap?.let { BitmapRequestBody(it@bitmap) }
+                      //  bitmapMultipartBody=
+                      //      if (bitmapRequestBody == null) null
+                       //     else MultipartBody.Part.createFormData("image", newFileName(), bitmapRequestBody)
+
+                       // testmulti(bitmapMultipartBody)
                         val base64 = bitmapToString(bitmap)
                         binding.tvAuthHint.setTextColor(Color.BLACK)
-                        base64.substring(1,10).apply {
+                        /*base64.substring(1,10).apply {
                             binding.tvAuthHint.text=this
-                            registerRequestData.certifyImg=this
-                        }
+                        }*/
+                        registerRequestData.certifyImg=base64
+                        Logger.e("uri",it.toString())
                         if (binding.tvAuthHint.text.isNotEmpty()) {
                             invalidCheck = true
                         }
@@ -117,8 +128,41 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
     }
 
+    private fun testmulti(bitmapMultipartBody: MultipartBody.Part?) {
+        Logger.e("doori",bitmapMultipartBody.toString())
+        val retrofit = Retrofit.Builder()
+            .baseUrl(DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        if (bitmapMultipartBody != null) {
+            registerService.postUsersMulti(bitmapMultipartBody).enqueue(object : Callback<String>{
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    Logger.e("doori",response.toString())
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Logger.e("doori",t.toString())
+                }
+
+            })
+        }
+
+    }
+
+    inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
+        override fun contentType(): MediaType = "image/jpeg".toMediaType()
+        override fun writeTo(sink: BufferedSink) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 99, sink.outputStream())
+        }
+    }
+
     private fun initData() {
-        //TODO("Not yet implemented")
+        registerRequestData=RegisterRequestData(1234,"asd","asd","dooo@naver.com","123k12j3","a","a","a","","")
+
+        //Logger.e("doori",intent.getStringExtra("phoneNumber").toString())
+        //registerRequestData.phone = intent.getStringExtra("phoneNumber").toString()
     }
 
     override fun onClick(view: View?) {
@@ -165,13 +209,20 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.btn_register -> {
-                //register()
+                registerRequestData.password=binding.etPwd.text.toString()
                 Logger.e("doori",registerRequestData.toString())
+
+                register()
                 Intent(this@RegisterActivity, WelcomeActivity::class.java).run {
                     startActivity(this)
                 }
             }
             R.id.ib_close -> {
+
+                /**
+                 * test용
+                 */
+                test()
                 Intent(this@RegisterActivity, LoginActivity::class.java).run {
                     startActivity(this)
                 }
@@ -242,7 +293,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         val bytearrayOutputStream = ByteArrayOutputStream()
         bitmap?.compress(Bitmap.CompressFormat.PNG, 100, bytearrayOutputStream)
         val byteArray = bytearrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+        return Base64.encodeToString(byteArray, Base64.DEFAULT).replace("\n","")
     }
 
     private fun stringToBitmap(base64: String?): Bitmap {
@@ -251,20 +302,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun register() {
-        val registerRequestData = RegisterRequestData(
-            "1211",
-            "asd",
-            "aa",
-            "doooreee@naver.com",
-            "aa",
-            "a",
-            "a",
-            "a",
-            "a",
-            "a"
-        )
-
-
         val retrofit = Retrofit.Builder()
             .baseUrl(DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
@@ -287,6 +324,32 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
         })
     }
+
+    private fun test() {
+        val test = RegisterRequestData(23,"sdf","","aksda@nsadsd.com","1lasdy89ah","asd","asd","asd","asd","asd")
+        val retrofit = Retrofit.Builder()
+            .baseUrl(DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        registerService.postUsers(test).enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                val registerResponse = response.body() as RegisterResponse
+                Logger.e("doori", response.toString())
+                Logger.e("doori", registerResponse.toString())
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Logger.e("doori", t.toString())
+            }
+
+        })
+    }
+
 
     private fun setSpinner() {
         val univList = resources.getStringArray(R.array.cau_univ)
@@ -426,7 +489,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 nameCheck = true
                 stuIdCheck = true
                 registerRequestData.name = etName.text.toString()
-                registerRequestData.userIdx=etStdId.text.toString()
+                registerRequestData.userIdx=etStdId.text.toString().toInt()
             } else {
                 nameCheck = false
                 stuIdCheck = false
@@ -477,5 +540,12 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         })
+    }
+
+    override fun onBackPressed() {
+        Intent(this@RegisterActivity, LoginActivity::class.java).run {
+            startActivity(this)
+        }
+        finishAffinity()
     }
 }

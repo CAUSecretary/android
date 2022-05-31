@@ -3,6 +3,7 @@ package com.example.causecretary.ui.admin
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +38,23 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initData() {
         // TODO("Not yet implemented")
-        admintest()
+        //admintest()
+        admintest1()
+    }
+
+    private fun admintest1() {
+        val uncertified1 = Uncertified("asd","asd","asd",1)
+        val uncertified2 = Uncertified("asd","asd","asd",1)
+        val testList: MutableList<Uncertified> = mutableListOf(uncertified1,uncertified2)
+        var adapter = AdminAdapter(testList)
+        binding.rcAdmin.adapter=adapter
+
+        adapter.setItemClickListener(object :AdminAdapter.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                adapter.deleteList(position)
+            }
+
+        })
     }
 
     private fun initView() {
@@ -92,9 +109,8 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
                  val adminResponse = response.body() as AdminResponse
                 Logger.e("doori", response.toString())
                 adminList = adminResponse.result.uncertified
-                var adapter = AdminAdapter(adminList)
+                var adapter = AdminAdapter(adminList as MutableList<Uncertified>)
                 binding.rcAdmin.adapter=adapter
-                binding.rcAdmin.layoutManager=LinearLayoutManager(this@AdminMainActivity)
                 // Logger.e("doori", registerResponse.toString())
             }
 

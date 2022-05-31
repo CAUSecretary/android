@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityLoginBinding
+import com.example.causecretary.ui.admin.AdminMainActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.RegisterResponse
@@ -75,9 +76,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_login -> {
                 login()
-                Intent(this@LoginActivity,MainActivity::class.java).run {
+                Intent(this@LoginActivity,AdminMainActivity::class.java).run {
                     startActivity(this)
                 }
+                /*Intent(this@LoginActivity,MainActivity::class.java).run {
+                    startActivity(this)
+                }*/
+
             }
             R.id.tv_forgot_id -> {
                 Intent(this@LoginActivity,ForgotIdActivity::class.java).run {

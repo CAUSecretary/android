@@ -256,8 +256,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             ) {
                 val adminResponse = response.body() as AdminResponse
                 Logger.e("doori", response.toString())
-                Logger.e("doori", adminResponse.result.uncertified.toString())
-                val uncertified = adminResponse.result.uncertified
+                Logger.e("doori", adminResponse.result!!.uncertified.toString())
+                val uncertified = adminResponse.result!!.uncertified
                 uncertified.forEach {
                     val bitmap = stringToBitmap(it.certifyImg)
                     Logger.e("doori", "bitmap = ${bitmap.toString()}")

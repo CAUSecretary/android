@@ -6,5 +6,5 @@ import com.example.causecretary.ui.data.AdminResponse
 import com.example.causecretary.ui.data.RegisterResponse
 
 class LoginViewModel:ViewModel() {
-    var liveData: MutableLiveData<RegisterResponse> = MutableLiveData<RegisterResponse>()
+    var liveData: MutableLiveData<AdminResponse> = MutableLiveData<AdminResponse>()
 }

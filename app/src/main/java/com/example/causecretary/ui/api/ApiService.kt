@@ -12,7 +12,7 @@ import retrofit2.http.*
 
 class ApiService {
     companion object{
-        val DOMAIN = "http://10.210.60.144:9000/"
+        val DOMAIN = "http://10.210.61.15:9000/"
         val NAVIDOMAIN = "http://10.210.61.167:8080/"
     }
 }
@@ -30,9 +30,9 @@ interface RetrofitApi{
     @POST("users/register")
     fun postUsers(@Body body: RegisterRequestData): Call<RegisterResponse>
 
-    @FormUrlEncoded
-    @POST("auth/login")
-    fun login(@Field ("email")email:String, @Field("password") password: String): Call<RegisterResponse>
+
+    @POST("auth/userlogin")
+    fun login(@Body admin:AdminRequestData): Call<RegisterResponse>
 
   
    // @GET("users/register")

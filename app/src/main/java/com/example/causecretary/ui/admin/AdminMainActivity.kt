@@ -33,7 +33,7 @@ import java.io.ByteArrayOutputStream
 
 class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityAdminMainBinding
-    lateinit var adminList: List<Uncertified>
+    lateinit var adminList: MutableList<Uncertified>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =
@@ -45,15 +45,18 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initData() {
         // TODO("Not yet implemented")
-        //admintest()
+        val adminResponse = intent.getParcelableArrayListExtra<Uncertified>("adminResponse")
+        if (adminResponse != null) {
+            adminList= adminResponse
+        }
         admintest1()
     }
 
     private fun admintest1() {
-        val uncertified1 = Uncertified("asd","asd","asd",1)
+     /*   val uncertified1 = Uncertified("asd","asd","asd",1)
         val uncertified2 = Uncertified("asd","asd","asd",1)
-        val testList: MutableList<Uncertified> = mutableListOf(uncertified1,uncertified2)
-        var adapter = AdminAdapter(testList)
+        val testList: MutableList<Uncertified> = mutableListOf(uncertified1,uncertified2)*/
+        val adapter = AdminAdapter(adminList)
         binding.rcAdmin.adapter=adapter
 
         adapter.setItemClickListener(object :AdminAdapter.OnItemClickListener{
@@ -117,34 +120,34 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
         })*/
     }
 
-    private fun admintest() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(ApiService.DOMAIN)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val admin = AdminRequestData("k1@cau.ac.kr","1")
-
-        val registerService = retrofit.create(RetrofitApi::class.java)
-        registerService.adminlogin(admin).enqueue(object : Callback<AdminResponse> {
-            override fun onResponse(
-                call: Call<AdminResponse>,
-                response: Response<AdminResponse>
-            ) {
-                 val adminResponse = response.body() as AdminResponse
-                Logger.e("doori", response.toString())
-                adminList = adminResponse.result.uncertified
-                var adapter = AdminAdapter(adminList as MutableList<Uncertified>)
-                binding.rcAdmin.adapter=adapter
-                // Logger.e("doori", registerResponse.toString())
-            }
-
-            override fun onFailure(call: Call<AdminResponse>, t: Throwable) {
-                Logger.e("doori", t.toString())
-            }
-
-        })
-    }
+//    private fun admintest() {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(ApiService.DOMAIN)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//
+//        val admin = AdminRequestData("k1@cau.ac.kr","1")
+//
+//        val registerService = retrofit.create(RetrofitApi::class.java)
+//        registerService.adminlogin(admin).enqueue(object : Callback<AdminResponse> {
+//            override fun onResponse(
+//                call: Call<AdminResponse>,
+//                response: Response<AdminResponse>
+//            ) {
+//                 val adminResponse = response.body() as AdminResponse
+//                Logger.e("doori", response.toString())
+//                adminList = adminResponse.result!!.uncertified
+//                var adapter = AdminAdapter(adminList as MutableList<Uncertified>)
+//                binding.rcAdmin.adapter=adapter
+//                // Logger.e("doori", registerResponse.toString())
+//            }
+//
+//            override fun onFailure(call: Call<AdminResponse>, t: Throwable) {
+//                Logger.e("doori", t.toString())
+//            }
+//
+//        })
+//    }
 
     private fun stringToBitmap(base64: String?): Bitmap {
         val encodeByte = Base64.decode(base64, Base64.DEFAULT)

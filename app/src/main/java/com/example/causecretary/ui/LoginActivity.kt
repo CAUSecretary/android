@@ -16,16 +16,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.R
+import com.example.causecretary.adapter.AdminAdapter
 import com.example.causecretary.databinding.ActivityLoginBinding
 import com.example.causecretary.ui.admin.AdminMainActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.AdminResponse
+import com.example.causecretary.ui.data.AdminResult
 import com.example.causecretary.ui.data.RegisterResponse
-import com.example.causecretary.ui.data.dto.RegisterRequestData
+import com.example.causecretary.ui.data.Uncertified
+import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.forgot.ForgotIdActivity
 import com.example.causecretary.ui.forgot.ForgotPwdActivity
-import com.example.causecretary.ui.register.AuthPhoneActivity
 import com.example.causecretary.ui.register.RegisterActivity
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.viewmodel.LoginViewModel
@@ -36,18 +38,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.system.exitProcess
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<RegisterResponse> {
+class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminResponse> {
 
+    //lateinit var viewModel: LoginViewModel
+    private var viewModel: LoginViewModel? = null
     //뒤로가기 두번 누를때 꺼지게
     private var mBackBtnPresses: Boolean = false
-    val viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-    var registerResponse = RegisterResponse(null,null,null,null)
+    //var registerResponse = RegisterResponse(null,null,null,null)
 
     lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
-
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel?.liveData?.observe(this,this)
         initData()
         initView()
     }
@@ -57,8 +61,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<Regist
         binding.clickListener = this@LoginActivity
 
         //TODO test
-        viewModel.liveData.observe(this,this)
-        viewModel.liveData.postValue(registerResponse)
+
+        //viewModel.liveData.postValue()
 
 
         binding.etEmail.requestFocus()
@@ -87,9 +91,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<Regist
                 Toast.makeText(this,"auto_login",Toast.LENGTH_SHORT).show()
             }
             R.id.btn_login -> {
-                login()
-                Intent(this@LoginActivity,AdminMainActivity::class.java).run {
-                    startActivity(this)
+                Logger.e("doori",binding.etEmail.text.toString())
+                if(binding.etEmail.text.toString() == "k1@cau.ac.kr"){
+                    Logger.e("doori","if문 adminLogin")
+                    adminLogin()
+                }else{
+                    login()
                 }
                 /*Intent(this@LoginActivity,MainActivity::class.java).run {
                     startActivity(this)
@@ -107,6 +114,32 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<Regist
                 }
             }
         }
+    }
+
+    private fun adminLogin() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ApiService.DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        val admin = AdminRequestData("k1@cau.ac.kr","1")
+        registerService.adminlogin(admin).enqueue(object : Callback<AdminResponse> {
+            override fun onResponse(
+                call: Call<AdminResponse>,
+                response: Response<AdminResponse>
+            ) {
+                val adminResponse = response.body() as AdminResponse
+                viewModel?.liveData?.postValue(adminResponse)
+                Logger.e("doori", response.toString())
+                // Logger.e("doori", registerResponse.toString())
+            }
+
+            override fun onFailure(call: Call<AdminResponse>, t: Throwable) {
+                Logger.e("doori", t.toString())
+            }
+
+        })
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -149,14 +182,19 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<Regist
             .build()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        registerService.login("doooreee@naver.com","ddhj88666").enqueue(object : Callback<RegisterResponse> {
+        val user = AdminRequestData("111@cau.ac.kr","111")
+        registerService.login(user).enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
-                registerResponse = response.body() as RegisterResponse
+                val registerResponse = response.body() as RegisterResponse
+                //viewModel?.liveData?.postValue(registerResponse)
                 Logger.e("doori",response.toString())
-                Logger.e("doori",registerResponse?.toString())
+                Logger.e("doori",registerResponse.toString())
+                Intent(this@LoginActivity,MainActivity::class.java).run {
+                    startActivity(this)
+                }
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
@@ -166,8 +204,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<Regist
         })
     }
 
-    override fun onChanged(t: RegisterResponse?) {
-        Logger.e("doori","onChanged = ${t.toString()}")
+    override fun onChanged(t: AdminResponse?) {
+        val adminList: ArrayList<Uncertified>? = t?.result?.uncertified as ArrayList<Uncertified>?
+        Logger.e("doori","onChanged = ${adminList.toString()}")
+        Intent(this@LoginActivity,AdminMainActivity::class.java).run {
+            putParcelableArrayListExtra("adminResponse",adminList)
+            startActivity(this)
+        }
     }
 }
 

@@ -7,6 +7,10 @@ plugins {
 
 android {
     compileSdk 31
+    androidExtensions{
+        experimental=true
+    }
+
 
     buildFeatures{
         dataBinding true

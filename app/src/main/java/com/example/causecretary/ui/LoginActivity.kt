@@ -12,12 +12,15 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityLoginBinding
 import com.example.causecretary.ui.admin.AdminMainActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
+import com.example.causecretary.ui.data.AdminResponse
 import com.example.causecretary.ui.data.RegisterResponse
 import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.forgot.ForgotIdActivity
@@ -25,6 +28,7 @@ import com.example.causecretary.ui.forgot.ForgotPwdActivity
 import com.example.causecretary.ui.register.AuthPhoneActivity
 import com.example.causecretary.ui.register.RegisterActivity
 import com.example.causecretary.ui.utils.Logger
+import com.example.causecretary.viewmodel.LoginViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,10 +36,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.system.exitProcess
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
+class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<RegisterResponse> {
 
     //뒤로가기 두번 누를때 꺼지게
     private var mBackBtnPresses: Boolean = false
+    val viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+    var registerResponse = RegisterResponse(null,null,null,null)
 
     lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +53,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initView() {
+
         binding.clickListener = this@LoginActivity
+
+        //TODO test
+        viewModel.liveData.observe(this,this)
+        viewModel.liveData.postValue(registerResponse)
+
 
         binding.etEmail.requestFocus()
         Handler(Looper.getMainLooper()).postDelayed({
@@ -142,7 +154,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
-                val registerResponse = response.body() as RegisterResponse
+                registerResponse = response.body() as RegisterResponse
                 Logger.e("doori",response.toString())
                 Logger.e("doori",registerResponse?.toString())
             }
@@ -153,4 +165,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         })
     }
+
+    override fun onChanged(t: RegisterResponse?) {
+        Logger.e("doori","onChanged = ${t.toString()}")
+    }
 }
+
+

@@ -33,6 +33,9 @@ class AdminAdapter(list: MutableList<Uncertified>): RecyclerView.Adapter<Holder>
         adminList.removeAt(position)
         notifyDataSetChanged()
     }
+    fun getList(position: Int):Uncertified{
+        return adminList[position]
+    }
 
     //리스너 등록
     interface OnItemClickListener{

@@ -1,28 +1,35 @@
 package com.example.causecretary.ui.admin
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.util.Base64
+import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.causecretary.R
 import com.example.causecretary.adapter.AdminAdapter
 import com.example.causecretary.databinding.ActivityAdminMainBinding
-import com.example.causecretary.ui.LoginActivity
+import com.example.causecretary.databinding.AdminDialogBinding
 import com.example.causecretary.ui.MainActivity
+import com.example.causecretary.ui.SplashActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.AdminResponse
 import com.example.causecretary.ui.data.Uncertified
 import com.example.causecretary.ui.data.dto.AdminRequestData
+import com.example.causecretary.ui.dialog.CustomDialog
 import com.example.causecretary.ui.utils.Logger
+import com.example.causecretary.ui.utils.UiUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.ByteArrayOutputStream
 
 class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityAdminMainBinding
@@ -51,7 +58,25 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
 
         adapter.setItemClickListener(object :AdminAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
-                adapter.deleteList(position)
+                val base64 = adapter.getList(position).certifyImg
+                DataBindingUtil.inflate<AdminDialogBinding>(LayoutInflater.from(this@AdminMainActivity), R.layout.admin_dialog, null, false).apply {
+                    this.ivAdmin.setImageBitmap(stringToBitmap(base64))
+                    this.adminDialog = UiUtils.showCustomDialog(
+                        this@AdminMainActivity,
+                        root,
+                        WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.MATCH_PARENT,
+                        object : CustomDialog.DialogClickListener {
+                            override fun onClose() {
+                                // nothing
+                            }
+
+                            override fun onConfirm() {
+                                //TODO 서버에 통신
+                               adapter.deleteList(position)
+                            }
+                        })
+                }
             }
 
         })
@@ -119,5 +144,10 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         })
+    }
+
+    private fun stringToBitmap(base64: String?): Bitmap {
+        val encodeByte = Base64.decode(base64, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
     }
 }

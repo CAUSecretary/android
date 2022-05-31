@@ -1,9 +1,7 @@
 package com.example.causecretary.ui.api
 
 
-import com.example.causecretary.ui.data.AdminResponse
-import com.example.causecretary.ui.data.CertifyResponse
-import com.example.causecretary.ui.data.RegisterResponse
+import com.example.causecretary.ui.data.*
 import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.squareup.okhttp.RequestBody
@@ -43,6 +41,14 @@ interface RetrofitApi{
     @FormUrlEncoded
     @POST("auth/certify")
     fun certify(@Field("userIdx")userIdx: Int,@Field("belong") belong: String): Call<CertifyResponse>
+
+    @GET("get/all/event/main/1")
+    fun getEventOff():Call<EventOffResponse>
+
+    @GET("get/all/event/main/0")
+    fun getEventOn():Call<EventOnResponse>
+
+
 
    // @GET("users/register")
     //fun getImageList(): Call<AdminResponse>

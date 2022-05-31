@@ -19,14 +19,20 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityMainBinding
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.naviAr.ArActivity
+import com.example.causecretary.ui.data.EventOffResponse
+import com.example.causecretary.ui.data.EventOnResponse
+import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.event.EventRegisterActivity
 import com.example.causecretary.ui.utils.UiUtils
+import com.example.causecretary.viewmodel.MainViewModel
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapView
@@ -43,16 +49,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallback {
+class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallback,
+    Observer<EventOnResponse> {
     lateinit var binding: ActivityMainBinding
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
     var multipartPathOverlay = MultipartPathOverlay()
     lateinit var routingService: RetrofitApi
+    private var viewModel: MainViewModel? = null
+
+    lateinit var eventOffData:EventOffResponse
+    lateinit var eventOnData:EventOnResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel?.liveData?.observe(this,this)
 
         mapView = findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)
@@ -88,6 +101,65 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         binding.clickListener = this@MainActivity
 
         drawable()
+
+        getOffList()
+    }
+
+    private fun getOffList() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ApiService.DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        registerService.getEventOff().enqueue(object : Callback<EventOffResponse> {
+            override fun onResponse(
+                call: Call<EventOffResponse>,
+                response: Response<EventOffResponse>
+            ) {
+                eventOffData = response.body() as EventOffResponse
+                //viewModel?.liveData?.postValue(registerResponse)
+                Logger.e("doori",response.toString())
+                Logger.e("doori",eventOffData.toString())
+
+                getOnList()
+
+            }
+
+            override fun onFailure(call: Call<EventOffResponse>, t: Throwable) {
+                Logger.e("doori",t.toString())
+            }
+
+        })
+    }
+
+    private fun getOnList() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ApiService.DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        registerService.getEventOn().enqueue(object : Callback<EventOnResponse> {
+            override fun onResponse(
+                call: Call<EventOnResponse>,
+                response: Response<EventOnResponse>
+            ) {
+
+                eventOnData = response.body() as EventOnResponse
+                viewModel?.liveData?.postValue(eventOnData)
+                //viewModel?.liveData?.postValue(registerResponse)
+                Logger.e("doori",response.toString())
+                Logger.e("doori",eventOnData.toString())
+
+
+            }
+
+            override fun onFailure(call: Call<EventOnResponse>, t: Throwable) {
+                Logger.e("doori",t.toString())
+            }
+
+        })
     }
 
     private fun drawable() {
@@ -119,6 +191,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
 
     private fun initData() {
         //TODO("Not yet implemented")
+
     }
 
 
@@ -333,5 +406,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         multipartPathOverlay.map = naverMap
     }
 
+    override fun onChanged(t: EventOnResponse?) {
+        Logger.e("doori","onChanged = ${t.toString()}")
 
+    }
 }

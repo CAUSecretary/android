@@ -13,6 +13,7 @@
 
     <!-- 프로젝트에서 쓸 색 -->
     <color name="basic_color">#FF81C5EB</color>
+    <color name="color_b3000000">#b3000000</color>
     <color name="color_282828">#FF282828</color>
     <color name="color_ebebeb">#FFebebeb</color>
     <color name="color_888888">#FF888888</color>

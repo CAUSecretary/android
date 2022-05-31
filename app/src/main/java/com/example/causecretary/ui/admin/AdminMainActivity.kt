@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -18,10 +17,10 @@ import com.example.causecretary.adapter.AdminAdapter
 import com.example.causecretary.databinding.ActivityAdminMainBinding
 import com.example.causecretary.databinding.AdminDialogBinding
 import com.example.causecretary.ui.MainActivity
-import com.example.causecretary.ui.SplashActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.AdminResponse
+import com.example.causecretary.ui.data.RegisterResponse
 import com.example.causecretary.ui.data.Uncertified
 import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.dialog.CustomDialog
@@ -29,13 +28,11 @@ import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.ui.utils.PrefManager
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.viewmodel.AdminViewModel
-import com.example.causecretary.viewmodel.LoginViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.ByteArrayOutputStream
 
 class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminResponse> {
     lateinit var binding: ActivityAdminMainBinding
@@ -54,7 +51,7 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
 
     private fun initData() {
         // TODO("Not yet implemented")
-        admintest()
+        getAdminList()
     }
 
     /*private fun admintest1() {
@@ -92,6 +89,7 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
 
     private fun initView() {
         binding.clickListener = this@AdminMainActivity
+        binding.adminViewModel=viewModel
     }
 
     override fun onClick(view: View?) {
@@ -125,7 +123,7 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
         })*/
     }
 
-    private fun admintest() {
+    private fun getAdminList() {
         val retrofit = Retrofit.Builder()
             .baseUrl(ApiService.DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
@@ -172,6 +170,7 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
                                     override fun onConfirm() {
                                         //TODO 서버에 통신
                                         adapter.deleteList(position)
+                                        certify(adapter.getList(position))
                                     }
                                 })
                         }
@@ -182,6 +181,35 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
 
             override fun onFailure(call: Call<AdminResponse>, t: Throwable) {
                 Logger.e("doori", t.toString())
+            }
+
+        })
+    }
+
+    private fun certify(list: Uncertified) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ApiService.DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        val user = AdminRequestData("111@cau.ac.kr","111")
+        registerService.login(user).enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                val registerResponse = response.body() as RegisterResponse
+                //viewModel?.liveData?.postValue(registerResponse)
+                Logger.e("doori",response.toString())
+                Logger.e("doori",registerResponse.toString())
+                Intent(this@LoginActivity,MainActivity::class.java).run {
+                    startActivity(this)
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Logger.e("doori",t.toString())
             }
 
         })

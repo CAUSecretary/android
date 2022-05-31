@@ -35,10 +35,14 @@ interface RetrofitApi{
     fun login(@Body admin:AdminRequestData): Call<RegisterResponse>
 
     @FormUrlEncoded
-    @POST("/auth/uncertified")
+    @POST("auth/uncertified")
     fun getUncertifiedList(@Header("X-ACCESS-TOKEN") jwt: String,@Field("userIdx") userIdx: Int):Call<AdminResponse>
 
-  
+
+    @FormUrlEncoded
+    @POST("auth/certify")
+    fun certify(@Field("userIdx")userIdx: Int,@Field("belong") belong: String)
+
    // @GET("users/register")
     //fun getImageList(): Call<AdminResponse>
 

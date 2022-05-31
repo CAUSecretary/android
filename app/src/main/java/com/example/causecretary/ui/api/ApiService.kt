@@ -39,7 +39,7 @@ interface RetrofitApi{
 
 
     @FormUrlEncoded
-    @POST("auth/certify")
+    @PATCH("auth/certify")
     fun certify(@Field("userIdx")userIdx: Int,@Field("belong") belong: String): Call<CertifyResponse>
 
     @GET("get/all/event/main/1")

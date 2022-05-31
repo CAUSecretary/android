@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:background="@color/color_b3000000"
             android:clickable="true"
-            app:visibleGone="@{adminViewModel.dimmed}">
+            app:visibleGone="@{adminViewModel.mIsLoading}">
 
             <ProgressBar
                 android:layout_width="wrap_content"

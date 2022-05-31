@@ -89,6 +89,7 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
     }*/
 
     private fun initView() {
+        setShowDimmed(true)
         binding.clickListener = this@AdminMainActivity
         binding.adminViewModel=viewModel
     }
@@ -170,8 +171,8 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
 
                                     override fun onConfirm() {
                                         //TODO 서버에 통신
-                                        adapter.deleteList(position)
                                         certify(adapter.getList(position))
+                                        adapter.deleteList(position)
                                     }
                                 })
                         }
@@ -220,6 +221,16 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
 
     override fun onChanged(t: AdminResponse?) {
         Logger.e("doori","onChanged = ${t.toString()}")
-        viewModel?.dimmedDown()
+        setShowDimmed(false)
+    }
+
+    private fun setShowDimmed(isLoading: Boolean) {
+        viewModel?.apply {
+            if (isLoading) {
+                showLoading()
+            } else {
+                hideLoading()
+            }
+        }
     }
 }

@@ -216,6 +216,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             startActivity(this)
         }
     }
+
+    private fun setShowDimmed(isLoading: Boolean) {
+        viewModel?.apply {
+            if (isLoading) {
+                showLoading()
+            } else {
+                hideLoading()
+            }
+        }
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package com.example.causecretary.viewmodel
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.causecretary.ui.data.AdminResponse
@@ -7,9 +8,17 @@ import com.example.causecretary.ui.data.EventOnResponse
 
 class MainViewModel:ViewModel() {
     var liveData: MutableLiveData<EventOnResponse> = MutableLiveData<EventOnResponse>()
-    var dimmed:Boolean = true
+    val mIsLoading: ObservableField<Boolean> = ObservableField<Boolean>()
 
-    fun dimmedDown(){
-        dimmed = false
+    init {
+        hideLoading()
+    }
+
+    fun showLoading() {
+        mIsLoading.set(true)
+    }
+
+    fun hideLoading() {
+        mIsLoading.set(false)
     }
 }

@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
 
     private fun initView() {
         binding.clickListener = this@MainActivity
+        setShowDimmed(true)
 
         drawable()
 
@@ -408,6 +409,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
 
     override fun onChanged(t: EventOnResponse?) {
         Logger.e("doori","onChanged = ${t.toString()}")
+        setShowDimmed(false)
 
+    }
+    private fun setShowDimmed(isLoading: Boolean) {
+        viewModel?.apply {
+            if (isLoading) {
+                showLoading()
+            } else {
+                hideLoading()
+            }
+        }
     }
 }

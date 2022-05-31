@@ -1,13 +1,14 @@
 package com.example.causecretary.ui.utils
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.causecretary.ui.data.LoginData
 import com.google.gson.Gson
 
 class PrefManager (private val context: Context) {
 
     companion object {
         private const val PREF_FILENAME = ""
-       // private const val PREF_LOGIN_DATA: String = "login_data"
+        private const val PREF_LOGIN_DATA: String = "login_data"
 
         private const val PREF_PERMISSION_FILENAME = "com.example.causecretary.premission"
         private const val PREF_PERMISSION_CONFIRM = "permission_confirm"
@@ -25,28 +26,22 @@ class PrefManager (private val context: Context) {
      *
      * @param loginId
      * @param token
-     * @param refreshToken
      */
- /*   fun setLoginData(loginId: String, token: String, refreshToken: String) {
+    fun setLoginData(userIdx: Int, jwt: String) {
         val prefs: SharedPreferences = context.getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE)
 
         Gson().apply {
-            val loginData: LoginData = LoginData()
-            loginData.loginId = loginId
-            loginData.token = token
-            loginData.refreshToken = refreshToken
-
+            val loginData: LoginData = LoginData(userIdx,jwt)
             val jsonToString: String = toJson(loginData)
             prefs.edit().putString(PREF_LOGIN_DATA, jsonToString).apply()
         }
     }
-*/
     /**
      * 로그인 토큰 반환
      *
      * @return LoginData?
      */
-  /*  fun getLoginData(): LoginData? {
+    fun getLoginData(): LoginData {
         val prefs: SharedPreferences = context.getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE)
         Gson().apply {
             val jsonToString: String = prefs.getString(PREF_LOGIN_DATA, "")?:""
@@ -54,14 +49,14 @@ class PrefManager (private val context: Context) {
         }
     }
 
-    *//**
+    /**
      * 로그인 토큰 삭제
-     *//*
+     */
     fun removeLoginData() {
         val prefs: SharedPreferences = context.getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE)
         prefs.edit().remove(PREF_LOGIN_DATA).apply()
     }
-*/
+
     fun setPermissionConfirm(isConfirm: Boolean) {
         val prefs: SharedPreferences = context.getSharedPreferences(PREF_PERMISSION_FILENAME, Context.MODE_PRIVATE)
         prefs.edit().putBoolean(PREF_PERMISSION_CONFIRM, isConfirm).apply()

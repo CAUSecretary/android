@@ -31,6 +31,7 @@ import com.example.causecretary.ui.forgot.ForgotIdActivity
 import com.example.causecretary.ui.forgot.ForgotPwdActivity
 import com.example.causecretary.ui.register.RegisterActivity
 import com.example.causecretary.ui.utils.Logger
+import com.example.causecretary.ui.utils.PrefManager
 import com.example.causecretary.viewmodel.LoginViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -208,6 +209,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
 
     override fun onChanged(t: AdminResponse?) {
         Logger.e("doori","onChanged = ${t.toString()}")
+        t?.result?.apply {
+            PrefManager(this@LoginActivity).setLoginData(this.userIdx,this.jwt)
+        }
         Intent(this@LoginActivity,AdminMainActivity::class.java).run {
             startActivity(this)
         }

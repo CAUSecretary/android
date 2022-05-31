@@ -26,6 +26,7 @@ import com.example.causecretary.ui.data.Uncertified
 import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.dialog.CustomDialog
 import com.example.causecretary.ui.utils.Logger
+import com.example.causecretary.ui.utils.PrefManager
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.viewmodel.AdminViewModel
 import com.example.causecretary.viewmodel.LoginViewModel
@@ -130,10 +131,10 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val admin = AdminRequestData("k1@cau.ac.kr", "1")
+        val loginData = PrefManager(this@AdminMainActivity).getLoginData()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        registerService.adminlogin(admin).enqueue(object : Callback<AdminResponse> {
+        registerService.getUncertifiedList(loginData.jwt,loginData.userIdx).enqueue(object : Callback<AdminResponse> {
             override fun onResponse(
                 call: Call<AdminResponse>,
                 response: Response<AdminResponse>

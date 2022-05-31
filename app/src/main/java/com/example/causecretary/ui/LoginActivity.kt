@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -36,6 +37,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
 import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminResponse> {
@@ -205,10 +207,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     }
 
     override fun onChanged(t: AdminResponse?) {
-        val adminList: ArrayList<Uncertified>? = t?.result?.uncertified as ArrayList<Uncertified>?
-        Logger.e("doori","onChanged = ${adminList.toString()}")
+        Logger.e("doori","onChanged = ${t.toString()}")
         Intent(this@LoginActivity,AdminMainActivity::class.java).run {
-            putParcelableArrayListExtra("adminResponse",adminList)
             startActivity(this)
         }
     }

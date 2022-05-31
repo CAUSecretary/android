@@ -2,6 +2,7 @@ package com.example.causecretary.ui.api
 
 
 import com.example.causecretary.ui.data.AdminResponse
+import com.example.causecretary.ui.data.CertifyResponse
 import com.example.causecretary.ui.data.RegisterResponse
 import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.data.dto.RegisterRequestData
@@ -41,7 +42,7 @@ interface RetrofitApi{
 
     @FormUrlEncoded
     @POST("auth/certify")
-    fun certify(@Field("userIdx")userIdx: Int,@Field("belong") belong: String)
+    fun certify(@Field("userIdx")userIdx: Int,@Field("belong") belong: String): Call<CertifyResponse>
 
    // @GET("users/register")
     //fun getImageList(): Call<AdminResponse>

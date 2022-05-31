@@ -20,6 +20,7 @@ import com.example.causecretary.ui.MainActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.AdminResponse
+import com.example.causecretary.ui.data.CertifyResponse
 import com.example.causecretary.ui.data.RegisterResponse
 import com.example.causecretary.ui.data.Uncertified
 import com.example.causecretary.ui.data.dto.AdminRequestData
@@ -186,29 +187,26 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
         })
     }
 
-    private fun certify(list: Uncertified) {
+    private fun certify(uncertified: Uncertified) {
         val retrofit = Retrofit.Builder()
             .baseUrl(ApiService.DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        val user = AdminRequestData("111@cau.ac.kr","111")
-        registerService.login(user).enqueue(object : Callback<RegisterResponse> {
+        registerService.certify(uncertified.userIdx,uncertified.belong).enqueue(object : Callback<CertifyResponse> {
             override fun onResponse(
-                call: Call<RegisterResponse>,
-                response: Response<RegisterResponse>
+                call: Call<CertifyResponse>,
+                response: Response<CertifyResponse>
             ) {
-                val registerResponse = response.body() as RegisterResponse
+                val certifyResponse = response.body() as CertifyResponse
                 //viewModel?.liveData?.postValue(registerResponse)
                 Logger.e("doori",response.toString())
-                Logger.e("doori",registerResponse.toString())
-                Intent(this@LoginActivity,MainActivity::class.java).run {
-                    startActivity(this)
-                }
+                Logger.e("doori",certifyResponse.toString())
+
             }
 
-            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CertifyResponse>, t: Throwable) {
                 Logger.e("doori",t.toString())
             }
 

@@ -11,7 +11,7 @@ import retrofit2.http.*
 
 class ApiService {
     companion object{
-        val DOMAIN = "http://10.210.61.15:9000/"
+        val DOMAIN = "http://3.34.136.35:9000/"
         val NAVIDOMAIN = "http://192.168.219.109:8080/"
     }
 }
@@ -41,6 +41,9 @@ interface RetrofitApi{
     @FormUrlEncoded
     @PATCH("auth/certify")
     fun certify(@Field("userIdx")userIdx: Int,@Field("belong") belong: String): Call<CertifyResponse>
+
+    @GET("get/each/event/main/{eventIdx}")
+    fun getEventDetail(@Path("eventIdx")eventIdx: Int): Call<EventDetailResponse>
 
     @GET("get/all/event/main/1")
     fun getEventOff():Call<EventOffResponse>

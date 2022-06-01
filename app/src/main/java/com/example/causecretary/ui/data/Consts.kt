@@ -15,6 +15,7 @@ class Consts {
         const val PASSWORD_MIN_LENGTH=8
         const val PASSWORD_MAX_LENGTH=16
 
+
         //kyc_validation
         //임시 영문이름logic
         const val engNameValidation = "^[a-zA-Z]{5,}$"
@@ -23,6 +24,8 @@ class Consts {
 
         // 가로 길이가 500px 미만이면 에러 발생
         const val ID_CARD_MIN_WIDTH = 600
+
+        const val LOCATION_PERMISSION_REQUEST_CODE = 100
     }
 
     enum class TermsType() {

@@ -58,7 +58,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
 
     // 현재위치
-    implementation "com.google.android.gms:play-services-location:16.0.0"
+    implementation "com.google.android.gms:play-services-location:19.0.1"
 
     // 네이버 지도 SDK
     implementation 'com.naver.maps:map-sdk:3.14.0'

@@ -172,6 +172,23 @@
                             app:layout_constraintStart_toEndOf="@id/btn_club"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="TouchTargetSizeCheck" />
+
+                        <Button
+                            android:id="@+id/btn_online"
+                            android:layout_width="75dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/btn_deep_round_white_selector"
+                            android:fontFamily="@font/kr_regular"
+                            android:includeFontPadding="false"
+                            android:onClick="@{clickListener}"
+                            android:text="온라인"
+                            android:textColor="@color/black"
+                            android:textSize="12dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/btn_struct"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="TouchTargetSizeCheck" />
                         <Button
                             android:id="@+id/btn_etc"
                             android:layout_width="75dp"
@@ -186,7 +203,7 @@
                             android:background="@drawable/btn_deep_round_white_selector"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/btn_struct"/>
+                            app:layout_constraintStart_toEndOf="@id/btn_online"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </HorizontalScrollView>
 

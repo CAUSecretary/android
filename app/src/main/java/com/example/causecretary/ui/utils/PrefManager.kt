@@ -27,11 +27,11 @@ class PrefManager (private val context: Context) {
      * @param loginId
      * @param token
      */
-    fun setLoginData(userIdx: Int, jwt: String) {
+    fun setLoginData(userIdx: Int, jwt: String,certified: String) {
         val prefs: SharedPreferences = context.getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE)
 
         Gson().apply {
-            val loginData: LoginData = LoginData(userIdx,jwt)
+            val loginData: LoginData = LoginData(userIdx,jwt,certified)
             val jsonToString: String = toJson(loginData)
             prefs.edit().putString(PREF_LOGIN_DATA, jsonToString).apply()
         }
@@ -41,7 +41,7 @@ class PrefManager (private val context: Context) {
      *
      * @return LoginData?
      */
-    fun getLoginData(): LoginData {
+    fun getLoginData(): LoginData? {
         val prefs: SharedPreferences = context.getSharedPreferences(PREF_FILENAME, Context.MODE_PRIVATE)
         Gson().apply {
             val jsonToString: String = prefs.getString(PREF_LOGIN_DATA, "")?:""

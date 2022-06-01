@@ -21,9 +21,7 @@ import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.AdminResponse
 import com.example.causecretary.ui.data.CertifyResponse
-import com.example.causecretary.ui.data.RegisterResponse
 import com.example.causecretary.ui.data.Uncertified
-import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.dialog.CustomDialog
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.ui.utils.PrefManager
@@ -97,7 +95,8 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.ib_close -> {
-                //TODO 여기 로그아웃해주는거 추가해야해!
+                //TODO 여기 로그아웃해주는거 추가해야해!료
+                PrefManager(this).removeLoginData()
                 Intent(this@AdminMainActivity, MainActivity::class.java).run {
                     startActivity(this)
                 }
@@ -134,7 +133,7 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
         val loginData = PrefManager(this@AdminMainActivity).getLoginData()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        registerService.getUncertifiedList(loginData.jwt,loginData.userIdx).enqueue(object : Callback<AdminResponse> {
+        registerService.getUncertifiedList(loginData!!.jwt,loginData.userIdx).enqueue(object : Callback<AdminResponse> {
             override fun onResponse(
                 call: Call<AdminResponse>,
                 response: Response<AdminResponse>

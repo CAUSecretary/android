@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -17,16 +16,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.R
-import com.example.causecretary.adapter.AdminAdapter
 import com.example.causecretary.databinding.ActivityLoginBinding
 import com.example.causecretary.ui.admin.AdminMainActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.AdminResponse
-import com.example.causecretary.ui.data.AdminResult
 import com.example.causecretary.ui.data.RegisterResponse
-import com.example.causecretary.ui.data.Uncertified
-import com.example.causecretary.ui.data.dto.AdminRequestData
+import com.example.causecretary.ui.data.dto.LoginRequestData
 import com.example.causecretary.ui.forgot.ForgotIdActivity
 import com.example.causecretary.ui.forgot.ForgotPwdActivity
 import com.example.causecretary.ui.register.RegisterActivity
@@ -38,7 +34,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
 import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminResponse> {
@@ -94,18 +89,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
                 Toast.makeText(this,"auto_login",Toast.LENGTH_SHORT).show()
             }
             R.id.btn_login -> {
-
-                /*
                 Logger.e("doori",binding.etEmail.text.toString())
                 if(binding.etEmail.text.toString() == "k1@cau.ac.kr"){
                     Logger.e("doori","if문 adminLogin")
                     adminLogin()
                 }else{
                     login()
-                }
-                */
-                Intent(this@LoginActivity,MainActivity::class.java).run {
-                    startActivity(this)
                 }
 
             }
@@ -129,7 +118,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             .build()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        val admin = AdminRequestData("k1@cau.ac.kr","1")
+        val admin = LoginRequestData("k1@cau.ac.kr","1")
         registerService.adminlogin(admin).enqueue(object : Callback<AdminResponse> {
             override fun onResponse(
                 call: Call<AdminResponse>,
@@ -188,16 +177,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             .build()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        val user = AdminRequestData("111@cau.ac.kr","111")
+        val user = LoginRequestData("111@cau.ac.kr","111")
         registerService.login(user).enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
                 val registerResponse = response.body() as RegisterResponse
-                //viewModel?.liveData?.postValue(registerResponse)
+                val user =registerResponse.result
                 Logger.e("doori",response.toString())
                 Logger.e("doori",registerResponse.toString())
+                PrefManager(this@LoginActivity).setLoginData(user.userIdx,user.jwt,user.certified)
                 Intent(this@LoginActivity,MainActivity::class.java).run {
                     startActivity(this)
                 }
@@ -213,7 +203,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     override fun onChanged(t: AdminResponse?) {
         Logger.e("doori","onChanged = ${t.toString()}")
         t?.result?.apply {
-            PrefManager(this@LoginActivity).setLoginData(this.userIdx,this.jwt)
+            PrefManager(this@LoginActivity).setLoginData(this.userIdx,this.jwt,"c")
         }
         Intent(this@LoginActivity,AdminMainActivity::class.java).run {
             startActivity(this)

@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.NonNull
@@ -27,6 +28,7 @@ import com.example.causecretary.ui.data.EventOffResponse
 import com.example.causecretary.ui.data.EventOnResponse
 import com.example.causecretary.ui.event.EventRegisterActivity
 import com.example.causecretary.ui.utils.Logger
+import com.example.causecretary.ui.utils.PrefManager
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.viewmodel.MainViewModel
 import com.naver.maps.geometry.LatLng
@@ -55,11 +57,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
 
     lateinit var eventOffData: EventOffResponse
     lateinit var eventOnData: EventOnResponse
-    var markerSoonList= mutableListOf<Marker>()
-    var markerStuList= mutableListOf<Marker>()
-    var markerClubList= mutableListOf<Marker>()
-    var markerStructureList= mutableListOf<Marker>()
-    var markerEtcList= mutableListOf<Marker>()
+    var markerSoonList = mutableListOf<Marker>()
+    var markerStuList = mutableListOf<Marker>()
+    var markerClubList = mutableListOf<Marker>()
+    var markerStructureList = mutableListOf<Marker>()
+    var markerEtcList = mutableListOf<Marker>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +88,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         //val cameraUpdate = CameraUpdate.scrollTo(initialPosition)
         //naverMap.moveCamera(cameraUpdate)
         val cameraPosition = CameraPosition(initialPosition, 16.0)
-        naverMap.cameraPosition =cameraPosition
+        naverMap.cameraPosition = cameraPosition
         naverMap.locationSource = locationSource
 
         //현재위치버튼
@@ -114,6 +116,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         setShowDimmed(true)
         drawable()
         getOffList()
+
+        //로그인 정보가 있으면 draw를 다르게
+       //settingDraw()
+    }
+
+    private fun settingDraw() {
+        val loginData = PrefManager(this@MainActivity).getLoginData()
+        binding.dlMain.apply {
+            if (loginData == null) {
+                tv_event.visibility = GONE
+                //tv_event_plz.visibility = GONE
+                tv_like.visibility = GONE
+            } else {
+                Logger.e("doori",loginData.toString())
+                tv_login.visibility= GONE
+                if(loginData.certified=="F"){
+                    tv_event.visibility= GONE
+                }else{
+                  //  tv_event_plz.visibility=GONE
+                }
+            }
+        }
     }
 
     private fun getOffList() {
@@ -175,6 +199,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
 
 
     private fun drawable() {
+        settingDraw()
         binding.dlMain.apply {
             tv_login.setOnClickListener {
                 Intent(this@MainActivity, LoginActivity::class.java).run {
@@ -223,7 +248,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnSoon.isSelected = true
                         btnClub.isSelected = false
                         btnEtc.isSelected = false
-                        btnOnline.isSelected=false
+                        btnOnline.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = false
 
@@ -245,7 +270,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnSoon.isSelected = false
                         btnClub.isSelected = true
                         btnEtc.isSelected = false
-                        btnOnline.isSelected=false
+                        btnOnline.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = false
                     }
@@ -262,7 +287,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnSoon.isSelected = false
                         btnClub.isSelected = false
                         btnEtc.isSelected = true
-                        btnOnline.isSelected=false
+                        btnOnline.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = false
                     }
@@ -279,7 +304,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnSoon.isSelected = false
                         btnClub.isSelected = false
                         btnEtc.isSelected = false
-                        btnOnline.isSelected=false
+                        btnOnline.isSelected = false
                         btnStruct.isSelected = true
                         btnStu.isSelected = false
                     }
@@ -296,7 +321,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnSoon.isSelected = false
                         btnClub.isSelected = false
                         btnEtc.isSelected = false
-                        btnOnline.isSelected=true
+                        btnOnline.isSelected = true
                         btnStruct.isSelected = false
                         btnStu.isSelected = false
                     }
@@ -311,7 +336,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnSoon.isSelected = false
                         btnClub.isSelected = false
                         btnEtc.isSelected = false
-                        btnOnline.isSelected=false
+                        btnOnline.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = true
                     }
@@ -466,11 +491,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
-        if (locationSource.onRequestPermissionsResult(requestCode, permissions,
-                grantResults)) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (locationSource.onRequestPermissionsResult(
+                requestCode, permissions,
+                grantResults
+            )
+        ) {
             if (!locationSource.isActivated) { // 권한 거부됨
                 naverMap.locationTrackingMode = LocationTrackingMode.None
             }
@@ -479,58 +509,68 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    fun setSoonMarkerSet(){
+    fun setSoonMarkerSet() {
         val eventList = eventOffData.result
-        for (e in eventList){
-            if(e.belong =="예정"){
-                val marker=Marker()
+        for (e in eventList) {
+            if (e.belong == "예정") {
+                val marker = Marker()
                 markerSoonList.add(marker)
-                setMark(marker,e.latitude,e.longitude,R.drawable.ic_location_soon,e.eventName)
-            }
-        }
-    }
-    fun setStuMarkerSet(){
-        val eventList = eventOffData.result
-        for (e in eventList){
-            if(e.belong =="학생회"){
-                val marker=Marker()
-                markerStuList.add(marker)
-                setMark(marker,e.latitude,e.longitude,R.drawable.ic_location_red,e.eventName)
-            }
-        }
-    }
-    fun setClubMarkerSet(){
-        val eventList = eventOffData.result
-        for (e in eventList){
-            if(e.belong =="동아리"){
-                val marker=Marker()
-                markerClubList.add(marker)
-                setMark(marker,e.latitude,e.longitude,R.drawable.ic_location_club,e.eventName)
-            }
-        }
-    }
-    fun setStructureMarkerSet(){
-        val eventList = eventOffData.result
-        for (e in eventList){
-            if(e.belong =="건물"){
-                val marker=Marker()
-                markerStructureList.add(marker)
-                setMark(marker,e.latitude,e.longitude,R.drawable.ic_location_structure,e.eventName)
-            }
-        }
-    }
-    fun setEtcMarkerSet(){
-        val eventList = eventOffData.result
-        for (e in eventList){
-            if(e.belong =="기타"){
-                val marker=Marker()
-                markerEtcList.add(marker)
-                setMark(marker,e.latitude,e.longitude,R.drawable.ic_location_etc,e.eventName)
+                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_soon, e.eventName)
             }
         }
     }
 
-    fun setAllMarker(){
+    fun setStuMarkerSet() {
+        val eventList = eventOffData.result
+        for (e in eventList) {
+            if (e.belong == "학생회") {
+                val marker = Marker()
+                markerStuList.add(marker)
+                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_red, e.eventName)
+            }
+        }
+    }
+
+    fun setClubMarkerSet() {
+        val eventList = eventOffData.result
+        for (e in eventList) {
+            if (e.belong == "동아리") {
+                val marker = Marker()
+                markerClubList.add(marker)
+                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_club, e.eventName)
+            }
+        }
+    }
+
+    fun setStructureMarkerSet() {
+        val eventList = eventOffData.result
+        for (e in eventList) {
+            if (e.belong == "건물") {
+                val marker = Marker()
+                markerStructureList.add(marker)
+                setMark(
+                    marker,
+                    e.latitude,
+                    e.longitude,
+                    R.drawable.ic_location_structure,
+                    e.eventName
+                )
+            }
+        }
+    }
+
+    fun setEtcMarkerSet() {
+        val eventList = eventOffData.result
+        for (e in eventList) {
+            if (e.belong == "기타") {
+                val marker = Marker()
+                markerEtcList.add(marker)
+                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_etc, e.eventName)
+            }
+        }
+    }
+
+    fun setAllMarker() {
         setClubMarkerSet()
         setEtcMarkerSet()
         setSoonMarkerSet()
@@ -539,40 +579,46 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         setShowDimmed(false)
     }
 
-    fun deletAllMarker(){
+    fun deletAllMarker() {
         markerStuList.apply {
-            for(e in markerStuList){
-                e.map=null
+            for (e in markerStuList) {
+                e.map = null
             }
-           removeAll(this)
+            removeAll(this)
         }
         markerClubList.apply {
-            for(e in markerClubList){
-                e.map=null
+            for (e in markerClubList) {
+                e.map = null
             }
             removeAll(this)
         }
         markerEtcList.apply {
-            for(e in markerEtcList){
-                e.map=null
+            for (e in markerEtcList) {
+                e.map = null
             }
             removeAll(this)
         }
         markerSoonList.apply {
-            for(e in markerSoonList){
-                e.map=null
+            for (e in markerSoonList) {
+                e.map = null
             }
             removeAll(this)
         }
         markerStructureList.apply {
-            for(e in markerStructureList){
-                e.map=null
+            for (e in markerStructureList) {
+                e.map = null
             }
             removeAll(this)
         }
     }
 
-    private fun setMark(marker: Marker, lat: Double, lng: Double, resourceID: Int,eventName: String) {
+    private fun setMark(
+        marker: Marker,
+        lat: Double,
+        lng: Double,
+        resourceID: Int,
+        eventName: String
+    ) {
         //원근감 표시
         marker.isIconPerspectiveEnabled = true
         //아이콘 지정
@@ -591,11 +637,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         marker.captionText = eventName
         //마커크기
         marker.width = 100
-        marker.height=100
+        marker.height = 100
 
         marker.onClickListener = Overlay.OnClickListener {
-            for(e in eventOffData.result){
-                if(e.eventName==marker.captionText){
+            for (e in eventOffData.result) {
+                if (e.eventName == marker.captionText) {
                     getEventDetail(e.eventIdx)
                     break
                 }
@@ -617,7 +663,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 response: Response<EventDetailResponse>
             ) {
 
-               // val eventDetail = response.body() as EventDetailResponse
+                // val eventDetail = response.body() as EventDetailResponse
                 //viewModel?.liveData?.postValue(registerResponse)
                 Logger.e("doori", response.toString())
                 //Logger.e("doori", eventDetail.toString())

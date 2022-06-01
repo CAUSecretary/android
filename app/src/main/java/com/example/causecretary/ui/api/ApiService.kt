@@ -2,9 +2,8 @@ package com.example.causecretary.ui.api
 
 
 import com.example.causecretary.ui.data.*
-import com.example.causecretary.ui.data.dto.AdminRequestData
+import com.example.causecretary.ui.data.dto.LoginRequestData
 import com.example.causecretary.ui.data.dto.RegisterRequestData
-import com.squareup.okhttp.RequestBody
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -23,7 +22,7 @@ interface RetrofitApi{
     fun postUsersMulti(@Part file: MultipartBody.Part): Call<String>
 
     @POST("auth/authlogin")
-    fun adminlogin(@Body admin:AdminRequestData): Call<AdminResponse>
+    fun adminlogin(@Body admin:LoginRequestData): Call<AdminResponse>
 
 
     @POST("users/register")
@@ -31,7 +30,7 @@ interface RetrofitApi{
 
 
     @POST("auth/userlogin")
-    fun login(@Body admin:AdminRequestData): Call<RegisterResponse>
+    fun login(@Body admin:LoginRequestData): Call<RegisterResponse>
 
     @FormUrlEncoded
     @POST("auth/uncertified")

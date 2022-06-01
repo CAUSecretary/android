@@ -33,7 +33,7 @@ import com.example.causecretary.ui.api.ApiService.Companion.DOMAIN
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.AdminResponse
 import com.example.causecretary.ui.data.RegisterResponse
-import com.example.causecretary.ui.data.dto.AdminRequestData
+import com.example.causecretary.ui.data.dto.LoginRequestData
 import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.utils.GmailSender
 import com.example.causecretary.ui.utils.Logger
@@ -246,7 +246,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val admin = AdminRequestData("k1@cau.ac.kr","1")
+        val admin = LoginRequestData("k1@cau.ac.kr","1")
 
         val registerService = retrofit.create(RetrofitApi::class.java)
         registerService.adminlogin(admin).enqueue(object : Callback<AdminResponse> {

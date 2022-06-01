@@ -90,11 +90,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             }
             R.id.btn_login -> {
                 Logger.e("doori",binding.etEmail.text.toString())
-                if(binding.etEmail.text.toString() == "k1@cau.ac.kr"){
+                /*if(binding.etEmail.text.toString() == "k1@cau.ac.kr"){
                     Logger.e("doori","if문 adminLogin")
                     adminLogin()
                 }else{
                     login()
+                }*/
+                Intent(this@LoginActivity,MainActivity::class.java).run {
+                    startActivity(this)
                 }
 
             }

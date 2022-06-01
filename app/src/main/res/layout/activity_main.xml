@@ -222,6 +222,7 @@
                 android:id="@+id/fl_event"
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

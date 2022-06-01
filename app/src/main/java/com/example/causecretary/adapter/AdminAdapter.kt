@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.causecretary.databinding.ItemRecyclerBinding
 import com.example.causecretary.ui.data.Uncertified
 
-class AdminAdapter(list: MutableList<Uncertified>): RecyclerView.Adapter<Holder>() {
+class AdminAdapter(list: MutableList<Uncertified>): RecyclerView.Adapter<AdminHolder>() {
     var adminList = list
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminHolder {
         val binding = ItemRecyclerBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return Holder(binding)
+        return AdminHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
+    override fun onBindViewHolder(holder: AdminHolder, position: Int) {
         holder.binding.apply {
             item = adminList[position]
         }
@@ -47,4 +47,4 @@ class AdminAdapter(list: MutableList<Uncertified>): RecyclerView.Adapter<Holder>
         this.itemClickListener = itemClickListener
     }
 }
-class  Holder(val binding:ItemRecyclerBinding):RecyclerView.ViewHolder(binding.root)
+class  AdminHolder(val binding:ItemRecyclerBinding):RecyclerView.ViewHolder(binding.root)

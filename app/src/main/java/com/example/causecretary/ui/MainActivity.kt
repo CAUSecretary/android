@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.NonNull
@@ -115,7 +116,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         binding.clickListener = this@MainActivity
         setShowDimmed(true)
         drawable()
-        getOffList()
+       // getOffList()
 
         //로그인 정보가 있으면 draw를 다르게
        //settingDraw()
@@ -236,8 +237,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         //TODO("Not yet implemented")
         when (view?.id) {
             R.id.iv_menu -> {
-                hideKeyboard()
+                //hideKeyboard()
                 binding.dlMain.openDrawer(GravityCompat.START)
+                //binding.flEvent.visibility = VISIBLE
             }
             R.id.btn_soon -> {
                 hideKeyboard()

@@ -1,22 +1,16 @@
 package com.example.causecretary.ui
 
-import android.Manifest
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -29,7 +23,6 @@ import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.naviAr.ArActivity
 import com.example.causecretary.ui.data.EventOffResponse
 import com.example.causecretary.ui.data.EventOnResponse
-import com.example.causecretary.ui.data.dto.AdminRequestData
 import com.example.causecretary.ui.event.EventRegisterActivity
 import com.example.causecretary.ui.utils.UiUtils
 import com.example.causecretary.viewmodel.MainViewModel
@@ -58,14 +51,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
     lateinit var routingService: RetrofitApi
     private var viewModel: MainViewModel? = null
 
-    lateinit var eventOffData:EventOffResponse
-    lateinit var eventOnData:EventOnResponse
+    lateinit var eventOffData: EventOffResponse
+    lateinit var eventOnData: EventOnResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel?.liveData?.observe(this,this)
+        viewModel?.liveData?.observe(this, this)
 
         mapView = findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)
@@ -120,15 +113,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             ) {
                 eventOffData = response.body() as EventOffResponse
                 //viewModel?.liveData?.postValue(registerResponse)
-                Logger.e("doori",response.toString())
-                Logger.e("doori",eventOffData.toString())
+                Logger.e("doori", response.toString())
+                Logger.e("doori", eventOffData.toString())
 
                 getOnList()
 
             }
 
             override fun onFailure(call: Call<EventOffResponse>, t: Throwable) {
-                Logger.e("doori",t.toString())
+                Logger.e("doori", t.toString())
             }
 
         })
@@ -150,14 +143,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 eventOnData = response.body() as EventOnResponse
                 viewModel?.liveData?.postValue(eventOnData)
                 //viewModel?.liveData?.postValue(registerResponse)
-                Logger.e("doori",response.toString())
-                Logger.e("doori",eventOnData.toString())
+                Logger.e("doori", response.toString())
+                Logger.e("doori", eventOnData.toString())
 
 
             }
 
             override fun onFailure(call: Call<EventOnResponse>, t: Throwable) {
-                Logger.e("doori",t.toString())
+                Logger.e("doori", t.toString())
             }
 
         })
@@ -171,7 +164,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 }
             }
             tv_event.setOnClickListener {
-                Intent(this@MainActivity,EventRegisterActivity::class.java).run {
+                Intent(this@MainActivity, EventRegisterActivity::class.java).run {
                     startActivity(this)
                 }
             }
@@ -280,54 +273,57 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             }
             R.id.btn_search -> {
                 hideKeyboard()
-                var endNode = findViewById<EditText>(R.id.et_search).text.toString()
-                var curLat: Double
-                var curLon: Double
-                if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    return
-                } else {
-                    val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                    val curLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                    curLon = curLocation?.longitude!!
-                    curLat = curLocation.latitude
+                Intent(this@MainActivity, RouteActivity::class.java).run {
+                    startActivity(this)
                 }
-
-                Logger.d("Navi", "curLon: $curLon curLat: $curLat")
-                Logger.d("Navi", "endNode: $endNode")
-
-
-                routingService.searchRoute_weigh(endNode, curLat.toString(), curLon.toString())
-                    .enqueue(object : Callback<String> {
-                        override fun onFailure(call: Call<String>, t: Throwable) {
-                            //실패할 경우
-                            Log.d("DEBUG", t.message.toString())
-                            var dialog = AlertDialog.Builder(this@MainActivity)
-                            dialog.setTitle("에러")
-                            dialog.setMessage("통신에 실패했습니다.")
-                            dialog.show()
-                        }
-
-                        override fun onResponse(call: Call<String>, response: Response<String>) {
-                            //정상응답이 올경우
-                            var result: String
-                            result = response.body().toString()
-                            println(result)
-
-                            var searchResult: JSONObject
-                            searchResult = JSONObject(result)
-
-                            parseJSON(searchResult)
-                        }
-                    })
+//                var endNode = findViewById<EditText>(R.id.et_search).text.toString()
+//                var curLat: Double
+//                var curLon: Double
+//                if (ActivityCompat.checkSelfPermission(
+//                        this,
+//                        Manifest.permission.ACCESS_FINE_LOCATION
+//                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                        this,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION
+//                    ) != PackageManager.PERMISSION_GRANTED
+//                ) {
+//                    // TODO: Consider calling
+//                    //    ActivityCompat#requestPermissions
+//                    return
+//                } else {
+//                    val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//                    val curLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+//                    curLon = curLocation?.longitude!!
+//                    curLat = curLocation.latitude
+//                }
+//
+//                Logger.d("Navi", "curLon: $curLon curLat: $curLat")
+//                Logger.d("Navi", "endNode: $endNode")
+//
+//
+//                routingService.searchRoute_weigh(endNode, curLat.toString(), curLon.toString())
+//                    .enqueue(object : Callback<String> {
+//                        override fun onFailure(call: Call<String>, t: Throwable) {
+//                            //실패할 경우
+//                            Log.d("DEBUG", t.message.toString())
+//                            var dialog = AlertDialog.Builder(this@MainActivity)
+//                            dialog.setTitle("에러")
+//                            dialog.setMessage("통신에 실패했습니다.")
+//                            dialog.show()
+//                        }
+//
+//                        override fun onResponse(call: Call<String>, response: Response<String>) {
+//                            //정상응답이 올경우
+//                            var result: String
+//                            result = response.body().toString()
+//                            println(result)
+//
+//                            var searchResult: JSONObject
+//                            searchResult = JSONObject(result)
+//
+//                            parseJSON(searchResult)
+//                        }
+//                    })
             }
 
             R.id.cl_sv -> {
@@ -408,10 +404,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
     }
 
     override fun onChanged(t: EventOnResponse?) {
-        Logger.e("doori","onChanged = ${t.toString()}")
+        Logger.e("doori", "onChanged = ${t.toString()}")
         setShowDimmed(false)
 
     }
+
     private fun setShowDimmed(isLoading: Boolean) {
         viewModel?.apply {
             if (isLoading) {

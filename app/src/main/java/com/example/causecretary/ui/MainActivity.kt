@@ -20,7 +20,7 @@ import com.example.causecretary.databinding.ActivityMainBinding
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.utils.Logger
-import com.example.causecretary.naviAr.ArActivity
+import com.example.causecretary.naviAr.ARActivity
 import com.example.causecretary.ui.data.EventOffResponse
 import com.example.causecretary.ui.data.EventOnResponse
 import com.example.causecretary.ui.event.EventRegisterActivity
@@ -209,7 +209,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnStu.isSelected = false
 
                         Logger.d("Navi", "ArBtn click")
-                        Intent(this@MainActivity, ArActivity::class.java).run {
+                        Intent(this@MainActivity, ARActivity::class.java).run {
                             startActivity(this)
                         }
                     }

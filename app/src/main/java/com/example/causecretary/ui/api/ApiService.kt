@@ -12,7 +12,7 @@ import retrofit2.http.*
 class ApiService {
     companion object{
         val DOMAIN = "http://10.210.61.15:9000/"
-        val NAVIDOMAIN = "http://10.210.61.167:8080/"
+        val NAVIDOMAIN = "http://192.168.219.109:8080/"
     }
 }
 

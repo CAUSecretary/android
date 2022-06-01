@@ -37,7 +37,9 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="g8qflbvml2" />
-
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
         <activity
             android:name=".ui.forgot.ForgotIdActivity"
             android:exported="false" />
@@ -54,7 +56,7 @@
             android:name=".ui.register.AuthPhoneActivity"
             android:exported="false" />
         <activity
-            android:name=".naviAr.ArActivity"
+            android:name=".naviAr.ARActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:screenOrientation="locked"

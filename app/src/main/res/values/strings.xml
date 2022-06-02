@@ -8,19 +8,20 @@
     <string name="login">로그인</string>
 
     <string-array name="structure_name">
-        <item>건물을 선택해주세요.</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
-        <item>0관</item>
+        <item></item>
+        <item>208관 제2공학관</item>
+        <item>207관 제1공학관 봅스터홀</item>
+        <item>204관 중앙도서관</item>
+        <item>203관 서라벌홀</item>
+        <item>테니스장 농구장</item>
+        <item>201관 본관</item>
+        <item>303관 법학관</item>
+        <item>302관 대학원</item>
+        <item>310관 100주년 기념관</item>
+        <item>운동장</item>
+        <item>107관 학생회관</item>
+        <item>101관 영신관</item>
+        <item>정문</item>
     </string-array>
 
     <string-array name="cau_univ">

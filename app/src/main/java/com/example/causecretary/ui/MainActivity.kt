@@ -14,6 +14,8 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -111,9 +113,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         setShowDimmed(true)
         drawable()
         getOffList()
+        setSpinner()
 
         //로그인 정보가 있으면 draw를 다르게
        //settingDraw()
+    }
+
+    private fun setSpinner() {
+        hideKeyboard()
+        val buildingList = resources.getStringArray(R.array.structure_name)
+        val buildingAdapter = ArrayAdapter(
+            this,
+            com.naver.maps.map.R.layout.support_simple_spinner_dropdown_item, buildingList
+        )
+        binding.spSearch.adapter = buildingAdapter
+
     }
 
     private fun settingDraw() {
@@ -359,6 +373,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             R.id.btn_search -> {
                 hideKeyboard()
                 Intent(this@MainActivity, RouteActivity::class.java).run {
+                    putExtra("endPoint",binding.spSearch.selectedItem.toString())
                     startActivity(this)
                 }
             }

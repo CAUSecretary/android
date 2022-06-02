@@ -23,6 +23,7 @@ import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.AdminResponse
 import com.example.causecretary.ui.data.RegisterResponse
 import com.example.causecretary.ui.data.dto.LoginRequestData
+import com.example.causecretary.ui.event.EventActivity
 import com.example.causecretary.ui.forgot.ForgotIdActivity
 import com.example.causecretary.ui.forgot.ForgotPwdActivity
 import com.example.causecretary.ui.register.RegisterActivity
@@ -98,7 +99,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
                 }*/
                 Intent(this@LoginActivity,MainActivity::class.java).run {
                     startActivity(this)
-                }
+               }
+
+                /*Intent(this@LoginActivity,EventActivity::class.java).run {
+                    startActivity(this)
+                }*/
 
             }
             R.id.tv_forgot_id -> {

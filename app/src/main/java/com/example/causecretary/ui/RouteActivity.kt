@@ -2,10 +2,12 @@ package com.example.causecretary.ui
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,10 +25,15 @@ import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRouteBinding
 import com.example.causecretary.naviAr.ARActivity
+import com.example.causecretary.naviAr.latLng
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.Consts
 import com.example.causecretary.ui.utils.Logger
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.CameraPosition
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapView
@@ -50,7 +57,9 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
     var multipartPathOverlay = MultipartPathOverlay()
     lateinit var routingService: RetrofitApi
     private lateinit var locationSource: FusedLocationSource
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var endPoint: String
+    private var currentLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +69,7 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
         mapView.getMapAsync(this)
         locationSource =
             FusedLocationSource(this, Consts.LOCATION_PERMISSION_REQUEST_CODE)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         initData()
         initView()
     }
@@ -69,10 +79,15 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
         // 카메라 초기 위치 설정
         Logger.d("Navi", "onMapReady start")
         this.naverMap = naverMap
-        val initialPosition = LatLng(37.50335, 126.9574114)
-        val cameraUpdate = CameraUpdate.scrollTo(initialPosition)
-        naverMap.moveCamera(cameraUpdate)
+
         naverMap.locationSource = locationSource
+
+        getCurrentLocation {
+            var latLng: LatLng = LatLng(it.latitude, it.longitude)
+            val cameraUpdate = CameraUpdate.scrollTo(latLng)
+            naverMap.moveCamera(cameraUpdate)
+
+        }
 
         //현재위치버튼
         naverMap.apply {
@@ -117,6 +132,31 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
                 endPointLat=getEndPointIdx(this)
         }*/
 
+    }
+    private fun getCurrentLocation(onSuccess: (Location) -> Unit) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            currentLocation = location
+            onSuccess(location)
+        }.addOnFailureListener {
+            Log.e(TAG, "Could not get location")
+        }
     }
 
     private fun getEndPointIdx(endPoint: String?): String {
@@ -178,23 +218,9 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
 
                 var curLat: Double
                 var curLon: Double
-                if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    return
-                } else {
-                    val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                    val curLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                    curLon = curLocation?.longitude!!
-                    curLat = curLocation.latitude
-                }
+
+                curLon = currentLocation!!.longitude
+                curLat = currentLocation!!.latitude
 
                 Logger.d("Navi", "curLon: $curLon curLat: $curLat")
                 Logger.d("Navi", "endNode: $endPoint")

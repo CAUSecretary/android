@@ -307,36 +307,6 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
         return result
     }
 
-    private fun getNearbyPlaces(location: Location) {
-        val apiKey = this.getString(R.string.google_maps_key)
-        placesService.nearbyPlaces(
-            apiKey = apiKey,
-            location = "${location.latitude},${location.longitude}",
-            radiusInMeters = 20000,
-            placeName = "point_of_interest"
-        ).enqueue(
-            object : Callback<NearbyPlacesResponse> {
-                override fun onFailure(call: Call<NearbyPlacesResponse>, t: Throwable) {
-                    Log.e(TAG, "Failed to get nearby places", t)
-                }
-
-                override fun onResponse(
-                    call: Call<NearbyPlacesResponse>,
-                    response: Response<NearbyPlacesResponse>
-                ) {
-                    if (!response.isSuccessful) {
-                        Log.e(TAG, "Failed to get nearby places")
-                        return
-                    }
-
-                    val places = response.body()?.results ?: emptyList()
-                    this@ARActivity.places = places
-                }
-            }
-        )
-    }
-
-
     private fun isSupportedDevice(): Boolean {
         val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val openGlVersionString = activityManager.deviceConfigurationInfo.glEsVersion

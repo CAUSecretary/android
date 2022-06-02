@@ -50,7 +50,7 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
     var multipartPathOverlay = MultipartPathOverlay()
     lateinit var routingService: RetrofitApi
     private lateinit var locationSource: FusedLocationSource
-    lateinit var endPointLat: LatLng
+    lateinit var endPoint: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,8 +106,8 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
         //여긴 메인에서 길찾기
         intent.getStringExtra("endPoint")?.run {
             binding.etEnd.text = this
-            endPointLat = getEndPointIdx(this)
-            Logger.e("doori", "end Name = $this , 좌표 = ${endPointLat.toString()}")
+            endPoint = getEndPointIdx(this)
+            Logger.e("doori", "end Name = $this , 이름 = ${endPoint.toString()}")
         }
 
 
@@ -119,49 +119,49 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
 
     }
 
-    private fun getEndPointIdx(endPoint: String?): LatLng {
+    private fun getEndPointIdx(endPoint: String?): String {
         when (endPoint) {
             "208관 제2공학관" -> {
-                return LatLng(37.50335, 126.9574114)
+                return "208관"
             }
             "207관 제1공학관 봅스터홀" -> {
-                return LatLng(37.5035176, 126.9577494)
+                return "207관"
             }
             "204관 중앙도서관" -> {
-                return LatLng(37.505075, 126.9581406)
+                return "204관"
             }
             "203관 서라벌홀" -> {
-                return LatLng(37.5045856, 126.9573495)
+                return "203관"
             }
             "테니스장 농구장" -> {
-                return LatLng(37.5044116, 126.9571785)
+                return "테니스장"
             }
             "201관 본관" -> {
-                return LatLng(37.5054274, 126.9570822)
+                return "201관"
             }
             "303관 법학관" -> {
-                return LatLng(37.5047866, 126.9560113)
+                return "303관"
             }
             "302관 대학원" -> {
-                return LatLng(37.5047971, 126.9549294)
+                return "302관"
             }
             "310관 100주년 기념관" -> {
-                return LatLng(37.504074, 126.9558039)
+                return "310관"
             }
             "운동장" -> {
-                return LatLng(37.5039546, 126.9563895)
+                return "운동장"
             }
             "107관 학생회관" -> {
-                return LatLng(37.5061189, 126.9574165)
+                return "107관"
             }
             "101관 영신관" -> {
-                return LatLng(37.5061041, 126.9580093)
+                return "101관"
             }
             "정문" -> {
-                return LatLng(37.50712, 126.9590795)
+                return "정문"
             }
         }
-        return LatLng(37.50335, 126.9574114)
+        return "후문"
     }
 
     override fun onClick(view: View?) {
@@ -175,7 +175,7 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
             R.id.btn_route -> {
                 //길찾기 로직 수행
 
-                var endNode = findViewById<EditText>(R.id.et_end).text.toString()
+
                 var curLat: Double
                 var curLon: Double
                 if (ActivityCompat.checkSelfPermission(
@@ -197,10 +197,10 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
                 }
 
                 Logger.d("Navi", "curLon: $curLon curLat: $curLat")
-                Logger.d("Navi", "endNode: $endNode")
+                Logger.d("Navi", "endNode: $endPoint")
 
 
-                routingService.searchRoute_weigh(endNode, curLat.toString(), curLon.toString())
+                routingService.searchRoute_weigh(endPoint, curLat.toString(), curLon.toString())
                     .enqueue(object : Callback<String> {
                         override fun onFailure(call: Call<String>, t: Throwable) {
                             //실패할 경우
@@ -226,14 +226,14 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
             }
             R.id.go_ar -> {
                 //TODO AR로직수행 버튼
-                var endNode = findViewById<EditText>(R.id.et_end).text.toString()
+
                 val intent: Intent = Intent(this@RouteActivity, ARActivity::class.java)
 
-                intent.putExtra("endNode", endNode)
+                intent.putExtra("endNode", endPoint)
 
                 Toast.makeText(this, "ar", Toast.LENGTH_SHORT).show()
                 Intent(this@RouteActivity, ARActivity::class.java).run {
-                    startActivity(this)
+                    startActivity(intent)
                 }
             }
         }

@@ -6,12 +6,12 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.getSystemService
 import com.example.causecretary.R
-import com.example.causecretary.naviAr.api.NearbyPlacesResponse
 import com.example.causecretary.naviAr.api.PlacesService
 import com.example.causecretary.naviAr.ar.PlaceNode
 import com.example.causecretary.naviAr.ar.PlacesArFragment
@@ -39,17 +38,23 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.ar.core.Anchor
 import com.google.ar.sceneform.AnchorNode
-import com.naver.maps.map.overlay.MultipartPathOverlay
-import com.naver.maps.map.overlay.PathOverlay
+import com.google.ar.sceneform.Node
+import com.google.ar.sceneform.math.Quaternion
+import com.google.ar.sceneform.math.Vector3
+import com.google.ar.sceneform.rendering.*
+import com.google.ar.sceneform.ux.TransformableNode
 import org.json.JSONObject
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.function.Consumer
+import java.util.function.Function
+
 
 class ARActivity : AppCompatActivity(), SensorEventListener {
 
@@ -74,6 +79,8 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
     private var places: List<Place>? = null
     private var currentLocation: Location? = null
     private var map: GoogleMap? = null
+    private var isTapped = false
+    private var placeList: ArrayList<PlaceNode> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,12 +125,26 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun setUpAr() {
+
         arFragment.setOnTapArPlaneListener { hitResult, _, _ ->
-            // Create anchor
-            val anchor = hitResult.createAnchor()
-            anchorNode = AnchorNode(anchor)
-            anchorNode?.setParent(arFragment.arSceneView.scene)
-            addPlaces(anchorNode!!)
+
+            if (!isTapped){
+                // Create anchor
+                val anchor = hitResult.createAnchor()
+                anchorNode = AnchorNode(anchor)
+                anchorNode?.setParent(arFragment.arSceneView.scene)
+                addPlaces(anchorNode!!)
+                isTapped = true
+                drawArrow()
+
+            }else{
+                for (placeNode in placeList) {
+                    placeNode.setParent(null)
+                    placeList.drop(1)
+                }
+                isTapped = false
+            }
+
         }
     }
 
@@ -148,6 +169,7 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
             placeNode.setOnTapListener { _, _ ->
                 showInfoWindow(place)
             }
+            placeList.add(placeNode)
 
             // Add the place in maps
             map?.let {
@@ -217,6 +239,69 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
             }
             map = googleMap
         }
+    }
+
+    private fun drawArrow(){
+
+        for (i in 1 until placeList.size) {
+            var firstNode = placeList[i-1]
+            var secondNode = placeList[i]
+
+            drawLine(firstNode.parent as AnchorNode, secondNode.parent as AnchorNode)
+        }
+    }
+
+    private fun drawLine(node1: AnchorNode, node2: AnchorNode) {
+
+        Log.d(TAG, "drawLine")
+
+        val point1: Vector3 = node1.worldPosition
+        val point2: Vector3 = node2.worldPosition
+
+        val difference = Vector3.subtract(point1, point2)
+        val directionFromTopToBottom = difference.normalized()
+        val rotationFromAToB: Quaternion =
+            Quaternion.lookRotation(directionFromTopToBottom, Vector3.up())
+        MaterialFactory.makeOpaqueWithColor(applicationContext, Color(0F, 255F, 244F))
+            .thenAccept { material: Material? ->
+                /* Then, create a rectangular prism, using ShapeFactory.makeCube() and use the difference vector
+                   to extend to the necessary length.  */Log.d(
+                TAG, "drawLine insie .thenAccept"
+            )
+                val model = ShapeFactory.makeCube(
+                    Vector3(.01f, .01f, difference.length()),
+                    Vector3.zero(), material
+                )
+                /* Last, set the world rotation of the node to the rotation calculated earlier and set the world position to
+               the midpoint between the given points . */
+                val lineAnchor: Anchor? = node2.anchor
+                var nodeForLine = Node()
+                nodeForLine.setParent(node1)
+                nodeForLine.setRenderable(model)
+                nodeForLine.setWorldPosition(Vector3.add(point1, point2).scaled(.5f))
+                nodeForLine.setWorldRotation(rotationFromAToB)
+            }
+        ModelRenderable.builder()
+            .setSource(this, Uri.parse("model.sfb"))
+            .build()
+            .thenAccept {
+                    modelRenderable: ModelRenderable? ->
+                val anchorNode =
+                    AnchorNode(node1.anchor)
+                val transformableNode =
+                    TransformableNode(arFragment.getTransformationSystem())
+                transformableNode.setParent(anchorNode)
+                transformableNode.renderable = modelRenderable
+                transformableNode.worldRotation = rotationFromAToB
+                arFragment.getArSceneView().getScene().addChild(anchorNode)
+                transformableNode.select()
+            }
+            .exceptionally(Function<Throwable, Void?> { throwable: Throwable ->
+                val builder =
+                    AlertDialog.Builder(this)
+                builder.setMessage(throwable.message).show()
+                null
+            })
     }
 
     private fun getCurrentLocation(onSuccess: (Location) -> Unit) {
@@ -300,7 +385,15 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
 
             var latLng: GeometryLocation = GeometryLocation(lat, lon)
             var geometry:Geometry = Geometry(latLng)
-            var place : Place = Place(id, "",name, geometry)
+            var place : Place
+            if(name.equals("null")){
+                place = Place(id, "", "${(i + 1)}: 경유지", geometry)
+
+            }else{
+                place = Place(id, "", "${(i + 1)}: " + name, geometry)
+            }
+
+
             result.add(place)
         }
 

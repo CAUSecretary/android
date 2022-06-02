@@ -1,6 +1,7 @@
 package com.example.causecretary.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.causecretary.databinding.EventRecyclerBinding
@@ -25,6 +26,11 @@ class EventAdapter(eventBuildList: MutableList<EventOffResult>) : RecyclerView.A
             tvEventLocation.text=event.location
             tvEventName.text=event.eventName
         }
+
+        //row 리스너
+        holder.binding.root.setOnClickListener {
+            itemClickListener.onClick(it,position)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -38,5 +44,17 @@ class EventAdapter(eventBuildList: MutableList<EventOffResult>) : RecyclerView.A
     fun getList(position: Int): EventOffResult {
         return eventList[position]
     }
+
+    //리스너 등록
+    interface OnItemClickListener{
+        fun onClick(v: View, position: Int)
+    }
+    private lateinit var itemClickListener : OnItemClickListener
+
+    fun setItemClickListener(itemClickListener: OnItemClickListener) {
+        this.itemClickListener = itemClickListener
+    }
 }
+
+
 class  EventHolder(val binding: EventRecyclerBinding):RecyclerView.ViewHolder(binding.root)

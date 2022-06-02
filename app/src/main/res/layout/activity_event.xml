@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.event.EventActivity">
+        <ImageButton
+            android:id="@+id/ib_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
+            android:onClick="@{clickListener}"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/kr_bold"
+            android:includeFontPadding="false"
+            android:text="회원가입"
+            android:textColor="@color/text_color"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/color_ebebeb"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <!--TODO wrap-->
+        <ScrollView
+            android:id="@+id/sv_event"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            app:layout_constraintBottom_toTopOf="@id/btn_route">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_event_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/kr_bold"
+                    android:textColor="@color/color_282828"
+                    android:text="위치 : "
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_event_location_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="16dp"
+                    android:textColor="@color/color_282828"
+                    app:layout_constraintStart_toEndOf="@id/tv_event_location"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_event"
+                    android:layout_width="350dp"
+                    android:layout_height="450dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_event_location_input"/>
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="16dp"
+                    android:textColor="@color/color_282828"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rc_event"/>
+                <TextView
+                    android:id="@+id/tv_kakao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/kr_bold"
+                    android:textColor="@color/color_282828"
+                    android:text="카카오 오픈채팅 : "
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toBottomOf="@id/tv_content"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_kakao_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="16dp"
+                    android:textColor="@color/color_282828"
+                    app:layout_constraintStart_toEndOf="@id/tv_kakao"
+                    app:layout_constraintTop_toBottomOf="@id/rc_event"/>
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/kr_bold"
+                    android:textColor="@color/color_282828"
+                    android:text="대표 연락처 : "
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toBottomOf="@id/tv_kakao"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_phone_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="16dp"
+                    android:textColor="@color/color_282828"
+                    app:layout_constraintStart_toEndOf="@id/tv_phone"
+                    app:layout_constraintTop_toBottomOf="@id/tv_kakao"/>
+
+                <TextView
+                    android:id="@+id/tv_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/kr_bold"
+                    android:textColor="@color/color_282828"
+                    android:text="행사 기간 : "
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toBottomOf="@id/tv_phone_input"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/tv_period_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/kr_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="16dp"
+                    android:textColor="@color/color_282828"
+                    app:layout_constraintStart_toEndOf="@id/tv_period"
+                    app:layout_constraintTop_toBottomOf="@id/tv_phone_input"/>
+
+                <View
+                    app:layout_constraintTop_toBottomOf="@id/tv_period"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
+        <Button
+            android:id="@+id/btn_route"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:enabled="false"
+            android:textSize="18dp"
+            android:fontFamily="@font/kr_bold"
+            android:includeFontPadding="false"
+            android:text="길찾기"
+            android:onClick="@{clickListener}"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_blue_selector"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

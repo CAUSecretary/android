@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -22,12 +23,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.causecretary.R
+import com.example.causecretary.adapter.AdminAdapter
 import com.example.causecretary.adapter.EventAdapter
 import com.example.causecretary.databinding.ActivityMainBinding
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.*
 import com.example.causecretary.ui.data.Consts.Companion.LOCATION_PERMISSION_REQUEST_CODE
+import com.example.causecretary.ui.event.EventActivity
 import com.example.causecretary.ui.event.EventRegisterActivity
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.ui.utils.PrefManager
@@ -37,6 +40,8 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.*
 import com.naver.maps.map.util.FusedLocationSource
+import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.activity_route.view.*
 import kotlinx.android.synthetic.main.main_navi.view.*
 import org.json.JSONObject
 import retrofit2.Call
@@ -49,6 +54,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallback,
     Observer<EventOnResponse> {
+    var distance:Float = 0.0f
     lateinit var binding: ActivityMainBinding
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
@@ -423,6 +429,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             R.id.cl_sv -> {
                 hideKeyboard()
             }
+            R.id.ib_down->{
+                val translateUp = AnimationUtils.loadAnimation(applicationContext,R.anim.translate_down)
+                binding.flEvent.startAnimation(translateUp)
+                binding.flEvent.visibility= GONE
+            }
         }
     }
 
@@ -698,5 +709,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         binding.rcEvent.layoutManager=LinearLayoutManager(this)
         binding.flEvent.visibility= VISIBLE
         binding.flEvent.startAnimation(translateUp)
+
+        adapter.setItemClickListener(object : EventAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                val eventOff=adapter.getList(position)
+                Intent(this@MainActivity,EventActivity::class.java).run {
+                    putExtra("eventIdx",eventOff.eventIdx)
+                    startActivity(this)
+                }
+            }
+        })
     }
 }

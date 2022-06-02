@@ -1,0 +1,95 @@
+package com.example.causecretary.ui.event
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.causecretary.R
+import com.example.causecretary.adapter.EventDetailAdapter
+import com.example.causecretary.databinding.ActivityEventBinding
+import com.example.causecretary.ui.api.ApiService
+import com.example.causecretary.ui.api.RetrofitApi
+import com.example.causecretary.ui.data.EventDetailResponse
+import com.example.causecretary.ui.utils.Logger
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+class EventActivity : AppCompatActivity(), View.OnClickListener {
+    lateinit var binding: ActivityEventBinding
+    lateinit var eventDetailResponse:EventDetailResponse
+    var eventIdx:Int = 0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_event)
+
+        initData()
+        initView()
+    }
+
+    private fun initView() {
+        binding.clickListener=this@EventActivity
+    }
+
+    private fun initData() {
+        eventIdx = intent.getIntExtra("eventIdx",0)
+        Logger.e("doori",eventIdx.toString())
+
+        getEventDetail(eventIdx)
+    }
+
+    private fun getEventDetail(eventIdx: Int) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(ApiService.DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val registerService = retrofit.create(RetrofitApi::class.java)
+        registerService.getEventDetail(eventIdx).enqueue(object : Callback<EventDetailResponse> {
+            override fun onResponse(
+                call: Call<EventDetailResponse>,
+                response: Response<EventDetailResponse>
+            ) {
+                //eventDetailResponse = response.body() as EventDetailResponse
+
+                //viewModel?.liveData?.postValue(registerResponse)
+                Logger.e("doori", response.toString())
+                //Logger.e("doori", eventDetailResponse.toString())
+
+                setView(eventDetailResponse)
+            }
+
+            override fun onFailure(call: Call<EventDetailResponse>, t: Throwable) {
+                Logger.e("doori", t.toString())
+            }
+
+        })
+    }
+
+    private fun setView(eventDetailResponse: EventDetailResponse) {
+        val event = eventDetailResponse.result
+
+        val adapter = EventDetailAdapter(event.imgs as MutableList<String>)
+
+        binding.apply {
+            rcEvent.adapter=adapter
+            rcEvent.layoutManager = LinearLayoutManager(this@EventActivity,RecyclerView.HORIZONTAL,false)
+
+            tvTitle.text = event.eventName
+            tvKakaoInput.text = event.kakaoChatUrl
+            tvPhoneInput.text=event.phone
+            tvEventLocationInput.text="위치는 왜 안주니?"
+            tvPeriodInput.text=event.period
+            tvContent.text=event.contents
+        }
+
+    }
+
+    override fun onClick(view: View?) {
+        //TODO("Not yet implemented")
+    }
+}

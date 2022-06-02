@@ -42,10 +42,10 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.*
 import com.naver.maps.map.util.FusedLocationSource
-import kotlinx.android.synthetic.main.activity_main.view.*
+/*import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.activity_route.view.*
 import kotlinx.android.synthetic.main.main_navi.view.*
-import org.json.JSONObject
+import org.json.JSONObject*/
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -111,9 +111,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
     private fun initView() {
         binding.clickListener = this@MainActivity
         setShowDimmed(true)
-        drawable()
         getOffList()
         setSpinner()
+        settingDraw()
 
         //로그인 정보가 있으면 draw를 다르게
        //settingDraw()
@@ -132,18 +132,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
 
     private fun settingDraw() {
         val loginData = PrefManager(this@MainActivity).getLoginData()
-        binding.dlMain.apply {
+        binding.apply {
             if (loginData == null) {
-                tv_event.visibility = GONE
-                //tv_event_plz.visibility = GONE
-                tv_like.visibility = GONE
+               tvLoginSuccess.visibility= GONE
+                tvEvent.visibility= GONE
+                tvEventPlz.visibility=GONE
+                tvLike.visibility=GONE
             } else {
+                tvLogin.visibility=GONE
                 Logger.e("doori",loginData.toString())
-                tv_login.visibility= GONE
                 if(loginData.certified=="F"){
-                    tv_event.visibility= GONE
+                    tvEvent.visibility=GONE
                 }else{
-                  //  tv_event_plz.visibility=GONE
+                    tvEventPlz.visibility=GONE
                 }
             }
         }
@@ -212,34 +213,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
     }
 
 
-    private fun drawable() {
-        settingDraw()
-        binding.dlMain.apply {
-            tv_login.setOnClickListener {
-                Intent(this@MainActivity, LoginActivity::class.java).run {
-                    startActivity(this)
-                }
-            }
-            tv_event.setOnClickListener {
-                Intent(this@MainActivity, EventRegisterActivity::class.java).run {
-                    startActivity(this)
-                }
-            }
-            tv_hotline.setOnClickListener {
-                UiUtils.showSnackBar(binding.root, "hotline")
-            }
-            tv_like.setOnClickListener {
-                UiUtils.showSnackBar(binding.root, "like")
-            }
-            tv_setting.setOnClickListener {
-                UiUtils.showSnackBar(binding.root, "setting")
-            }
-            tv_noti.setOnClickListener {
-                UiUtils.showSnackBar(binding.root, "notice")
-            }
-        }
-    }
-
     private fun initData() {
         //TODO("Not yet implemented")
 
@@ -250,9 +223,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         //TODO("Not yet implemented")
         when (view?.id) {
             R.id.iv_menu -> {
-                //hideKeyboard()
-                binding.dlMain.openDrawer(GravityCompat.START)
-                //binding.flEvent.visibility = VISIBLE
+                //애니메이션
+                val translateLeft = AnimationUtils.loadAnimation(applicationContext,R.anim.translate_left)
+                binding.flNavi.startAnimation(translateLeft)
+                binding.flNavi.visibility= VISIBLE
+
+            }
+            R.id.ib_close->{
+                //애니메이션
+                val translateLeft = AnimationUtils.loadAnimation(applicationContext,R.anim.translate_left_gone)
+                binding.flNavi.startAnimation(translateLeft)
+                binding.flNavi.visibility= GONE
             }
             R.id.btn_soon -> {
                 hideKeyboard()
@@ -385,6 +366,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 val translateUp = AnimationUtils.loadAnimation(applicationContext,R.anim.translate_down)
                 binding.flEvent.startAnimation(translateUp)
                 binding.flEvent.visibility= GONE
+            }
+            R.id.tv_login ->{
+                Intent(this@MainActivity, LoginActivity::class.java).run {
+                    startActivity(this)
+                }
+            }
+            R.id.tv_event->{
+
+            }
+            R.id.tv_event_plz->{
+
             }
         }
     }

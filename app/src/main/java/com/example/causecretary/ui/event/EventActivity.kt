@@ -1,5 +1,6 @@
 package com.example.causecretary.ui.event
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.causecretary.R
 import com.example.causecretary.adapter.EventDetailAdapter
 import com.example.causecretary.databinding.ActivityEventBinding
+import com.example.causecretary.ui.RouteActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.EventDetailResponse
@@ -90,6 +92,15 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        //TODO("Not yet implemented")
+        when(view?.id){
+            R.id.ib_back ->{
+                finish()
+            }
+            R.id.btn_route ->{
+                Intent(this@EventActivity,RouteActivity::class.java).run {
+                    startActivity(this)
+                }
+            }
+        }
     }
 }

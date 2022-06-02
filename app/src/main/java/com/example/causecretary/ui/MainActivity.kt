@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.NonNull
@@ -19,14 +20,14 @@ import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.causecretary.R
+import com.example.causecretary.adapter.EventAdapter
 import com.example.causecretary.databinding.ActivityMainBinding
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
+import com.example.causecretary.ui.data.*
 import com.example.causecretary.ui.data.Consts.Companion.LOCATION_PERMISSION_REQUEST_CODE
-import com.example.causecretary.ui.data.EventDetailResponse
-import com.example.causecretary.ui.data.EventOffResponse
-import com.example.causecretary.ui.data.EventOnResponse
 import com.example.causecretary.ui.event.EventRegisterActivity
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.ui.utils.PrefManager
@@ -63,6 +64,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
     var markerClubList = mutableListOf<Marker>()
     var markerStructureList = mutableListOf<Marker>()
     var markerEtcList = mutableListOf<Marker>()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +119,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         binding.clickListener = this@MainActivity
         setShowDimmed(true)
         drawable()
-       // getOffList()
+        getOffList()
 
         //로그인 정보가 있으면 draw를 다르게
        //settingDraw()
@@ -142,6 +145,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
     }
 
     private fun getOffList() {
+
         val retrofit = Retrofit.Builder()
             .baseUrl(ApiService.DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
@@ -154,6 +158,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 response: Response<EventOffResponse>
             ) {
                 eventOffData = response.body() as EventOffResponse
+                val e= eventOffData.result
+                for(a in e){
+                    Logger.e("doori","PointIdx = ${a.pointIdx.toString()}   Location = ${a.location}")
+                }
                 //viewModel?.liveData?.postValue(registerResponse)
                 Logger.e("doori", response.toString())
                 Logger.e("doori", eventOffData.toString())
@@ -245,6 +253,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 hideKeyboard()
                 binding.apply {
                     if (btnSoon.isSelected) {
+                        setAllMarker()
                         btnSoon.isSelected = false
                     } else {
                         btnSoon.isSelected = true
@@ -253,6 +262,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnOnline.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = false
+                        deletAllMarker()
+                        setSoonMarkerSet()
 
                         Logger.d("Navi", "ArBtn click")
                         /*Intent(this@MainActivity, ARActivity::class.java).run {
@@ -260,13 +271,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         }*/
                     }
                 }
-                deletAllMarker()
-                setSoonMarkerSet()
+
             }
             R.id.btn_club -> {
                 hideKeyboard()
                 binding.apply {
                     if (btnClub.isSelected) {
+                        setAllMarker()
                         btnClub.isSelected = false
                     } else {
                         btnSoon.isSelected = false
@@ -275,15 +286,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnOnline.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = false
+                        deletAllMarker()
+                        setClubMarkerSet()
                     }
                 }
-                deletAllMarker()
-                setClubMarkerSet()
+
             }
             R.id.btn_etc -> {
                 hideKeyboard()
                 binding.apply {
                     if (btnEtc.isSelected) {
+                        setAllMarker()
                         btnEtc.isSelected = false
                     } else {
                         btnSoon.isSelected = false
@@ -292,15 +305,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnOnline.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = false
+                        deletAllMarker()
+                        setEtcMarkerSet()
                     }
                 }
-                deletAllMarker()
-                setEtcMarkerSet()
+
             }
             R.id.btn_struct -> {
                 hideKeyboard()
                 binding.apply {
                     if (btnStruct.isSelected) {
+                        setAllMarker()
                         btnStruct.isSelected = false
                     } else {
                         btnSoon.isSelected = false
@@ -309,15 +324,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnOnline.isSelected = false
                         btnStruct.isSelected = true
                         btnStu.isSelected = false
+                        deletAllMarker()
+                        setStructureMarkerSet()
                     }
                 }
-                deletAllMarker()
-                setStructureMarkerSet()
+
             }
             R.id.btn_online -> {
                 hideKeyboard()
                 binding.apply {
                     if (btnOnline.isSelected) {
+                        setAllMarker()
                         btnOnline.isSelected = false
                     } else {
                         btnSoon.isSelected = false
@@ -333,6 +350,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 hideKeyboard()
                 binding.apply {
                     if (btnStu.isSelected) {
+                        setAllMarker()
                         btnStu.isSelected = false
                     } else {
                         btnSoon.isSelected = false
@@ -341,10 +359,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                         btnOnline.isSelected = false
                         btnStruct.isSelected = false
                         btnStu.isSelected = true
+                        deletAllMarker()
+                        setStuMarkerSet()
                     }
                 }
-                deletAllMarker()
-                setStuMarkerSet()
+
             }
             R.id.btn_search -> {
                 hideKeyboard()
@@ -517,7 +536,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             if (e.belong == "예정") {
                 val marker = Marker()
                 markerSoonList.add(marker)
-                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_soon, e.eventName)
+                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_soon, e.eventName,e.pointIdx)
             }
         }
     }
@@ -528,7 +547,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             if (e.belong == "학생회") {
                 val marker = Marker()
                 markerStuList.add(marker)
-                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_red, e.eventName)
+                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_red, e.eventName,e.pointIdx)
             }
         }
     }
@@ -539,7 +558,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             if (e.belong == "동아리") {
                 val marker = Marker()
                 markerClubList.add(marker)
-                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_club, e.eventName)
+                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_club, e.eventName,e.pointIdx)
             }
         }
     }
@@ -555,7 +574,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                     e.latitude,
                     e.longitude,
                     R.drawable.ic_location_structure,
-                    e.eventName
+                    e.eventName,e.pointIdx
                 )
             }
         }
@@ -567,7 +586,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             if (e.belong == "기타") {
                 val marker = Marker()
                 markerEtcList.add(marker)
-                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_etc, e.eventName)
+                setMark(marker, e.latitude, e.longitude, R.drawable.ic_location_etc, e.eventName,e.pointIdx)
             }
         }
     }
@@ -619,7 +638,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         lat: Double,
         lng: Double,
         resourceID: Int,
-        eventName: String
+        eventName: String,pointIdx: Int
     ) {
         //원근감 표시
         marker.isIconPerspectiveEnabled = true
@@ -630,7 +649,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         //마커 위치
         marker.position = LatLng(lat, lng)
         //마커 우선순위
-        marker.zIndex = 10
+        marker.zIndex = 15
         //마커 표시
         marker.map = naverMap
         //마커 텍스트크기
@@ -641,10 +660,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         marker.width = 100
         marker.height = 100
 
+
+        val list = eventOffData.result
         marker.onClickListener = Overlay.OnClickListener {
-            for (e in eventOffData.result) {
-                if (e.eventName == marker.captionText) {
-                    getEventDetail(e.eventIdx)
+            for (e in list) {
+                if (e.pointIdx == pointIdx) {
+                    eventBuildingList(e.pointIdx)
                     break
                 }
             }
@@ -652,30 +673,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         }
     }
 
-    private fun getEventDetail(eventIdx: Int) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(ApiService.DOMAIN)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val registerService = retrofit.create(RetrofitApi::class.java)
-        registerService.getEventDetail(eventIdx).enqueue(object : Callback<EventDetailResponse> {
-            override fun onResponse(
-                call: Call<EventDetailResponse>,
-                response: Response<EventDetailResponse>
-            ) {
+    //겹치면 동시에 돼가지고 엄청 많아짐
+    //같은 건물에 있는 이벤트들 표시
+    private fun eventBuildingList(pointIdx: Int) {
+        val eventBuildList= mutableListOf<EventOffResult>()
+        Logger.e("doori",pointIdx.toString())
 
-                // val eventDetail = response.body() as EventDetailResponse
-                //viewModel?.liveData?.postValue(registerResponse)
-                Logger.e("doori", response.toString())
-                //Logger.e("doori", eventDetail.toString())
-
+        var c=0
+        for(e in eventOffData.result){
+            if (e.pointIdx.equals(pointIdx)){
+                eventBuildList.add(e)
+                c++
+                Logger.e("doori","Point =${pointIdx.toString()},  PointIdx = ${e.pointIdx}  location = ${e.location}")
             }
 
-            override fun onFailure(call: Call<EventDetailResponse>, t: Throwable) {
-                Logger.e("doori", t.toString())
-            }
-
-        })
+        }
+        Logger.e("doori",eventBuildList.toString())
+        Logger.e("doori",c.toString())
+        var adapter = EventAdapter(eventBuildList)
+        //애니메이션
+        val translateUp = AnimationUtils.loadAnimation(applicationContext,R.anim.translate_up)
+        binding.rcEvent.adapter = adapter
+        binding.rcEvent.layoutManager=LinearLayoutManager(this)
+        binding.flEvent.visibility= VISIBLE
+        binding.flEvent.startAnimation(translateUp)
     }
 }

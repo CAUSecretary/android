@@ -59,8 +59,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
     private lateinit var locationSource: FusedLocationSource
-    var multipartPathOverlay = MultipartPathOverlay()
-    lateinit var routingService: RetrofitApi
     private var viewModel: MainViewModel? = null
 
     lateinit var eventOffData: EventOffResponse
@@ -105,20 +103,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         naverMap.apply {
             uiSettings.isLocationButtonEnabled = true
             //locationTrackingMode=LocationTrackingMode.Follow
-
         }
-
-        // 백엔드 통신  retrofit 설정
-        //baseURl http://~~~:8000/
-        // ~~~ 부분에 ipconfig ipv4 주소 넣어야 함
-        var retrofit = Retrofit.Builder()
-            .baseUrl(ApiService.NAVIDOMAIN)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        routingService = retrofit.create(RetrofitApi::class.java)
-
     }
 
     private fun initView() {
@@ -376,54 +361,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 Intent(this@MainActivity, RouteActivity::class.java).run {
                     startActivity(this)
                 }
-//                var endNode = findViewById<EditText>(R.id.et_search).text.toString()
-//                var curLat: Double
-//                var curLon: Double
-//                if (ActivityCompat.checkSelfPermission(
-//                        this,
-//                        Manifest.permission.ACCESS_FINE_LOCATION
-//                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                        this,
-//                        Manifest.permission.ACCESS_COARSE_LOCATION
-//                    ) != PackageManager.PERMISSION_GRANTED
-//                ) {
-//                    // TODO: Consider calling
-//                    //    ActivityCompat#requestPermissions
-//                    return
-//                } else {
-//                    val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//                    val curLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//                    curLon = curLocation?.longitude!!
-//                    curLat = curLocation.latitude
-//                }
-//
-//                Logger.d("Navi", "curLon: $curLon curLat: $curLat")
-//                Logger.d("Navi", "endNode: $endNode")
-//
-//
-//                routingService.searchRoute_weigh(endNode, curLat.toString(), curLon.toString())
-//                    .enqueue(object : Callback<String> {
-//                        override fun onFailure(call: Call<String>, t: Throwable) {
-//                            //실패할 경우
-//                            Log.d("DEBUG", t.message.toString())
-//                            var dialog = AlertDialog.Builder(this@MainActivity)
-//                            dialog.setTitle("에러")
-//                            dialog.setMessage("통신에 실패했습니다.")
-//                            dialog.show()
-//                        }
-//
-//                        override fun onResponse(call: Call<String>, response: Response<String>) {
-//                            //정상응답이 올경우
-//                            var result: String
-//                            result = response.body().toString()
-//                            println(result)
-//
-//                            var searchResult: JSONObject
-//                            searchResult = JSONObject(result)
-//
-//                            parseJSON(searchResult)
-//                        }
-//                    })
             }
 
             R.id.cl_sv -> {
@@ -442,70 +379,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         val imm: InputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-    }
-
-    fun parseJSON(json: JSONObject) {
-        var nodes = json.getJSONArray("nodes")
-        var edges = json.getJSONArray("edges")
-
-
-        for (i in 0 until nodes.length()) {
-            val node = nodes.getJSONObject(i)
-            val id = node.getString("id")
-            val lat = node.getDouble("lat")
-            val lon = node.getDouble("lon")
-            val name = node.getString("name")
-            Log.d(ContentValues.TAG, "id($i): $id")
-            Log.d(ContentValues.TAG, "lat($i): $lat")
-            Log.d(ContentValues.TAG, "lon($i): $lon")
-            Log.d(ContentValues.TAG, "name($i): $name")
-        }
-
-        var pathOverlay = PathOverlay()
-        multipartPathOverlay.map = null
-        var paths: MutableList<MutableList<LatLng>> = ArrayList()
-//        val seqList: MutableList<MutableList<LatLng>> = ArrayList() // alternatively: = mutableListOf()
-//        seqList.add(mutableListOf<Int>(1, 2, 3))
-
-        for (i in 0 until edges.length()) {
-            val edge = edges.getJSONObject(i)
-            val path = edge.getString("path")
-            val start = edge.getInt("start")
-            val end = edge.getInt("end")
-            val type = edge.getString("type")
-            val weigh = edge.getInt("weigh")
-            val distance = edge.getInt("distance")
-
-            val path_coords_list = (path.substring(1, path.lastIndex)).split("|")
-            Log.d(ContentValues.TAG, "path($i): $start => $end : $path_coords_list")
-
-            var path_container: MutableList<LatLng> = mutableListOf(LatLng(0.1, 0.1))
-            for (path_coords in path_coords_list) {
-                val coords = path_coords.split(" ")
-                val coord_lon = coords[0].toDouble()
-                val coord_lat = coords[1].toDouble()
-                //구한 경로를 하나씩 path_container에 추가해줌
-                path_container.add(LatLng(coord_lat, coord_lon))
-            }
-            path_container = (path_container.drop(1) as MutableList<LatLng>?)!!
-            paths.add(path_container)
-        }
-
-        for (p in paths) {
-            println(p.toString())
-        }
-
-        multipartPathOverlay.coordParts = paths
-        multipartPathOverlay.colorParts = listOf(
-            MultipartPathOverlay.ColorPart(
-                Color.GREEN, Color.WHITE, Color.DKGRAY, Color.LTGRAY
-            )
-        )
-        //더미원소 드랍후 path.coords에 path들을 넣어줌.
-//        pathOverlay.coords = path_container
-//        pathOverlay.color = Color.GREEN
-//        pathOverlay.map = naverMap
-        multipartPathOverlay.map = naverMap
     }
 
     override fun onChanged(t: EventOnResponse?) {

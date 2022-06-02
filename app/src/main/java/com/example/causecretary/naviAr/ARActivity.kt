@@ -252,7 +252,10 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
             .build()
         var routingService = retrofit.create(RetrofitApi::class.java)
 
-        routingService.searchRoute_weigh("310관", location.latitude.toString(), location.longitude.toString())
+
+        var endNode = intent.getStringExtra("endNode")
+
+        routingService.searchRoute_weigh(endNode!!, location.latitude.toString(), location.longitude.toString())
             .enqueue(object : Callback<String> {
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     //실패할 경우

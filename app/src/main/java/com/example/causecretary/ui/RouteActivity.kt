@@ -1,36 +1,64 @@
 package com.example.causecretary.ui
 
+import android.Manifest
+import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRouteBinding
+import com.example.causecretary.naviAr.ARActivity
+import com.example.causecretary.ui.api.ApiService
+import com.example.causecretary.ui.api.RetrofitApi
+import com.example.causecretary.ui.data.Consts
 import com.example.causecretary.ui.utils.Logger
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.MultipartPathOverlay
+import com.naver.maps.map.overlay.PathOverlay
+import com.naver.maps.map.util.FusedLocationSource
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallback {
     lateinit var binding: ActivityRouteBinding
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
+    var multipartPathOverlay = MultipartPathOverlay()
+    lateinit var routingService: RetrofitApi
+    private lateinit var locationSource: FusedLocationSource
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_route)
         mapView = findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
-
-
+        locationSource =
+            FusedLocationSource(this, Consts.LOCATION_PERMISSION_REQUEST_CODE)
         initData()
         initView()
     }
@@ -43,6 +71,23 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
         val initialPosition = LatLng(37.50335, 126.9574114)
         val cameraUpdate = CameraUpdate.scrollTo(initialPosition)
         naverMap.moveCamera(cameraUpdate)
+        naverMap.locationSource = locationSource
+
+        //현재위치버튼
+        naverMap.apply {
+            uiSettings.isLocationButtonEnabled = true
+            //locationTrackingMode=LocationTrackingMode.Follow
+        }
+        // 백엔드 통신  retrofit 설정
+        //baseURl http://~~~:8000/
+        // ~~~ 부분에 ipconfig ipv4 주소 넣어야 함
+        var retrofit = Retrofit.Builder()
+            .baseUrl(ApiService.NAVIDOMAIN)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        routingService = retrofit.create(RetrofitApi::class.java)
     }
 
     private fun initView() {
@@ -69,14 +114,135 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
             }
             R.id.btn_route ->{
                 //길찾기 로직 수행
+
+                var endNode = findViewById<EditText>(R.id.et_end).text.toString()
+                var curLat: Double
+                var curLon: Double
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    return
+                } else {
+                    val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                    val curLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    curLon = curLocation?.longitude!!
+                    curLat = curLocation.latitude
+                }
+
+                Logger.d("Navi", "curLon: $curLon curLat: $curLat")
+                Logger.d("Navi", "endNode: $endNode")
+
+
+                routingService.searchRoute_weigh(endNode, curLat.toString(), curLon.toString())
+                    .enqueue(object : Callback<String> {
+                        override fun onFailure(call: Call<String>, t: Throwable) {
+                            //실패할 경우
+                            Log.d("DEBUG", t.message.toString())
+                            var dialog = AlertDialog.Builder(this@RouteActivity)
+                            dialog.setTitle("에러")
+                            dialog.setMessage("통신에 실패했습니다.")
+                            dialog.show()
+                        }
+
+                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                            //정상응답이 올경우
+                            var result: String
+                            result = response.body().toString()
+                            println(result)
+
+                            var searchResult: JSONObject
+                            searchResult = JSONObject(result)
+
+                            parseJSON(searchResult)
+                        }
+                    })
             }
             R.id.go_ar ->{
                 //TODO AR로직수행 버튼
+                var endNode = findViewById<EditText>(R.id.et_end).text.toString()
+                val intent: Intent = Intent(this@RouteActivity, ARActivity::class.java)
+
+                intent.putExtra("endNode", endNode)
+
                 Toast.makeText(this,"ar",Toast.LENGTH_SHORT).show()
+                Intent(this@RouteActivity, ARActivity::class.java).run {
+                    startActivity(this)
+                }
             }
         }
     }
 
+
+    fun parseJSON(json: JSONObject) {
+        var nodes = json.getJSONArray("nodes")
+        var edges = json.getJSONArray("edges")
+
+
+        for (i in 0 until nodes.length()) {
+            val node = nodes.getJSONObject(i)
+            val id = node.getString("id")
+            val lat = node.getDouble("lat")
+            val lon = node.getDouble("lon")
+            val name = node.getString("name")
+            Log.d(ContentValues.TAG, "id($i): $id")
+            Log.d(ContentValues.TAG, "lat($i): $lat")
+            Log.d(ContentValues.TAG, "lon($i): $lon")
+            Log.d(ContentValues.TAG, "name($i): $name")
+        }
+
+        var pathOverlay = PathOverlay()
+        multipartPathOverlay.map = null
+        var paths: MutableList<MutableList<LatLng>> = ArrayList()
+//        val seqList: MutableList<MutableList<LatLng>> = ArrayList() // alternatively: = mutableListOf()
+//        seqList.add(mutableListOf<Int>(1, 2, 3))
+
+        for (i in 0 until edges.length()) {
+            val edge = edges.getJSONObject(i)
+            val path = edge.getString("path")
+            val start = edge.getInt("start")
+            val end = edge.getInt("end")
+            val type = edge.getString("type")
+            val weigh = edge.getInt("weigh")
+            val distance = edge.getInt("distance")
+
+            val path_coords_list = (path.substring(1, path.lastIndex)).split("|")
+            Log.d(ContentValues.TAG, "path($i): $start => $end : $path_coords_list")
+
+            var path_container: MutableList<LatLng> = mutableListOf(LatLng(0.1, 0.1))
+            for (path_coords in path_coords_list) {
+                val coords = path_coords.split(" ")
+                val coord_lon = coords[0].toDouble()
+                val coord_lat = coords[1].toDouble()
+                //구한 경로를 하나씩 path_container에 추가해줌
+                path_container.add(LatLng(coord_lat, coord_lon))
+            }
+            path_container = (path_container.drop(1) as MutableList<LatLng>?)!!
+            paths.add(path_container)
+        }
+
+        for (p in paths) {
+            println(p.toString())
+        }
+
+        multipartPathOverlay.coordParts = paths
+        multipartPathOverlay.colorParts = listOf(
+            MultipartPathOverlay.ColorPart(
+                Color.GREEN, Color.WHITE, Color.DKGRAY, Color.LTGRAY
+            )
+        )
+        //더미원소 드랍후 path.coords에 path들을 넣어줌.
+//        pathOverlay.coords = path_container
+//        pathOverlay.color = Color.GREEN
+//        pathOverlay.map = naverMap
+        multipartPathOverlay.map = naverMap
+    }
     /*
     private fun setSpinner() {
         hideKeyboard()

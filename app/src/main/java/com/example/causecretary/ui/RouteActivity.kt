@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRouteBinding
@@ -68,6 +69,10 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
             }
             R.id.btn_route ->{
                 //길찾기 로직 수행
+            }
+            R.id.go_ar ->{
+                //TODO AR로직수행 버튼
+                Toast.makeText(this,"ar",Toast.LENGTH_SHORT).show()
             }
         }
     }

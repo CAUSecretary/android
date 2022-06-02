@@ -331,6 +331,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+
                     <ImageButton
                         android:id="@+id/ib_close"
                         android:layout_width="60dp"
@@ -341,6 +342,16 @@
                         android:src="@drawable/ic_close"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <ImageButton
+                        android:id="@+id/ib_logout"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:onClick="@{clickListener}"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_logout"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_drawer"

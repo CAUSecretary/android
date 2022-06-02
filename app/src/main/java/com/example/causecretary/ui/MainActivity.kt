@@ -138,7 +138,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 tvEvent.visibility= GONE
                 tvEventPlz.visibility=GONE
                 tvLike.visibility=GONE
+                ibLogout.visibility=GONE
             } else {
+                ibLogout.visibility= VISIBLE
                 tvLogin.visibility=GONE
                 Logger.e("doori",loginData.toString())
                 if(loginData.certified=="F"){
@@ -228,6 +230,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 binding.flNavi.startAnimation(translateLeft)
                 binding.flNavi.visibility= VISIBLE
 
+            }
+            R.id.ib_logout->{
+                PrefManager(this).removeLoginData()
+                onResume()
             }
             R.id.ib_close->{
                 //애니메이션

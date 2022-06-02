@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/skaja/AndroidStudioProjects/android/app/src/main/res/layout/activity_ar.xml" value="0.2578125" />
+        <entry key="..\:/Users/skaja/AndroidStudioProjects/android/app/src/main/res/layout/activity_route.xml" value="0.2578125" />
         <entry key="..\:/Users/skaja/AndroidStudioProjects/cauSecretary/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/skaja/git/android/app/src/main/res/layout/activity_ar.xml" value="0.2578125" />
+        <entry key="..\:/Users/skaja/git/android/app/src/main/res/layout/activity_arnavi.xml" value="0.2578125" />
+        <entry key="..\:/Users/skaja/git/android/app/src/main/res/layout/place_view.xml" value="0.2578125" />
       </map>
     </option>
   </component>

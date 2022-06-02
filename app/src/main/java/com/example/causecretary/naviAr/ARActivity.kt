@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.ActivityManager
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.hardware.Sensor
@@ -252,7 +253,7 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
             .build()
         var routingService = retrofit.create(RetrofitApi::class.java)
 
-
+        val intent: Intent = getIntent()
         var endNode = intent.getStringExtra("endNode")
 
         routingService.searchRoute_weigh(endNode!!, location.latitude.toString(), location.longitude.toString())

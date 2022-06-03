@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.tv_register -> {
-                Intent(this@LoginActivity, AuthPhoneActivity::class.java).run {
+                Intent(this@LoginActivity, RegisterActivity::class.java).run {
                     startActivity(this)
                 }
                 /*Intent(this@LoginActivity,RegisterActivity::class.java).run {

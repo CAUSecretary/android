@@ -10,7 +10,7 @@ import com.example.causecretary.databinding.EventdetailRecyclerBinding
 class EventAdminAdapter: RecyclerView.Adapter<EventAdminHolder>()  {
     var test = mutableListOf<Test>()
     fun setList(){
-        val a=Test("기말 간식 배부","2022년 5월20일 ~ 2022년 6일 20일")
+        val a=Test("기말 간식 배부","5월20일 ~ 6일 20일")
         test.add(a)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventAdminHolder {

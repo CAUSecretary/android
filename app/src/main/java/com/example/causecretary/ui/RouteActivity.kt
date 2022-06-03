@@ -120,14 +120,14 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
 
         //여긴 메인에서 길찾기
         intent.getStringExtra("endPoint")?.run {
-            binding.etEnd.text = this
+            binding.etEnd.setText(this)
             endPoint = getEndPointIdx(this)
             Logger.e("doori", "end Name = $this , 이름 = ${endPoint.toString()}")
         }
 
 
         //여긴 이벤트에서 길찾기했을때
-        intent.getStringExtra("eventRoute").run {
+        intent.getStringExtra("eventRoute")?.run {
                 binding.etEnd.text=this
             endPoint=getEndPointIdx(this)
         }

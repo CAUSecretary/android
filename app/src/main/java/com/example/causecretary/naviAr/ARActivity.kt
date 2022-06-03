@@ -135,7 +135,7 @@ class ARActivity : AppCompatActivity(), SensorEventListener {
                 anchorNode?.setParent(arFragment.arSceneView.scene)
                 addPlaces(anchorNode!!)
                 isTapped = true
-                drawArrow()
+                //drawArrow()
 
             }else{
                 for (placeNode in placeList) {

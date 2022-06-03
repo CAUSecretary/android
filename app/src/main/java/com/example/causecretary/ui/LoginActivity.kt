@@ -92,7 +92,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             }
             R.id.btn_login -> {
                 Logger.e("doori",binding.etEmail.text.toString())
-                if(binding.etEmail.text.toString() == "k1@cau.ac.kr"){
+                if(binding.etEmail.text.toString() =="k1@cau.ac.kr"){
                     Logger.e("doori","if문 adminLogin")
                     adminLogin()
                 }else{
@@ -196,7 +196,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
                 val user =registerResponse.result
                 Logger.e("doori",response.toString())
                 Logger.e("doori",registerResponse.toString())
-                PrefManager(this@LoginActivity).setLoginData(user.userIdx,user.jwt,user.certified)
+                PrefManager(this@LoginActivity).setLoginData(123,"user.jwt","user.certified")
                 Intent(this@LoginActivity,MainActivity::class.java).run {
                     startActivity(this)
                 }

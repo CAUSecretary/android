@@ -111,7 +111,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_route ->{
                 Intent(this@EventActivity,RouteActivity::class.java).run {
                     //TODO 여기추가해야함
-                    //putExtra("eventRoute",)
+                    putExtra("eventRoute",11)
                     startActivity(this)
                 }
             }

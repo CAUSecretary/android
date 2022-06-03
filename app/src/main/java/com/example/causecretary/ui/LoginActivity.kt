@@ -79,16 +79,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.tv_register -> {
-                Intent(this@LoginActivity, RegisterActivity::class.java).run {
+                Intent(this@LoginActivity, AuthPhoneActivity::class.java).run {
                     startActivity(this)
                 }
                 /*Intent(this@LoginActivity,RegisterActivity::class.java).run {
                     startActivity(this)
                 }*/
 
-            }
-            R.id.cb_auto_login,R.id.tv_auto_login -> {
-                Toast.makeText(this,"auto_login",Toast.LENGTH_SHORT).show()
             }
             R.id.btn_login -> {
                 Logger.e("doori",binding.etEmail.text.toString())
@@ -185,18 +182,18 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        val logindata = PrefManager(this).getLoginData()
         val registerService = retrofit.create(RetrofitApi::class.java)
         val user = LoginRequestData(binding.etEmail.toString(),binding.etPwd.toString())
-        registerService.login(user).enqueue(object : Callback<RegisterResponse> {
+        registerService.login(logindata!!.jwt,user).enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
-                val registerResponse = response.body() as RegisterResponse
-                val user =registerResponse.result
+                //val registerResponse = response.body() as RegisterResponse
+                //val user =registerResponse.result
                 Logger.e("doori",response.toString())
-                Logger.e("doori",registerResponse.toString())
-                PrefManager(this@LoginActivity).setLoginData(123,"user.jwt","user.certified")
+                //Logger.e("doori",registerResponse.toString())
                 Intent(this@LoginActivity,MainActivity::class.java).run {
                     startActivity(this)
                 }

@@ -8,9 +8,9 @@ import com.example.causecretary.databinding.EventadminRecyclerBinding
 import com.example.causecretary.databinding.EventdetailRecyclerBinding
 
 class EventAdminAdapter: RecyclerView.Adapter<EventAdminHolder>()  {
-    lateinit var test : MutableList<Test>
+    var test = mutableListOf<Test>()
     fun setList(){
-        val a=Test("신나는 캡스톤","2022년 5월20일 ~ 2022년 6일 20일")
+        val a=Test("기말 간식 배부","2022년 5월20일 ~ 2022년 6일 20일")
         test.add(a)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventAdminHolder {

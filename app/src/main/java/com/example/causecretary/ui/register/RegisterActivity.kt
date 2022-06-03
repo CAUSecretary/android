@@ -37,6 +37,7 @@ import com.example.causecretary.ui.data.dto.LoginRequestData
 import com.example.causecretary.ui.data.dto.RegisterRequestData
 import com.example.causecretary.ui.utils.GmailSender
 import com.example.causecretary.ui.utils.Logger
+import com.example.causecretary.ui.utils.PrefManager
 import com.example.causecretary.ui.utils.UiUtils
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -101,7 +102,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         //textwatcher
         textWatcher()
 
-        admintest()
+        //admintest()
 
         galleryResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
@@ -116,9 +117,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                        // testmulti(bitmapMultipartBody)
                         val base64 = bitmapToString(bitmap)
                         binding.tvAuthHint.setTextColor(Color.BLACK)
-                        /*base64.substring(1,10).apply {
+                        base64.substring(1,10).apply {
                             binding.tvAuthHint.text=this
-                        }*/
+                        }
                         registerRequestData.certifyImg=base64
                         Logger.e("uri",it.toString())
                         if (binding.tvAuthHint.text.isNotEmpty()) {
@@ -350,6 +351,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 val registerResponse = response.body() as RegisterResponse
                 Logger.e("doori", response.toString())
                 Logger.e("doori", registerResponse.toString())
+                PrefManager(this@RegisterActivity).setLoginData(registerResponse.result.userIdx,registerResponse?.result.jwt,"f")
+
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {

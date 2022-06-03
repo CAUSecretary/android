@@ -115,7 +115,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         getOffList()
         setSpinner()
         settingDraw()
-
+        val loginData = PrefManager(this@MainActivity).getLoginData()
+        Logger.e("doori","${loginData.toString()}")
         //로그인 정보가 있으면 draw를 다르게
        //settingDraw()
     }
@@ -135,7 +136,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         val loginData = PrefManager(this@MainActivity).getLoginData()
         binding.apply {
             if (loginData == null) {
-               tvLoginSuccess.visibility= GONE
                 tvEvent.visibility= GONE
                 tvEventPlz.visibility=GONE
                 tvLike.visibility=GONE
@@ -236,7 +236,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             }
             R.id.ib_logout->{
                 PrefManager(this).removeLoginData()
-                onResume()
+                finish()
+                Intent(this@MainActivity,MainActivity::class.java).run {
+                    startActivity(this)
+                }
             }
             R.id.ib_close->{
                 //애니메이션

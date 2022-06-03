@@ -50,7 +50,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
         val s2="https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/283395761_533144354942993_4301059969446481556_n.jpg?stp=dst-jpg_e35&_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=105&_nc_ohc=JIuUgZ6V9ZgAX96TXMU&edm=AABBvjUBAAAA&ccb=7-5&ig_cache_key=Mjg0Mjg4MjA5ODk4MjA0NzMzNA%3D%3D.2-ccb7-5&oh=00_AT9SrxEtuor_V5Qk_9RjuF3C26cisYNCd7zilNuiRcTtVA&oe=629DD676&_nc_sid=83d603"
         //test
         val imgs = listOf<String>(s,s1,s2,s3)
-        val result = EventDetailResult("안녕하세요","학생회","daskdasd","asdasdas","8월8일","ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ",imgs)
+        val result = EventDetailResult("여름방학","학생회","asdkljaskd.asdjhas","010-1111-1111","8월8일","2022년 5월20일 ~ 2022년 6일 20일",imgs)
         val eventDetailResponse = EventDetailResponse(true,121,"asd",result)
         setView(eventDetailResponse)
 
@@ -93,10 +93,10 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
             rcEvent.adapter=adapter
             rcEvent.layoutManager = LinearLayoutManager(this@EventActivity,RecyclerView.HORIZONTAL,false)
 
-            tvTitle.text = event.eventName
+            tvTitle.text = "기말 간식 배부"
             tvKakaoInput.text = event.kakaoChatUrl
             tvPhoneInput.text=event.phone
-            tvEventLocationInput.text="위치는 왜 안주니?"
+            tvEventLocationInput.text="207관 제1공학관 봅스터홀"
             tvPeriodInput.text=event.period
             tvContent.text=event.contents
         }

@@ -128,7 +128,7 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
 
         //여긴 이벤트에서 길찾기했을때
         intent.getStringExtra("eventRoute")?.run {
-                binding.etEnd.text=this
+                binding.etEnd.setText(this)
             endPoint=getEndPointIdx(this)
         }
 

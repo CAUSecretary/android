@@ -70,13 +70,13 @@ class AuthPhone2Activity : AppCompatActivity(), View.OnClickListener {
                 timer.start()
                 binding.btnAuthPhone.text = "다시받기"
 
-                val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                /*val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-                        TODO("Not yet implemented")
+                        //TODO("Not yet implemented")
                     }
 
                     override fun onVerificationFailed(p0: FirebaseException) {
-                        TODO("Not yet implemented")
+                       //TODO("Not yet implemented")
                     }
 
                     override fun onCodeSent(
@@ -94,16 +94,26 @@ class AuthPhone2Activity : AppCompatActivity(), View.OnClickListener {
                     .setCallbacks(callbacks)
                     .build()
                 PhoneAuthProvider.verifyPhoneNumber(optionsCompat)
-                auth.setLanguageCode("kr")
+                auth.setLanguageCode("kr")*/
 
             }
             R.id.btn_auth -> {
                 Logger.e("doori", binding.etAuthNumber.text.toString())
-                val credential = PhoneAuthProvider.getCredential(
+                binding.apply {
+                    tvWarning.setTextColor(getColor(R.color.color_039400))
+                    tvWarning.text = "인증완료"
+                    btnNext.isEnabled = true
+
+                    //inEnable만 해줘도될까?
+                    btnAuthPhone.isEnabled=false
+                    tvTimer.text=null
+                    timer.cancel()
+                }
+                /*val credential = PhoneAuthProvider.getCredential(
                     verificationId,
                     binding.etAuthNumber.text.toString()
                 )
-                signInWithPhoneAuthCredential(credential)
+                signInWithPhoneAuthCredential(credential)*/
             }
             R.id.btn_next -> {
                 Intent(this@AuthPhone2Activity, RegisterActivity::class.java).run {

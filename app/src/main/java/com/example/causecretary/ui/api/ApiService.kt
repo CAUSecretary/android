@@ -4,6 +4,7 @@ package com.example.causecretary.ui.api
 import com.example.causecretary.ui.data.*
 import com.example.causecretary.ui.data.dto.LoginRequestData
 import com.example.causecretary.ui.data.dto.RegisterRequestData
+import com.google.firebase.firestore.auth.User
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -28,9 +29,8 @@ interface RetrofitApi{
     @POST("users/register")
     fun postUsers(@Body body: RegisterRequestData): Call<RegisterResponse>
 
-
     @POST("auth/userlogin")
-    fun login(@Body admin:LoginRequestData): Call<RegisterResponse>
+    fun login(@Header("X-ACCESS-TOKEN")jwt: String,@Body body: LoginRequestData) : Call<RegisterResponse>
 
     @FormUrlEncoded
     @POST("auth/uncertified")

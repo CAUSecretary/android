@@ -376,41 +376,28 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/tv_login_success"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginTop="30dp"
-                            android:fontFamily="@font/kr_regular"
-                            android:includeFontPadding="false"
-                            android:text="@{UiUtils.getSpannableStringBuilder(@string/login_plz, @string/login, @color/color_282828, true)}"
-                            android:textColor="@color/black"
-                            android:textSize="16dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/tv_event"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="40dp"
                             android:fontFamily="@font/kr_regular"
                             android:includeFontPadding="false"
                             android:onClick="@{clickListener}"
-                            android:text="이벤트 관리"
+                            android:text="이벤트 등록하기"
                             android:textColor="@color/black"
                             android:textSize="16dp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_login_success" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/tv_event_plz"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="30dp"
                             android:fontFamily="@font/kr_regular"
                             android:includeFontPadding="false"
                             android:onClick="@{clickListener}"
@@ -418,7 +405,7 @@
                             android:textColor="@color/black"
                             android:textSize="16dp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_login_success" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/tv_like"

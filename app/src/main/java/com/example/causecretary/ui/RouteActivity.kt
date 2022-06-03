@@ -127,10 +127,10 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
 
 
         //여긴 이벤트에서 길찾기했을때
-        /*intent.getStringExtra("eventRoute").run {
+        intent.getStringExtra("eventRoute").run {
                 binding.etEnd.text=this
-                endPointLat=getEndPointIdx(this)
-        }*/
+            endPoint=getEndPointIdx(this)
+        }
 
     }
     private fun getCurrentLocation(onSuccess: (Location) -> Unit) {

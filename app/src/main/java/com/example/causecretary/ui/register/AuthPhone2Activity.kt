@@ -88,7 +88,7 @@ class AuthPhone2Activity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 val optionsCompat = PhoneAuthOptions.newBuilder(auth)
-                    .setPhoneNumber("+821064912552")
+                    .setPhoneNumber("+821026392816")
                     .setTimeout(60L, TimeUnit.SECONDS)
                     .setActivity(this)
                     .setCallbacks(callbacks)
@@ -107,7 +107,7 @@ class AuthPhone2Activity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_next -> {
                 Intent(this@AuthPhone2Activity, RegisterActivity::class.java).run {
-                    this.putExtra("phoneNumber","01064912552")
+                    this.putExtra("phoneNumber","01026392816")
                     startActivity(this)
                 }
             }

@@ -26,6 +26,7 @@ import com.example.causecretary.ui.data.dto.LoginRequestData
 import com.example.causecretary.ui.event.EventActivity
 import com.example.causecretary.ui.forgot.ForgotIdActivity
 import com.example.causecretary.ui.forgot.ForgotPwdActivity
+import com.example.causecretary.ui.register.AuthPhoneActivity
 import com.example.causecretary.ui.register.RegisterActivity
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.ui.utils.PrefManager
@@ -78,12 +79,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.tv_register -> {
-               /* Intent(this@LoginActivity,AuthPhoneActivity::class.java).run {
-                    startActivity(this)
-                }*/
-                Intent(this@LoginActivity,RegisterActivity::class.java).run {
+                Intent(this@LoginActivity, AuthPhoneActivity::class.java).run {
                     startActivity(this)
                 }
+                /*Intent(this@LoginActivity,RegisterActivity::class.java).run {
+                    startActivity(this)
+                }*/
 
             }
             R.id.cb_auto_login,R.id.tv_auto_login -> {
@@ -91,20 +92,20 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             }
             R.id.btn_login -> {
                 Logger.e("doori",binding.etEmail.text.toString())
-                /*if(binding.etEmail.text.toString() == "k1@cau.ac.kr"){
+                if(binding.etEmail.text.toString() == "k1@cau.ac.kr"){
                     Logger.e("doori","if문 adminLogin")
                     adminLogin()
                 }else{
                     login()
-                }*/
-                Intent(this@LoginActivity,MainActivity::class.java).run {
+                }
+                /*Intent(this@LoginActivity,MainActivity::class.java).run {
                     startActivity(this)
                }
 
-                /*Intent(this@LoginActivity,EventActivity::class.java).run {
+                *//*Intent(this@LoginActivity,EventActivity::class.java).run {
                     startActivity(this)
-                }*/
-
+                }*//*
+*/
             }
             R.id.tv_forgot_id -> {
                 Intent(this@LoginActivity,ForgotIdActivity::class.java).run {
@@ -185,7 +186,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             .build()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        val user = LoginRequestData("111@cau.ac.kr","111")
+        val user = LoginRequestData(binding.etEmail.toString(),binding.etPwd.toString())
         registerService.login(user).enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,

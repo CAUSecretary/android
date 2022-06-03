@@ -39,8 +39,8 @@ class GmailSender: Authenticator() {
             val message = MimeMessage(session)
             message.sender = InternetAddress(fromEmail)                                 // 보내는 사람 설정
             message.addRecipient(Message.RecipientType.TO, InternetAddress(toEmail))    // 받는 사람 설정
-            message.subject = "이메일 제목"                                              // 이메일 제목
-            message.setText("이메일 내용")
+            message.subject = "CauSecretary인증번호입니다."                                              // 이메일 제목
+            message.setText("0")
             Logger.e("doori","message create")// 이메일 내용
 
             // 전송

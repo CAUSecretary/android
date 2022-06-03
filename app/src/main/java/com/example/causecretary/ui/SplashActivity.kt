@@ -153,7 +153,7 @@ class SplashActivity : AppCompatActivity() {
         //프로그래스바 1초동안
         CoroutineScope(Dispatchers.Default).launch {
             delay(1000)
-            Intent(this@SplashActivity, LoginActivity::class.java).run {
+            Intent(this@SplashActivity, MainActivity::class.java).run {
                 startActivity(this)
             }
         }

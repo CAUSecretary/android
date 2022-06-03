@@ -24,9 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CauSecretary"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".EventAdminActivity"
-            android:exported="false" />
+        <activity android:name=".ui.event.EventAdminActivity"
+            android:exported="false"/>
         <activity
             android:name=".ui.event.EventActivity"
             android:exported="false" />

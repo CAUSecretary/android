@@ -177,7 +177,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 val email = binding.etEmail.text.toString()
                 val gmailSender = GmailSender()
                 gmailSender.sendEmail(email)
-                UiUtils.showSnackBar(binding.root, "메일보냄")
 
                 binding.tvAuthEmail.setTextColor(Color.RED)
                 binding.tvAuthEmail.text = "인증번호를 발송했습니다."
@@ -228,9 +227,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                  */
                 //test()
 
-                Intent(this@RegisterActivity, LoginActivity::class.java).run {
-                    startActivity(this)
-                }
                 finishAffinity()
             }
             R.id.btn_club_auth -> {

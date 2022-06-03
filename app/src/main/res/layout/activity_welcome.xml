@@ -49,7 +49,7 @@
             android:fontFamily="@font/kr_regular"
             android:textColor="@color/color_888888"
             android:includeFontPadding="false"
-            android:text="모든 회원가입 절차가 완료되었습니다.\n로그인 후 이벤트를 등록해보세요."
+            android:text="모든 회원가입 절차가 완료되었습니다.\n인증 완료까지는 20~30분의 시간이 소요됩니다.\n로그인 후 이벤트를 등록해보세요."
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_welcome"/>

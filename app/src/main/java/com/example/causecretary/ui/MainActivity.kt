@@ -33,6 +33,7 @@ import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.*
 import com.example.causecretary.ui.data.Consts.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import com.example.causecretary.ui.event.EventActivity
+import com.example.causecretary.ui.event.EventAdminActivity
 import com.example.causecretary.ui.event.EventRegisterActivity
 import com.example.causecretary.ui.utils.Logger
 import com.example.causecretary.ui.utils.PrefManager
@@ -138,10 +139,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 tvEvent.visibility= GONE
                 tvEventPlz.visibility=GONE
                 tvLike.visibility=GONE
+                tvAdmin.visibility=GONE
                 ibLogout.visibility=GONE
             } else {
                 ibLogout.visibility= VISIBLE
                 tvLogin.visibility=GONE
+                tvAdmin.visibility= VISIBLE
                 Logger.e("doori",loginData.toString())
                 if(loginData.certified=="F"){
                     tvEvent.visibility=GONE
@@ -379,10 +382,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 }
             }
             R.id.tv_event->{
-
+                Intent(this@MainActivity,EventRegisterActivity::class.java).run {
+                    startActivity(this)
+                }
             }
             R.id.tv_event_plz->{
 
+            }
+            R.id.tv_admin->{
+                Intent(this@MainActivity,EventAdminActivity::class.java).run {
+                    startActivity(this)
+                }
             }
         }
     }

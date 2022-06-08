@@ -1,5 +1,6 @@
 package com.example.causecretary.ui.forgot
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -32,7 +33,9 @@ class ForgotIdActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.btn_auth -> {
-                Toast.makeText(this,"본인인증",Toast.LENGTH_SHORT).show()
+                Intent(this@ForgotIdActivity,ForgotId2Activity::class.java).run {
+                    startActivity(this)
+                }
             }
         }
     }

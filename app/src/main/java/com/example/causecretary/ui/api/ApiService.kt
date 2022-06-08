@@ -2,9 +2,9 @@ package com.example.causecretary.ui.api
 
 
 import com.example.causecretary.ui.data.*
+import com.example.causecretary.ui.data.dto.InstarRequestData
 import com.example.causecretary.ui.data.dto.LoginRequestData
 import com.example.causecretary.ui.data.dto.RegisterRequestData
-import com.google.firebase.firestore.auth.User
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -55,6 +55,17 @@ interface RetrofitApi{
 
     @DELETE("delete/evnet/{userIdx}/{eventIdx}")
     fun deleteEvent(@Path("userIdx")userIdx: Int,@Path("eventIdx")eventIdx: Int):Call<EventDeleteResponse>
+
+    @POST("event/create")
+    fun createEvent(@Body instarRequestData: InstarRequestData):Call<InstarResponse>
+
+    @FormUrlEncoded
+    @POST("auth/users/find/email")
+    fun forgotEmail(@Field("phone")phone: String):Call<ForgotResponse>
+
+    @FormUrlEncoded
+    @PATCH("auth/users/find/password")
+    fun forgotPwd(@Field("email")email: String):Call<ForgotResponse>
 
 
 

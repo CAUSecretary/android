@@ -121,16 +121,16 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
         Logger.d("doori", intent.getStringExtra("eventRoute").toString())
         //여긴 메인에서 길찾기
         intent.getStringExtra("endPoint")?.run {
-            binding.etEnd.text=this
             endPoint = getEndPointIdx(this)
+            binding.etEnd.text=endPoint
             Logger.e("doori", "end Name = $this , 이름 = ${endPoint.toString()}")
         }
 
 
         //여긴 이벤트에서 길찾기했을때
         intent.getStringExtra("eventRoute")?.run {
-                binding.etEnd.text=this
             endPoint=getEndPointIdx(this)
+            binding.etEnd.text=endPoint
             Logger.e("doori", "end Name = $this , 이름 = ${endPoint.toString()}")
         }
 
@@ -212,7 +212,7 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
                 //출발지 도착지 스우치
             }
             R.id.ib_close -> {
-                // 출발지 지우기
+                finish()
             }
             R.id.btn_route -> {
                 binding.goAr.isEnabled = true
@@ -220,11 +220,8 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
                 //길찾기 로직 수행
 
 
-                var curLat: Double
-                var curLon: Double
-
-                curLon = currentLocation!!.longitude
-                curLat = currentLocation!!.latitude
+                var curLon: Double = currentLocation!!.longitude
+                var curLat: Double = currentLocation!!.latitude
 
                 Logger.d("Navi", "curLon: $curLon curLat: $curLat")
                 Logger.d("Navi", "endNode: $endPoint")

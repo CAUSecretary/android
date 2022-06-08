@@ -590,17 +590,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         val eventBuildList= mutableListOf<EventOffResult>()
         Logger.e("doori",pointIdx.toString())
 
-        var c=0
         for(e in eventOffData.result){
             if (e.pointIdx.equals(pointIdx)){
                 eventBuildList.add(e)
-                c++
                 Logger.e("doori","Point =${pointIdx.toString()},  PointIdx = ${e.pointIdx}  location = ${e.location}")
             }
 
         }
-        Logger.e("doori",eventBuildList.toString())
-        Logger.e("doori",c.toString())
+
         var adapter = EventAdapter(eventBuildList)
         //애니메이션
         val translateUp = AnimationUtils.loadAnimation(applicationContext,R.anim.translate_up)

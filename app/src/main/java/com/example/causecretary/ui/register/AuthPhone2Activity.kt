@@ -2,7 +2,6 @@ package com.example.causecretary.ui.register
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -70,7 +69,7 @@ class AuthPhone2Activity : AppCompatActivity(), View.OnClickListener {
                 timer.start()
                 binding.btnAuthPhone.text = "다시받기"
 
-                /*val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     override fun onVerificationCompleted(p0: PhoneAuthCredential) {
                         //TODO("Not yet implemented")
                     }
@@ -86,20 +85,21 @@ class AuthPhone2Activity : AppCompatActivity(), View.OnClickListener {
                         this@AuthPhone2Activity.verificationId = verificationId
                     }
                 }
-
+                var phoneNumber = binding.etPhone.text.substring(1,11)
+                Logger.e("doori","+82$phoneNumber")
                 val optionsCompat = PhoneAuthOptions.newBuilder(auth)
-                    .setPhoneNumber("+821064912552")
+                    .setPhoneNumber("+82$phoneNumber")
                     .setTimeout(60L, TimeUnit.SECONDS)
                     .setActivity(this)
                     .setCallbacks(callbacks)
                     .build()
                 PhoneAuthProvider.verifyPhoneNumber(optionsCompat)
-                auth.setLanguageCode("kr")*/
+                auth.setLanguageCode("kr")
 
             }
             R.id.btn_auth -> {
                 Logger.e("doori", binding.etAuthNumber.text.toString())
-                binding.apply {
+               /* binding.apply {
                     tvWarning.setTextColor(getColor(R.color.color_039400))
                     tvWarning.text = "인증완료"
                     btnNext.isEnabled = true
@@ -108,16 +108,16 @@ class AuthPhone2Activity : AppCompatActivity(), View.OnClickListener {
                     btnAuthPhone.isEnabled=false
                     tvTimer.text=null
                     timer.cancel()
-                }
-                /*val credential = PhoneAuthProvider.getCredential(
+                }*/
+                val credential = PhoneAuthProvider.getCredential(
                     verificationId,
                     binding.etAuthNumber.text.toString()
                 )
-                signInWithPhoneAuthCredential(credential)*/
+                signInWithPhoneAuthCredential(credential)
             }
             R.id.btn_next -> {
                 Intent(this@AuthPhone2Activity, RegisterActivity::class.java).run {
-                    this.putExtra("phoneNumber","01064912552")
+                    this.putExtra("phoneNumber",binding.etPhone.text)
                     startActivity(this)
                 }
             }

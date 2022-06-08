@@ -206,30 +206,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val logindata = PrefManager(this).getLoginData()
-        //TODO 고쳐야함 jwt가 왜 필요할까??
-
         val registerService = retrofit.create(RetrofitApi::class.java)
-        val user = LoginRequestData(binding.etEmail.toString(), binding.etPwd.toString())
-        if (logindata == null) {
-            val builder = AlertDialog.Builder(this@LoginActivity)
-                .setTitle("jwt없음")
-                .setMessage("도대체 왜넣음?")
-                .setPositiveButton("확인",
-                    DialogInterface.OnClickListener { dialog, which ->
-                        Toast.makeText(this@LoginActivity, "확인", Toast.LENGTH_SHORT)
-                            .show()
-                    })
-                .setNegativeButton("취소",
-                    DialogInterface.OnClickListener { dialog, which ->
-                        Toast.makeText(this@LoginActivity, "취소", Toast.LENGTH_SHORT)
-                            .show()
-                    })
-            builder.show()
-        }
-        logindata?.apply {
-            registerService.login(logindata!!.jwt, user)
-                .enqueue(object : Callback<RegisterResponse> {
+        val user = LoginRequestData(binding.etEmail.text.toString(), binding.etPwd.text.toString())
+
+            registerService.login(user).enqueue(object : Callback<RegisterResponse> {
                     // registerService.login("asdasdasd", user).enqueue(object : Callback<RegisterResponse> {
                     override fun onResponse(
                         call: Call<RegisterResponse>,
@@ -253,7 +233,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
                         }
                         Logger.e("doori", response.toString())
                         response.body()?.apply {
-                            Logger.e("doori", this.code.toString())
+                            Logger.e("doori", this.toString())
                             val loginResponse = this as RegisterResponse
                             if (loginResponse.code == 1000) {
                                 Logger.e("doori", response.toString())
@@ -314,7 +294,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
                     }
 
                 })
-        }
 
     }
 

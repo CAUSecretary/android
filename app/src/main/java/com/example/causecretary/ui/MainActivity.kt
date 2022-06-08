@@ -138,7 +138,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             if (loginData == null) {
                 tvEvent.visibility= GONE
                 tvEventPlz.visibility=GONE
-                tvLike.visibility=GONE
                 tvAdmin.visibility=GONE
                 ibLogout.visibility=GONE
             } else {

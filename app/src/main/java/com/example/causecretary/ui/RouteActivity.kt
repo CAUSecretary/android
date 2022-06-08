@@ -107,6 +107,7 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
     }
 
     private fun initView() {
+        binding.goAr.isEnabled = false
         binding.clickListener = this@RouteActivity
         //setSpinner()
 
@@ -214,6 +215,8 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
                 // 출발지 지우기
             }
             R.id.btn_route -> {
+                binding.goAr.isEnabled = true
+
                 //길찾기 로직 수행
 
 

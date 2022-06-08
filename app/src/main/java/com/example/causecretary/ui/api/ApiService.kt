@@ -11,7 +11,7 @@ import retrofit2.http.*
 
 class ApiService {
     companion object{
-        val DOMAIN = "http://3.34.136.35:9000/"
+        val DOMAIN = "http://13.125.247.113:9000/"
         val NAVIDOMAIN = "http://3.34.136.35:8000/"
     }
 }
@@ -30,7 +30,7 @@ interface RetrofitApi{
     fun postUsers(@Body body: RegisterRequestData): Call<RegisterResponse>
 
     @POST("auth/userlogin")
-    fun login(@Header("X-ACCESS-TOKEN")jwt: String,@Body body: LoginRequestData) : Call<RegisterResponse>
+    fun login(@Body body: LoginRequestData) : Call<RegisterResponse>
 
     @FormUrlEncoded
     @POST("auth/uncertified")
@@ -49,6 +49,12 @@ interface RetrofitApi{
 
     @GET("get/all/event/main/0")
     fun getEventOn():Call<EventOnResponse>
+
+    @GET("get/all/evnet/{userIdx}")
+    fun getEventUser(@Path("userIdx")userIdx: Int):Call<EventUserListResponse>
+
+    @DELETE("delete/evnet/{userIdx}/{eventIdx}")
+    fun deleteEvent(@Path("userIdx")userIdx: Int,@Path("eventIdx")eventIdx: Int):Call<EventDeleteResponse>
 
 
 

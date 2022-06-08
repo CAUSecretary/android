@@ -7,6 +7,8 @@ data class EventDetailResult(
     val phone: String,
     val period: String,
     val contents: String,
-    val imgs: List<String>
+    val imgs: List<String>,
+    val location: String,
+    val pointIdx: Int
 
 )

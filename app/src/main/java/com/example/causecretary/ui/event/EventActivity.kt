@@ -26,6 +26,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityEventBinding
     lateinit var eventDetailResponse:EventDetailResponse
     var eventIdx:Int = 0
+    var pointIdx:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_event)
@@ -85,7 +86,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setView(eventDetailResponse: EventDetailResponse) {
         val event = eventDetailResponse.result
-
+        pointIdx = event.pointIdx
         val adapter = EventDetailAdapter(event.imgs as MutableList<String>)
 
         binding.apply {
@@ -95,7 +96,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
             tvTitle.text = event.eventName
             tvKakaoInput.text = event.kakaoChatUrl
             tvPhoneInput.text=event.phone
-            tvEventLocationInput.text="207관 제1공학관 봅스터홀"
+            tvEventLocationInput.text=event.location
             tvPeriodInput.text=event.period
             tvContent.text=event.contents
         }
@@ -110,7 +111,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_route ->{
                 Intent(this@EventActivity,RouteActivity::class.java).run {
                     //TODO 여기추가해야함
-                    putExtra("eventRoute","9")
+                    putExtra("eventRoute",pointIdx.toString())
                     startActivity(this)
                 }
             }

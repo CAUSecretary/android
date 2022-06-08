@@ -376,8 +376,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     if (registerResponse.code==1000){
                         Logger.e("doori", response.toString())
                         Logger.e("doori", registerResponse.toString())
-                        // TODO register할때 분기처리용 데이터 필요
-                        PrefManager(this@RegisterActivity).setLoginData(registerResponse.result.userIdx,registerResponse?.result.jwt,"f")
                         Intent(this@RegisterActivity, WelcomeActivity::class.java).run {
                             startActivity(this)
                         }

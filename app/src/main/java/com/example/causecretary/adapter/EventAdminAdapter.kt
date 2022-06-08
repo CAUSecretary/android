@@ -6,22 +6,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.causecretary.databinding.EventadminRecyclerBinding
 import com.example.causecretary.databinding.EventdetailRecyclerBinding
+import com.example.causecretary.ui.data.EventUserListResult
 
-class EventAdminAdapter: RecyclerView.Adapter<EventAdminHolder>()  {
-    var test = mutableListOf<Test>()
-    fun setList(){
-        val a=Test("기말 간식 배부","5월20일 ~ 6일 20일")
-        test.add(a)
-    }
+class EventAdminAdapter(userList: MutableList<EventUserListResult>): RecyclerView.Adapter<EventAdminHolder>()  {
+    var list = userList
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventAdminHolder {
         val binding = EventadminRecyclerBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return EventAdminHolder(binding)
     }
 
     override fun onBindViewHolder(holder: EventAdminHolder, position: Int) {
-        val a = test[position]
-        holder.binding.tvTitle.text=a.title
-        holder.binding.tvPeriod.text=a.period
+        val event = list[position]
+        holder.binding.tvTitle.text=event.eventName
+        holder.binding.tvPeriod.text=event.period
 
         //row 리스너
         holder.binding.root.setOnClickListener {
@@ -29,8 +27,12 @@ class EventAdminAdapter: RecyclerView.Adapter<EventAdminHolder>()  {
         }
     }
 
+    fun getList(position: Int): EventUserListResult {
+        return list[position]
+    }
+
     override fun getItemCount(): Int {
-        return test.size
+        return list.size
     }
 
     //리스너 등록

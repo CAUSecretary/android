@@ -1,6 +1,7 @@
 package com.example.causecretary.ui
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -42,6 +44,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
 
     //lateinit var viewModel: LoginViewModel
     private var viewModel: LoginViewModel? = null
+
     //뒤로가기 두번 누를때 꺼지게
     private var mBackBtnPresses: Boolean = false
     //var registerResponse = RegisterResponse(null,null,null,null)
@@ -49,9 +52,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        viewModel?.liveData?.observe(this,this)
+        viewModel?.liveData?.observe(this, this)
         initData()
         initView()
     }
@@ -67,9 +70,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
 
         binding.etEmail.requestFocus()
         Handler(Looper.getMainLooper()).postDelayed({
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.showSoftInput(binding.etEmail,InputMethodManager.SHOW_IMPLICIT)
-        },300)
+            val inputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.showSoftInput(binding.etEmail, InputMethodManager.SHOW_IMPLICIT)
+        }, 300)
     }
 
     private fun initData() {
@@ -77,7 +81,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     }
 
     override fun onClick(view: View?) {
-        when(view?.id){
+        when (view?.id) {
             R.id.tv_register -> {
                 Intent(this@LoginActivity, AuthPhoneActivity::class.java).run {
                     startActivity(this)
@@ -88,12 +92,31 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
 
             }
             R.id.btn_login -> {
-                Logger.e("doori",binding.etEmail.text.toString())
-                if(binding.etEmail.text.toString() =="k1@cau.ac.kr"){
-                    Logger.e("doori","if문 adminLogin")
-                    adminLogin()
-                }else{
-                    login()
+                if (binding.etEmail.text.toString().isEmpty() || binding.etPwd.text.toString()
+                        .isEmpty()
+                ) {
+                    Logger.e("doori", "if문")
+                    val builder = AlertDialog.Builder(this@LoginActivity)
+                        .setTitle("로그인 오류")
+                        .setMessage("아이디와 비밀번호를 입력해주세요.")
+                        .setPositiveButton("확인",
+                            DialogInterface.OnClickListener { dialog, which ->
+                                Toast.makeText(this@LoginActivity, "확인", Toast.LENGTH_SHORT).show()
+                            })
+                        .setNegativeButton("취소",
+                            DialogInterface.OnClickListener { dialog, which ->
+                                Toast.makeText(this@LoginActivity, "취소", Toast.LENGTH_SHORT).show()
+                            })
+                    builder.show()
+                } else {
+                    Logger.e("doori", "else문")
+                    if (binding.etEmail.text.toString() == "k1@cau.ac.kr") {
+                        Logger.e("doori", "admin Login")
+                        adminLogin()
+                    } else {
+                        Logger.e("doori", "user Login")
+                        login()
+                    }
                 }
                 /*Intent(this@LoginActivity,MainActivity::class.java).run {
                     startActivity(this)
@@ -105,12 +128,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
 */
             }
             R.id.tv_forgot_id -> {
-                Intent(this@LoginActivity,ForgotIdActivity::class.java).run {
+                Intent(this@LoginActivity, ForgotIdActivity::class.java).run {
                     startActivity(this)
                 }
             }
             R.id.tv_forgot_pwd -> {
-                Intent(this@LoginActivity,ForgotPwdActivity::class.java).run {
+                Intent(this@LoginActivity, ForgotPwdActivity::class.java).run {
                     startActivity(this)
                 }
             }
@@ -124,7 +147,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
             .build()
 
         val registerService = retrofit.create(RetrofitApi::class.java)
-        val admin = LoginRequestData("k1@cau.ac.kr","1")
+        val admin = LoginRequestData("k1@cau.ac.kr", "1")
         registerService.adminlogin(admin).enqueue(object : Callback<AdminResponse> {
             override fun onResponse(
                 call: Call<AdminResponse>,
@@ -144,20 +167,21 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken,0)
+        val imm: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         return true
     }
 
     override fun onBackPressed() {
         binding.run {
-            if(mBackBtnPresses){
+            if (mBackBtnPresses) {
                 mBackBtnPresses = false
                 exitApp()
             } else {
-                UiUtils.showSnackBar(root,"'뒤로' 버튼을 한번 더 누르시면 종료됩니다.")
+                UiUtils.showSnackBar(root, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.")
                 mBackBtnPresses = true
-                Handler(Looper.getMainLooper()).postDelayed({mBackBtnPresses = false},2500)
+                Handler(Looper.getMainLooper()).postDelayed({ mBackBtnPresses = false }, 2500)
             }
         }
     }
@@ -171,47 +195,135 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, Observer<AdminR
     override fun onResume() {
         super.onResume()
         binding.apply {
-            etEmail.text=null
-            etPwd.text=null
+            etEmail.text = null
+            etPwd.text = null
         }
     }
 
-    private fun login(){
+    private fun login() {
         val retrofit = Retrofit.Builder()
             .baseUrl(ApiService.DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val logindata = PrefManager(this).getLoginData()
+        //TODO 고쳐야함 jwt가 왜 필요할까??
+
         val registerService = retrofit.create(RetrofitApi::class.java)
-        val user = LoginRequestData(binding.etEmail.toString(),binding.etPwd.toString())
-        registerService.login(logindata!!.jwt,user).enqueue(object : Callback<RegisterResponse> {
-            override fun onResponse(
-                call: Call<RegisterResponse>,
-                response: Response<RegisterResponse>
-            ) {
-                //val registerResponse = response.body() as RegisterResponse
-                //val user =registerResponse.result
-                Logger.e("doori",response.toString())
-                //Logger.e("doori",registerResponse.toString())
-                Intent(this@LoginActivity,MainActivity::class.java).run {
-                    startActivity(this)
-                }
-            }
+        val user = LoginRequestData(binding.etEmail.toString(), binding.etPwd.toString())
+        if (logindata == null) {
+            val builder = AlertDialog.Builder(this@LoginActivity)
+                .setTitle("jwt없음")
+                .setMessage("도대체 왜넣음?")
+                .setPositiveButton("확인",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        Toast.makeText(this@LoginActivity, "확인", Toast.LENGTH_SHORT)
+                            .show()
+                    })
+                .setNegativeButton("취소",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        Toast.makeText(this@LoginActivity, "취소", Toast.LENGTH_SHORT)
+                            .show()
+                    })
+            builder.show()
+        }
+        logindata?.apply {
+            registerService.login(logindata!!.jwt, user)
+                .enqueue(object : Callback<RegisterResponse> {
+                    // registerService.login("asdasdasd", user).enqueue(object : Callback<RegisterResponse> {
+                    override fun onResponse(
+                        call: Call<RegisterResponse>,
+                        response: Response<RegisterResponse>
+                    ) {
+                        if (response.body() == null) {
+                            val builder = AlertDialog.Builder(this@LoginActivity)
+                                .setTitle("서버 오류")
+                                .setMessage("잠시 후 다시 시작해주세요.")
+                                .setPositiveButton("확인",
+                                    DialogInterface.OnClickListener { dialog, which ->
+                                        Toast.makeText(this@LoginActivity, "확인", Toast.LENGTH_SHORT)
+                                            .show()
+                                    })
+                                .setNegativeButton("취소",
+                                    DialogInterface.OnClickListener { dialog, which ->
+                                        Toast.makeText(this@LoginActivity, "취소", Toast.LENGTH_SHORT)
+                                            .show()
+                                    })
+                            builder.show()
+                        }
+                        Logger.e("doori", response.toString())
+                        response.body()?.apply {
+                            Logger.e("doori", this.code.toString())
+                            val loginResponse = this as RegisterResponse
+                            if (loginResponse.code == 1000) {
+                                Logger.e("doori", response.toString())
+                                //Logger.e("doori",registerResponse.toString())
+                                PrefManager(this@LoginActivity).setLoginData(
+                                    loginResponse.result.userIdx,
+                                    loginResponse.result.jwt,
+                                    loginResponse.result.certified
+                                )
+                                Intent(this@LoginActivity, MainActivity::class.java).run {
+                                    startActivity(this)
+                                }
+                            } else {
+                                val builder = AlertDialog.Builder(this@LoginActivity)
+                                    .setTitle("로그인 오류")
+                                    .setMessage(loginResponse.message)
+                                    .setPositiveButton("확인",
+                                        DialogInterface.OnClickListener { dialog, which ->
+                                            Toast.makeText(
+                                                this@LoginActivity,
+                                                "확인",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+                                        })
+                                    .setNegativeButton("취소",
+                                        DialogInterface.OnClickListener { dialog, which ->
+                                            Toast.makeText(
+                                                this@LoginActivity,
+                                                "취소",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+                                        })
+                                builder.show()
+                            }
+                        }
+                        //val registerResponse = response.body() as RegisterResponse
+                        //val user =registerResponse.result
+                    }
 
-            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                Logger.e("doori",t.toString())
-            }
+                    override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                        Logger.e("doori", t.toString())
+                        val builder = AlertDialog.Builder(this@LoginActivity)
+                            .setTitle("로그인 오류")
+                            .setMessage("서버 확인 중입니다. 잠시만 기다려 주세요.")
+                            .setPositiveButton("확인",
+                                DialogInterface.OnClickListener { dialog, which ->
+                                    Toast.makeText(this@LoginActivity, "확인", Toast.LENGTH_SHORT)
+                                        .show()
+                                })
+                            .setNegativeButton("취소",
+                                DialogInterface.OnClickListener { dialog, which ->
+                                    Toast.makeText(this@LoginActivity, "취소", Toast.LENGTH_SHORT)
+                                        .show()
+                                })
+                        builder.show()
+                    }
 
-        })
+                })
+        }
+
     }
 
     override fun onChanged(t: AdminResponse?) {
-        Logger.e("doori","onChanged = ${t.toString()}")
+        Logger.e("doori", "onChanged = ${t.toString()}")
         t?.result?.apply {
-            PrefManager(this@LoginActivity).setLoginData(this.userIdx,this.jwt,"c")
+            PrefManager(this@LoginActivity).setLoginData(this.userIdx, this.jwt, "c")
         }
-        Intent(this@LoginActivity,AdminMainActivity::class.java).run {
+        Intent(this@LoginActivity, AdminMainActivity::class.java).run {
             startActivity(this)
         }
     }

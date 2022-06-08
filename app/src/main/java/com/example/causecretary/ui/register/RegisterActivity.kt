@@ -2,6 +2,7 @@ package com.example.causecretary.ui.register
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -23,8 +24,10 @@ import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.example.causecretary.R
 import com.example.causecretary.databinding.ActivityRegisterBinding
@@ -217,9 +220,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 Logger.e("doori",registerRequestData.toString())
 
                 register()
-                Intent(this@RegisterActivity, WelcomeActivity::class.java).run {
-                    startActivity(this)
-                }
+
             }
             R.id.ib_close -> {
 
@@ -228,6 +229,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                  */
                 //test()
 
+                Intent(this@RegisterActivity,LoginActivity::class.java).run {
+                    startActivity(this)
+                }
                 finishAffinity()
             }
             R.id.btn_club_auth -> {
@@ -348,11 +352,50 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
-                val registerResponse = response.body() as RegisterResponse
-                Logger.e("doori", response.toString())
-                Logger.e("doori", registerResponse.toString())
-                PrefManager(this@RegisterActivity).setLoginData(registerResponse.result.userIdx,registerResponse?.result.jwt,"f")
 
+                Logger.e("doori", response.toString())
+                if(response.body()==null){
+                    val builder = AlertDialog.Builder(this@RegisterActivity)
+                        .setTitle("서버 오류")
+                        .setMessage("잠시 후 다시 시작해주세요.")
+                        .setPositiveButton("확인",
+                            DialogInterface.OnClickListener { dialog, which ->
+                                Toast.makeText(this@RegisterActivity, "확인", Toast.LENGTH_SHORT)
+                                    .show()
+                            })
+                        .setNegativeButton("취소",
+                            DialogInterface.OnClickListener { dialog, which ->
+                                Toast.makeText(this@RegisterActivity, "취소", Toast.LENGTH_SHORT)
+                                    .show()
+                            })
+                    builder.show()
+                }
+
+                response.body()?.apply {
+                    val registerResponse = this as RegisterResponse
+                    if (registerResponse.code==1000){
+                        Logger.e("doori", response.toString())
+                        Logger.e("doori", registerResponse.toString())
+                        // TODO register할때 분기처리용 데이터 필요
+                        PrefManager(this@RegisterActivity).setLoginData(registerResponse.result.userIdx,registerResponse?.result.jwt,"f")
+                        Intent(this@RegisterActivity, WelcomeActivity::class.java).run {
+                            startActivity(this)
+                        }
+                    }else{
+                        val builder = AlertDialog.Builder(this@RegisterActivity)
+                            .setTitle("회원가입 오류")
+                            .setMessage(registerResponse.message)
+                            .setPositiveButton("확인",
+                                DialogInterface.OnClickListener{ dialog, which ->
+                                    Toast.makeText(this@RegisterActivity, "확인", Toast.LENGTH_SHORT).show()
+                                })
+                            .setNegativeButton("취소",
+                                DialogInterface.OnClickListener { dialog, which ->
+                                    Toast.makeText(this@RegisterActivity, "취소", Toast.LENGTH_SHORT).show()
+                                })
+                        builder.show()
+                    }
+                }
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {

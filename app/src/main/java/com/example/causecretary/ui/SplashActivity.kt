@@ -155,6 +155,7 @@ class SplashActivity : AppCompatActivity() {
             delay(1000)
             Intent(this@SplashActivity, MainActivity::class.java).run {
                 startActivity(this)
+                finishAffinity()
             }
         }
     }

@@ -248,6 +248,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 finish()
                 Intent(this@MainActivity,MainActivity::class.java).run {
                     startActivity(this)
+                    finishAffinity()
                 }
             }
             R.id.ib_close->{
@@ -377,6 +378,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 Intent(this@MainActivity, RouteActivity::class.java).run {
                     putExtra("endPoint",binding.spSearch.selectedItem.toString())
                     startActivity(this)
+                    finishAffinity()
                 }
             }
 
@@ -417,13 +419,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             R.id.tv_admin->{
                 Intent(this@MainActivity,EventAdminActivity::class.java).run {
                     startActivity(this)
+                    finishAffinity()
                 }
             }
         }
     }
 
     fun hideKeyboard() {
-        Toast.makeText(this, "눌럿나", Toast.LENGTH_SHORT).show()
         val imm: InputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)

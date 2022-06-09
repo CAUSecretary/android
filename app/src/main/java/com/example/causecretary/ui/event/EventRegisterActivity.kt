@@ -103,6 +103,7 @@ class EventRegisterActivity : AppCompatActivity(), View.OnClickListener {
                     if (this.code==1000){
                         Intent(this@EventRegisterActivity,MainActivity::class.java).run {
                             startActivity(this)
+                            finishAffinity()
                         }
                     }else{
                         val builder = AlertDialog.Builder(this@EventRegisterActivity)

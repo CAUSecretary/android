@@ -99,6 +99,7 @@ class AdminMainActivity : AppCompatActivity(), View.OnClickListener, Observer<Ad
                 PrefManager(this).removeLoginData()
                 Intent(this@AdminMainActivity, MainActivity::class.java).run {
                     startActivity(this)
+                    finishAffinity()
                 }
             }
         }

@@ -90,6 +90,7 @@ class EventAdminActivity : AppCompatActivity(), View.OnClickListener {
             R.id.ib_back ->{
                 Intent(this@EventAdminActivity,MainActivity::class.java).run {
                     startActivity(this)
+                    finishAffinity()
                 }
             }
         }

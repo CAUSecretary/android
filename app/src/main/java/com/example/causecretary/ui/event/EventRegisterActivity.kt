@@ -61,7 +61,7 @@ class EventRegisterActivity : AppCompatActivity(), View.OnClickListener {
         val pointIdx = getEndPointIdx(binding.etLocation.selectedItem.toString())
         val eventName = binding.etEventName.text.toString()
         val belong = binding.rbStu.text.toString()
-        val instartcralwer = 0
+        val instartcralwer = 1
         val instarUrl = binding.etInstaUrl.text.toString()
         val kakao = binding.etKakaoUrl.text.toString()
         val phone = binding.etPhone.text.toString()

@@ -30,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class EventRegisterActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityEventRegisterBinding
+    var belong = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_event_register)
@@ -42,14 +43,29 @@ class EventRegisterActivity : AppCompatActivity(), View.OnClickListener {
     private fun initView() {
         binding.clickListener=this@EventRegisterActivity
         setSpinner()
+        binding.rgClub.setOnCheckedChangeListener { _, id ->
+            Logger.e("doori","라디오 버튼 눌려짐")
+            when(id){
+                R.id.rb_club -> {belong="동아리"
+                    Logger.e("doori",belong)}
+                R.id.rb_etc->{belong = "기타"
+                    Logger.e("doori",belong)}
+                R.id.rb_stu->{belong="학생회"
+                    Logger.e("doori",belong)}
+            }
+        }
     }
 
     private fun initData() {
+
         //TODO("Not yet implemented")
     }
 
     override fun onClick(view: View?) {
         when(view?.id){
+            R.id.ib_back->{
+                finish()
+            }
             R.id.btn_register->{
                 eventCreate()
             }
@@ -60,7 +76,6 @@ class EventRegisterActivity : AppCompatActivity(), View.OnClickListener {
         val userIdx = PrefManager(this).getLoginData()?.userIdx
         val pointIdx = getEndPointIdx(binding.etLocation.selectedItem.toString())
         val eventName = binding.etEventName.text.toString()
-        val belong = binding.rbStu.text.toString()
         val instartcralwer = 1
         val instarUrl = binding.etInstaUrl.text.toString()
         val kakao = binding.etKakaoUrl.text.toString()
@@ -68,6 +83,7 @@ class EventRegisterActivity : AppCompatActivity(), View.OnClickListener {
         val period = binding.etPeriod.text.toString()
         val instarRequestData = InstarRequestData(belong,eventName,instarUrl,instartcralwer, kakao,1,period,phone,pointIdx,userIdx!!)
 
+        Logger.e("doori",belong)
         Logger.e("doori",instarRequestData.toString())
         val retrofit = Retrofit.Builder()
             .baseUrl(ApiService.DOMAIN)

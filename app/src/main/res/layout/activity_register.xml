@@ -77,22 +77,39 @@
                         android:textSize="12dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
-                    <EditText
-                        android:id="@+id/et_email"
+                    <LinearLayout
+                        android:id="@+id/ll_email"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/kr_regular"
-                        android:hint="이메일 입력"
-                        android:includeFontPadding="false"
-                        android:textColorHint="@color/color_ebebeb"
-                        android:textSize="16dp"
+                        android:orientation="horizontal"
                         app:layout_constraintEnd_toStartOf="@id/btn_auth_email"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_email" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_email">
+                        <EditText
+                            android:id="@+id/et_email"
+                            android:layout_width="20dp"
+                            android:layout_height="40dp"
+                            android:fontFamily="@font/kr_regular"
+                            android:hint="이메일 입력"
+                            android:layout_weight="0.7"
+                            android:includeFontPadding="false"
+                            android:textColorHint="@color/color_ebebeb"
+                            android:textSize="16dp" />
+                        <TextView
+                            android:id="@+id/tv_email_cau"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/kr_regular"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/color_282828"
+                            android:textSize="16dp"
+                            android:text="\@cau.ac.kr"/>
+                    </LinearLayout>
+
+
 
 
                     <Button
@@ -122,7 +139,7 @@
                         android:textColor="@color/color_888888"
                         android:textSize="12dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/et_email" />
+                        app:layout_constraintTop_toBottomOf="@id/ll_email" />
                     <TextView
                         android:id="@+id/tv_auth_email"
                         android:layout_width="wrap_content"
@@ -132,12 +149,12 @@
                         android:fontFamily="@font/kr_regular"
                         android:includeFontPadding="false"
                         android:textSize="12dp"
-                        app:layout_constraintTop_toBottomOf="@id/et_email"
+                        app:layout_constraintTop_toBottomOf="@id/ll_email"
                         app:layout_constraintStart_toEndOf="@id/tv_auth_number"/>
                     <TextView
                         android:id="@+id/tv_email_timer"
                         app:layout_constraintStart_toEndOf="@id/tv_auth_email"
-                        app:layout_constraintTop_toBottomOf="@id/et_email"
+                        app:layout_constraintTop_toBottomOf="@id/ll_email"
                         android:layout_marginTop="30dp"
                         android:layout_marginStart="10dp"
                         android:textColor="@color/color_282828"

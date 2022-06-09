@@ -4,9 +4,12 @@ package com.example.causecretary.ui
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -18,7 +21,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.NonNull
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -53,11 +58,16 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallback,
     Observer<EventOnResponse> {
     var distance:Float = 0.0f
+
+    //뒤로가기 두번 누를때 꺼지게
+    private var mBackBtnPresses: Boolean = false
+
     lateinit var binding: ActivityMainBinding
     private lateinit var naverMap: NaverMap
     private lateinit var mapView: MapView
@@ -118,7 +128,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         val loginData = PrefManager(this@MainActivity).getLoginData()
         Logger.e("doori","${loginData.toString()}")
         //로그인 정보가 있으면 draw를 다르게
-        settingDraw()
+        //settingDraw()
     }
 
     private fun setSpinner() {
@@ -389,7 +399,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
                 }
             }
             R.id.tv_event_plz->{
-
+                val builder = AlertDialog.Builder(this@MainActivity)
+                    .setTitle("인증 확인 중")
+                    .setMessage("이벤트 등록을 위해 소속인증을 진행 중입니다.\n소요시간은 20~30분 입니다.")
+                    .setPositiveButton("확인",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            Toast.makeText(this@MainActivity, "확인", Toast.LENGTH_SHORT)
+                                .show()
+                        })
+                    .setNegativeButton("취소",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            Toast.makeText(this@MainActivity, "취소", Toast.LENGTH_SHORT)
+                                .show()
+                        })
+                builder.show()
             }
             R.id.tv_admin->{
                 Intent(this@MainActivity,EventAdminActivity::class.java).run {
@@ -615,4 +638,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
             }
         })
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        initView()
+        initData()
+    }
+
+    override fun onBackPressed() {
+        binding.run {
+            if (mBackBtnPresses) {
+                mBackBtnPresses = false
+                exitApp()
+            } else {
+                UiUtils.showSnackBar(root, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.")
+                mBackBtnPresses = true
+                Handler(Looper.getMainLooper()).postDelayed({ mBackBtnPresses = false }, 2500)
+            }
+        }
+    }
+
+    private fun exitApp() {
+        ActivityCompat.finishAffinity(this)
+        System.runFinalization()
+        exitProcess(0)
+    }
+
+
 }

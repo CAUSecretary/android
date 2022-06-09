@@ -398,12 +398,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
                             android:layout_marginTop="20dp"
-                            android:fontFamily="@font/kr_regular"
+                            android:fontFamily="@font/kr_bold"
                             android:includeFontPadding="false"
                             android:onClick="@{clickListener}"
                             android:text="인증 확인 중"
                             android:textColor="@color/black"
-                            android:textSize="16dp"
+                            android:textSize="18dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_admin" />
 

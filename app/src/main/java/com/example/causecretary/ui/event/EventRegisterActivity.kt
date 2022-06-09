@@ -66,7 +66,7 @@ class EventRegisterActivity : AppCompatActivity(), View.OnClickListener {
         val kakao = binding.etKakaoUrl.text.toString()
         val phone = binding.etPhone.text.toString()
         val period = binding.etPeriod.text.toString()
-        val instarRequestData = InstarRequestData(belong,eventName,instarUrl,instartcralwer, kakao,0,period,phone,pointIdx,userIdx!!)
+        val instarRequestData = InstarRequestData(belong,eventName,instarUrl,instartcralwer, kakao,1,period,phone,pointIdx,userIdx!!)
 
         Logger.e("doori",instarRequestData.toString())
         val retrofit = Retrofit.Builder()
@@ -124,6 +124,20 @@ class EventRegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
             override fun onFailure(call: Call<InstarResponse>, t: Throwable) {
                 Logger.e("doori", t.toString())
+                val builder = AlertDialog.Builder(this@EventRegisterActivity)
+                    .setTitle("이벤트생성 오류")
+                    .setMessage(t.message)
+                    .setPositiveButton("확인",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            Toast.makeText(this@EventRegisterActivity, "확인", Toast.LENGTH_SHORT)
+                                .show()
+                        })
+                    .setNegativeButton("취소",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            Toast.makeText(this@EventRegisterActivity, "취소", Toast.LENGTH_SHORT)
+                                .show()
+                        })
+                builder.show()
             }
 
         })

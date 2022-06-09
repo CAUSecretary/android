@@ -71,6 +71,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener {
             ) {
                 Logger.e("doori", response.toString())
                 response.body()?.apply {
+                    Logger.e("doori", this.toString())
                     eventDetailResponse = this as EventDetailResponse
                     setView(eventDetailResponse)
                 }

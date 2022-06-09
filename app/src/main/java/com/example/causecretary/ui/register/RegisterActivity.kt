@@ -178,7 +178,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         when (view?.id) {
             R.id.btn_auth_email -> {
                 //TODO 이메일 입력안했을때 분기처리 해줘야함
-                val email = binding.etEmail.text.toString()
+                val email = "${binding.etEmail.text.toString()}@cau.ac.kr"
+                Logger.e("doori",email)
                 val gmailSender = GmailSender()
                 gmailSender.sendEmail(email)
 
@@ -192,7 +193,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_auth -> {
                 binding.apply {
-                    if (etAuthNumber.text.toString() == "0") {
+                    if (etAuthNumber.text.toString() == "48925") {
                         emailtimer.cancel()
                         tvEmailTimer.visibility = GONE
                         etAuthNumber.visibility = GONE

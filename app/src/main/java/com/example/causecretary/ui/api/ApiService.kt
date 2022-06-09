@@ -56,7 +56,7 @@ interface RetrofitApi{
     @DELETE("delete/evnet/{userIdx}/{eventIdx}")
     fun deleteEvent(@Path("userIdx")userIdx: Int,@Path("eventIdx")eventIdx: Int):Call<EventDeleteResponse>
 
-    @POST("event/create")
+    @POST("event/create/imsi2")
     fun createEvent(@Body instarRequestData: InstarRequestData):Call<InstarResponse>
 
     @FormUrlEncoded

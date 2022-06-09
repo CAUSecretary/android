@@ -10,6 +10,7 @@ import com.example.causecretary.R
 import com.example.causecretary.adapter.EventAdapter
 import com.example.causecretary.adapter.EventAdminAdapter
 import com.example.causecretary.databinding.ActivityEventAdminBinding
+import com.example.causecretary.ui.MainActivity
 import com.example.causecretary.ui.api.ApiService
 import com.example.causecretary.ui.api.RetrofitApi
 import com.example.causecretary.ui.data.EventDetailResponse
@@ -87,7 +88,9 @@ class EventAdminActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.ib_back ->{
-                finish()
+                Intent(this@EventAdminActivity,MainActivity::class.java).run {
+                    startActivity(this)
+                }
             }
         }
     }

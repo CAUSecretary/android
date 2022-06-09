@@ -209,7 +209,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                         emailCheck = true
                         allCheck()
 
-                        registerRequestData.email=etEmail.text.toString()
+                        registerRequestData.email="${binding.etEmail.text.toString()}@cau.ac.kr"
 
                     } else {
                         binding.tvWarning.visibility = VISIBLE

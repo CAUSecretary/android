@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallba
         val loginData = PrefManager(this@MainActivity).getLoginData()
         Logger.e("doori","${loginData.toString()}")
         //로그인 정보가 있으면 draw를 다르게
-       //settingDraw()
+        settingDraw()
     }
 
     private fun setSpinner() {

@@ -163,43 +163,43 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
 
     private fun getEndPointIdx(endPoint: String?): String {
         when (endPoint) {
-            "208관 제2공학관" -> {
+            "208관 제2공학관" , "2"-> {
                 return "208관"
             }
-            "207관 제1공학관 봅스터홀" -> {
+            "207관 제1공학관 봅스터홀", "3" -> {
                 return "207관"
             }
-            "204관 중앙도서관" -> {
+            "204관 중앙도서관", "4" -> {
                 return "204관"
             }
-            "203관 서라벌홀" -> {
+            "203관 서라벌홀", "5" -> {
                 return "203관"
             }
-            "테니스장 농구장" -> {
+            "테니스장 농구장", "6" -> {
                 return "테니스장"
             }
-            "201관 본관" -> {
+            "201관 본관", "7" -> {
                 return "201관"
             }
-            "303관 법학관" -> {
+            "303관 법학관", "8" -> {
                 return "303관"
             }
-            "302관 대학원" -> {
+            "302관 대학원", "9" -> {
                 return "302관"
             }
-            "310관 100주년 기념관" -> {
+            "310관 100주년 기념관", "10" -> {
                 return "310관"
             }
-            "운동장" -> {
+            "운동장", "11" -> {
                 return "운동장"
             }
-            "107관 학생회관" -> {
+            "107관 학생회관", "12" -> {
                 return "107관"
             }
-            "101관 영신관" -> {
+            "101관 영신관", "13" -> {
                 return "101관"
             }
-            "정문" -> {
+            "정문", "14" -> {
                 return "정문"
             }
         }
@@ -254,7 +254,7 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
             R.id.go_ar -> {
                 //TODO AR로직수행 버튼
 
-                val intent: Intent = Intent(this@RouteActivity, ARActivity::class.java)
+                val intent = Intent(this@RouteActivity, ARActivity::class.java)
 
                 intent.putExtra("endNode", endPoint)
 

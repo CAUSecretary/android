@@ -212,7 +212,10 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
                 //출발지 도착지 스우치
             }
             R.id.ib_close -> {
-                finish()
+                Intent(this@RouteActivity,MainActivity::class.java).run {
+                    startActivity(this)
+                    finishAffinity()
+                }
             }
             R.id.btn_route -> {
                 binding.goAr.isEnabled = true

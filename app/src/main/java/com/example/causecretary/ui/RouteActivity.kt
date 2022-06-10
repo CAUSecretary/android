@@ -404,4 +404,12 @@ class RouteActivity : AppCompatActivity(), View.OnClickListener, OnMapReadyCallb
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Intent(this@RouteActivity,MainActivity::class.java).run {
+            startActivity(this)
+            finishAffinity()
+        }
+    }
+
 }

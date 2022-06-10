@@ -117,7 +117,7 @@ class AuthPhone2Activity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_next -> {
                 Intent(this@AuthPhone2Activity, RegisterActivity::class.java).run {
-                    this.putExtra("phoneNumber",binding.etPhone.text)
+                    this.putExtra("phoneNumber",binding.etPhone.text.toString())
                     startActivity(this)
                 }
             }

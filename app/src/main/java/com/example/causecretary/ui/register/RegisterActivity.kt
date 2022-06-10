@@ -170,7 +170,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         registerRequestData=RegisterRequestData(1234,"asd","asd","dooo@naver.com","123k12j3","a","a","a","","")
 
         //Logger.e("doori",intent.getStringExtra("phoneNumber").toString())
-        //registerRequestData.phone = intent.getStringExtra("phoneNumber").toString()
+        registerRequestData.phone = intent.getStringExtra("phoneNumber").toString()
     }
 
     override fun onClick(view: View?) {
